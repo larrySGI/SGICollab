@@ -2,3 +2,5 @@ Library/
 Temp/
 *.pidb
 *.sln
+*.csproj
+*.unityproj
