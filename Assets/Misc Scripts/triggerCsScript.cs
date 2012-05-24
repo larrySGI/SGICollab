@@ -4,7 +4,7 @@ using System.Collections;
 public class triggerCsScript : Photon.MonoBehaviour {
 public float height = 3.2f;
 public Texture viewerTexture;
-private float speed = 0.5f;
+private float speed = 0.3f;
 private float timingOffset = 0.0f;
 //private bool startMove;
 public GameObject target;
@@ -159,8 +159,9 @@ void OnTriggerStay()
 	localLiftTime += photonDelta;
 		
 				
-	float math = Mathf.Sin(localLiftTime*speed+timingOffset);
-	float offset = (1.0f + math )* height / 2.0f;
+	float math = Mathf.Abs(Mathf.Sin(localLiftTime*speed+timingOffset));
+	float offset = (math * height) - 10.0f;//(math )* height / 2.0f;
+	Debug.Log(offset);
 	FinalPos = originPos + new Vector3(0.0f, offset, 0.0f);
 			
 	if(target.transform.position != FinalPos)
