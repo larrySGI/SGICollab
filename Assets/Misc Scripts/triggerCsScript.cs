@@ -160,8 +160,9 @@ void OnTriggerStay()
 		
 				
 	float math = Mathf.Abs(Mathf.Sin(localLiftTime*speed+timingOffset));
-	float offset = (math * height) - 10.0f;//(math )* height / 2.0f;
-	Debug.Log(offset);
+	Debug.Log(math);
+	float offset = (math * height);//(math )* height / 2.0f;
+	
 	FinalPos = originPos + new Vector3(0.0f, offset, 0.0f);
 			
 	if(target.transform.position != FinalPos)
