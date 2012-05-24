@@ -114,7 +114,7 @@ void sendLiftTime(PhotonTargets ptarget)
 void Start () {
 	//startMove = false;
 	originPos = target.transform.position;
-	localLiftTime = 0.0f;	
+	localLiftTime = -5.0f;	
 	thisFrameTime = (float)PhotonNetwork.time;
 	
 
@@ -144,7 +144,7 @@ void FixedUpdate()
 		
 	if (MoverTest.gameStarted && !started)
 	{		
-		localLiftTime = 0.0f;
+		localLiftTime = -5.0f;
 		sendLiftTime(PhotonTargets.OthersBuffered);
 		started = true;		
 	}	
@@ -158,10 +158,10 @@ void OnTriggerStay()
 		
 	localLiftTime += photonDelta;
 		
-				
-	float math = Mathf.Abs(Mathf.Sin(localLiftTime*speed+timingOffset));
-	Debug.Log(math);
-	float offset = (math * height);//(math )* height / 2.0f;
+	Debug.Log(localLiftTime);			
+	float math = Mathf.Sin(localLiftTime*speed+timingOffset);
+	//Debug.Log(math);
+	float offset = (1.0f + math)* height / 2.0f;
 	
 	FinalPos = originPos + new Vector3(0.0f, offset, 0.0f);
 			
