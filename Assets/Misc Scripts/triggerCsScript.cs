@@ -142,7 +142,7 @@ void FixedUpdate()
 	}
 		
 		
-	if (MoverTest.gameStarted)
+	if (MoverTest.gameStarted && !started)
 	{		
 		localLiftTime = 0.0f;
 		sendLiftTime(PhotonTargets.OthersBuffered);
