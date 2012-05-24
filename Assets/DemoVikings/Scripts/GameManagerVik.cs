@@ -76,14 +76,21 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//PhotonNetwork.Instantiate("liftPrefab", transform.position+transform.right*15, transform.rotation, 0);
 		Time.timeScale=0;
 		gameStarted = true;
-		if(Time.timeScale==0){
-		if(GameObject.FindGameObjectWithTag("Builder")&&GameObject.FindGameObjectWithTag("Mover")&&GameObject.FindGameObjectWithTag("Jumper")&&GameObject.FindGameObjectWithTag("Viewer")){
-		Time.timeScale=1;
-		}
 		
-    	}
 	}
-
+	void Update(){
+	if(Time.timeScale==0){
+			print("time is 0");
+		if(GameObject.FindWithTag("Builder")){
+				if(GameObject.FindWithTag("Jumper")){
+					if(GameObject.FindWithTag("Viewer")){
+						if(GameObject.FindWithTag("Mover")){
+		Time.timeScale=1;
+		}}}}
+						
+		
+    	}	
+	}
 
 
 
