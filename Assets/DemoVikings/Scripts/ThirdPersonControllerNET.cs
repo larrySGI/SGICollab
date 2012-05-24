@@ -129,7 +129,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 				if(gravityGunState == GravityGunState.Free) 
 				{
-					    if(Input.GetButton("Fire1")) 
+					    if(Input.GetKey("t")) 
 						{
 					                RaycastHit hit;
 									LayerMask layerMask = -1;
@@ -149,21 +149,22 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetButton("Fire1"))
+					    if(!Input.GetKey("t"))
 					           gravityGunState = GravityGunState.Occupied;     
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
 				{            
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(Input.GetButton("Fire1"))
-					           gravityGunState = GravityGunState.Charge;
+					    if(Input.GetKey("t"))
+							gravityGunState = GravityGunState.Charge;
 				}
-				else if(gravityGunState == GravityGunState.Charge && Screen.lockCursor == true) 
+			
+				else if(gravityGunState == GravityGunState.Charge) 
 				{
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetButton("Fire1") && Screen.lockCursor == true)
+					    if(!Input.GetKey("t"))
 					    {
 							if(rigid.name.Contains("pPlatform"))
 								rigid.isKinematic = true;
@@ -173,7 +174,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                   
 					    }
 				}
-				else if(gravityGunState == GravityGunState.Release && Screen.lockCursor == true) 
+				else if(gravityGunState == GravityGunState.Release) 
 				{
 					            
 					    gravityGunState = GravityGunState.Free;

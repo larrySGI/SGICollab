@@ -78,18 +78,24 @@ public class GameManagerVik : Photon.MonoBehaviour
 		gameStarted = true;
 		
 	}
-	void Update(){
-	if(Time.timeScale==0){
-			print("time is 0");
-		if(GameObject.FindWithTag("Builder")){
-				if(GameObject.FindWithTag("Jumper")){
-					if(GameObject.FindWithTag("Viewer")){
-						if(GameObject.FindWithTag("Mover")){
-		Time.timeScale=1;
-		}}}}
+	
+	void Update()
+	{
+		
+	//	if(Time.timeScale==0)
+//		{
+			if(GameObject.FindWithTag("Builder") && 
+			   GameObject.FindWithTag("Jumper") &&
+			   GameObject.FindWithTag("Viewer") &&
+			   GameObject.FindWithTag("Mover"))
+			{
+				Time.timeScale=1;
+			}
+			else
+				Time.timeScale = 0;
 						
 		
-    	}	
+ //   	}	
 	}
 
 
@@ -147,6 +153,11 @@ public class GameManagerVik : Photon.MonoBehaviour
 				gameStarted = false;
 				
         	}
+			
+			if(Time.timeScale==0)
+			{
+				GUILayout.Label("Waiting For Players");
+			}
 		}
 
 		

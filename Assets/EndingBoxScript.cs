@@ -17,10 +17,6 @@ public class EndingBoxScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd)
-		{
-		print("game ends");	
-		}
 	}
 	
 	
@@ -45,5 +41,18 @@ public class EndingBoxScript : MonoBehaviour {
 		if(other.attachedRigidbody.name.Contains("Mover"))
 		isMoverAtEnd =false;
     }
+	
+	void OnGUI()
+	{
+		if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd)
+		{
+			GUILayout.BeginArea(new Rect(0, Screen.height -100, Screen.width, 100));
+			
+			GUILayout.Label("Level Complete");
+			
+			GUILayout.EndArea();
+		}
+	
+	}
 
 }

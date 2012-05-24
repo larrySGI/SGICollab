@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{A619BF6B-B57B-437D-3B45-B6E7F7D1668F}</ProjectGuid>
+	<ProjectGuid>{4CD8DD0D-0390-72CE-8874-1D1F2FDBAC15}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -57,6 +57,7 @@
      <Compile Include="Assets\DemoVikings\Scripts\ThirdPersonCameraNET.cs" />
      <Compile Include="Assets\DemoVikings\Scripts\ThirdPersonControllerNET.cs" />
      <Compile Include="Assets\DemoVikings\Scripts\ThirdPersonNetworkVik.cs" />
+     <Compile Include="Assets\EndingBoxScript.cs" />
      <Compile Include="Assets\Misc Scripts\triggerCsScript.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
