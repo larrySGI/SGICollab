@@ -14,12 +14,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	private float holdDistance = 1.0f;
 	private Rigidbody rigid;
 		// The object we're steering
-	public float speed = 1.0f, walkSpeedDownscale = 1.0f, turnSpeed = 2.0f, mouseTurnSpeed = 0.3f, jumpSpeed = 1.0f;
+	public float speed = 1.0f, walkSpeedDownscale = 1.0f, turnSpeed = 2.0f, mouseTurnSpeed = 0.9f, jumpSpeed = 1.0f;
 		// Tweak to ajust character responsiveness
 	public LayerMask groundLayers = -1;
 		// Which layers should be walkable?
 		// NOTICE: Make sure that the target collider is not in any of these layers!
-	public float groundedCheckOffset = 0.7f;
+	public float groundedCheckOffset = 1.0f;
 		// Tweak so check starts from just within target footing
 	public bool
 		showGizmos = true,
