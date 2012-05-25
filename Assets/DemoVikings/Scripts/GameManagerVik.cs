@@ -44,13 +44,15 @@ public class GameManagerVik : Photon.MonoBehaviour
         Camera.main.farClipPlane = 1000; //Main menu set this to 0.4 for a nicer BG    
 
         //prepare instantiation data for the viking: Randomly diable the axe and/or shield
-        bool[] enabledRenderers = new bool[2];
-        enabledRenderers[0] = Random.Range(0,2)==0;//Axe
-        enabledRenderers[1] = Random.Range(0, 2) == 0; ;//Shield
+       
+		
+		bool[] enabledRenderers = new bool[2];
+        enabledRenderers[0] = false;//Axe
+        enabledRenderers[1] = false; //Shield
         
         object[] objs = new object[1]; // Put our bool data in an object array, to send
         objs[0] = enabledRenderers;
-
+		 
         // Spawn our local player
 		if(prefabName=="Mover")
 		{
@@ -74,7 +76,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//spawn network synced objects
 		//PhotonNetwork.Instantiate("checkPointTriggerLift", transform.position+transform.right*10, transform.rotation, 0);
 		//PhotonNetwork.Instantiate("liftPrefab", transform.position+transform.right*15, transform.rotation, 0);
-		Time.timeScale=0;
+		//Time.timeScale=0;
 		gameStarted = true;
 		
 	}
@@ -84,6 +86,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
 	//	if(Time.timeScale==0)
 //		{
+		
+		/*
 			if(GameObject.FindWithTag("Builder") && 
 			   GameObject.FindWithTag("Jumper") &&
 			   GameObject.FindWithTag("Viewer") &&
@@ -94,7 +98,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			else
 				Time.timeScale = 0;
 						
-		
+		*/
  //   	}	
 	}
 

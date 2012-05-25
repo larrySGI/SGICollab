@@ -27,7 +27,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	public float maxForwardAngle = 80.0f;
 		// Tweak to adjust camera clamping angle - specifies the maximum angle between target and clamped camera forward
 	public float minDistance = 0.1f,
-		maxDistance = 10.0f,
+		maxDistance = 0.5f,
 		zoomSpeed = 1.0f;
 		// Tweak to adjust scrollwheel zoom
 	public bool
@@ -206,6 +206,8 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		// Cast a sphere from the target towards the camera - using the view radius - checking against the obstacle layers
 		{
 			targetDistance = Mathf.Min ((hit.point - target.transform.position).magnitude, optimalDistance);
+			
+			Debug.Log(hit.point);
 				// If something is hit, set the target distance to the hit position
 		}
 		else
@@ -224,6 +226,17 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			minDistance,
 			maxDistance
 		);
+		
+		/*
+		RaycastHit hit;
+		if (Physics.SphereCast (target.transform.position, ViewRadius, inverseLineOfSight, out hit, optimalDistance, obstacleLayers))
+		// Cast a sphere from the target towards the camera - using the view radius - checking against the obstacle layers
+		{
+			optimalDistance = Mathf.Min ((hit.point - target.transform.position).magnitude, optimalDistance);
+			
+			
+				// If something is hit, set the target distance to the hit position
+		}*/
 	}
 	
 
