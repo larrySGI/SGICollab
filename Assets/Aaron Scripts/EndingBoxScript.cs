@@ -7,6 +7,8 @@ public class EndingBoxScript : MonoBehaviour {
 	private bool isJumperAtEnd;
 	private bool isViewerAtEnd;
 	
+	public Texture aTexture;
+	
 	// Use this for initialization
 	void Start () {
 		isBuilderAtEnd = false;
@@ -46,11 +48,15 @@ public class EndingBoxScript : MonoBehaviour {
 	{
 		if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd)
 		{
-			GUILayout.BeginArea(new Rect(0, Screen.height -100, Screen.width, 100));
+			//Rect r = new Rect(0, Screen.height -100, Screen.width, 100);
 			
-			GUILayout.Label("Level Complete");
+//			GUILayout.BeginArea(rect);
 			
-			GUILayout.EndArea();
+			GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
+			
+//			GUILayout.Label("Level Complete");
+			
+//			GUILayout.EndArea();
 		}
 	
 	}

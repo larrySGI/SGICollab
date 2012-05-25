@@ -17,6 +17,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public bool gameStarted = false;
 	public int playerCount = 0;
+	
+	public Texture aTexture;
+	
 	void OnJoinedRoom()
     {
 		//StartGame(this.jumperPrefabName);
@@ -76,7 +79,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//spawn network synced objects
 		//PhotonNetwork.Instantiate("checkPointTriggerLift", transform.position+transform.right*10, transform.rotation, 0);
 		//PhotonNetwork.Instantiate("liftPrefab", transform.position+transform.right*15, transform.rotation, 0);
-		//Time.timeScale=0;
+		Time.timeScale=0;
 		gameStarted = true;
 		
 	}
@@ -87,7 +90,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	//	if(Time.timeScale==0)
 //		{
 		
-		/*
+		
 			if(GameObject.FindWithTag("Builder") && 
 			   GameObject.FindWithTag("Jumper") &&
 			   GameObject.FindWithTag("Viewer") &&
@@ -98,7 +101,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			else
 				Time.timeScale = 0;
 						
-		*/
+		
  //   	}	
 	}
 
@@ -160,7 +163,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			
 			if(Time.timeScale==0)
 			{
-				GUILayout.Label("Waiting For Players");
+				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
 		}
 
