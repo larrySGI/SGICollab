@@ -59,6 +59,7 @@
      <Compile Include="Assets\DemoVikings\Scripts\ThirdPersonCameraNET.cs" />
      <Compile Include="Assets\DemoVikings\Scripts\ThirdPersonControllerNET.cs" />
      <Compile Include="Assets\DemoVikings\Scripts\ThirdPersonNetworkVik.cs" />
+     <Compile Include="Assets\LarryScripts\AlternatingDoorScript.cs" />
      <Compile Include="Assets\Misc Scripts\triggerCsScript.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\CustomTypes.cs" />
      <Compile Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\Enums.cs" />
