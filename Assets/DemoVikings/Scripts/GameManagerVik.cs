@@ -79,18 +79,14 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//spawn network synced objects
 		//PhotonNetwork.Instantiate("checkPointTriggerLift", transform.position+transform.right*10, transform.rotation, 0);
 		//PhotonNetwork.Instantiate("liftPrefab", transform.position+transform.right*15, transform.rotation, 0);
-		Time.timeScale=0;
+		//Time.timeScale=0;
 		gameStarted = true;
 		
 	}
 	
 	void Update()
 	{
-		
-	//	if(Time.timeScale==0)
-//		{
-		
-		
+	/*	
 			if(GameObject.FindWithTag("Builder") && 
 			   GameObject.FindWithTag("Jumper") &&
 			   GameObject.FindWithTag("Viewer") &&
@@ -100,9 +96,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			}
 			else
 				Time.timeScale = 0;
-						
-		
- //   	}	
+			*/			
 	}
 
 

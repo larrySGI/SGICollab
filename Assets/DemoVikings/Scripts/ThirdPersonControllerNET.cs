@@ -76,7 +76,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 	}
 	
-		
+	void Awake(){
+	DontDestroyOnLoad(this);	
+	}
 	void Start ()
 	// Verify setup, configure rigidbody
 	{

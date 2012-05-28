@@ -53,7 +53,7 @@ public class EndingBoxScript : MonoBehaviour {
 //			GUILayout.BeginArea(rect);
 			
 			GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
-			
+			Application.LoadLevel("Level1");
 //			GUILayout.Label("Level Complete");
 			
 //			GUILayout.EndArea();

@@ -4,7 +4,7 @@ using System.Collections;
 public class triggerCsScript : Photon.MonoBehaviour {
 public float height = 3.2f;
 public Texture viewerTexture;
-private float speed = 0.3f;
+public float speed = 0.3f;
 private float timingOffset = 0.0f;
 //private bool startMove;
 public GameObject target;
