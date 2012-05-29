@@ -21,11 +21,12 @@ private Vector3 door2Up;
 	
 private Vector3 door1CurrentPos;
 private Vector3 door2CurrentPos;
-		
+
+/*
 private float lastFrameTime;
 private float thisFrameTime;
 private float photonDelta;
-
+*/
 private bool started = false;
 private bool doorState = false; //true for "open", false for "close"
 	
@@ -33,23 +34,23 @@ private bool doorState = false; //true for "open", false for "close"
 	
 	
 [RPC]
-void resetDoors()
+void resetDoors(bool doors)
 {	
 		
- 
+ 	Debug.Log("Resetting doors");
 	//Temporarily here
 	switch (startmode)
 	{
-		case 1:
+		case 0:
 			door1.transform.position = door1Down;
 			door2.transform.position = door2Up;
 			break;
-		case 2:
+		case 1:
 			door1.transform.position = door1Up;
 			door2.transform.position = door2Down;
 
 			break;
-		case 3:
+		case 2:
 			door1.transform.position = door1Down;
 			door2.transform.position = door2Down;
 
@@ -60,34 +61,58 @@ void resetDoors()
 			break;
 	}
 		
-	doorState = false;	
+	doorState = doors;	
 }
 	
 void resetDoorTime(PhotonTargets ptarget)
 {
-	photonView.RPC("resetDoors",ptarget);		
+	photonView.RPC("resetDoors",ptarget, false);		
 }
 
 
 // Use this for initialization
 void Start () {
 	//startMove = false;
-	door1Down = door1Up = door1.transform.position;
-	door2Down = door2Up = door2.transform.position;
+	door1Down = door1.transform.position;
+	door2Down = door2.transform.position;
 		
-	door1Up.y += doorOpenHeight;
-	door2Up.y += doorOpenHeight;
+	door1Up = new Vector3(door1Down.x, door1Down.y + doorOpenHeight, door1Down.z);
+	door2Up = new Vector3(door2Down.x, door2Down.y + doorOpenHeight, door2Down.z);
+	/*
+	switch (startmode)
+	{
+		case 0:
+			door1.transform.position = door1Down;
+			door2.transform.position = door2Up;
+			break;
+		case 1:
+			door1.transform.position = door1Up;
+			door2.transform.position = door2Down;
+
+			break;
+		case 2:
+			door1.transform.position = door1Down;
+			door2.transform.position = door2Down;
+
+			break;
+		default:
+			door1.transform.position = door1Up;
+			door2.transform.position = door2Up;
+			break;
+	}
 		
-	thisFrameTime = (float)PhotonNetwork.time;
+		
+	//thisFrameTime = (float)PhotonNetwork.time;
 		
 	doorState = false;
+	*/
 }	
-/*
-bool isDoorInPosition(vector3 currPos, vector3 targetPos)
-{
+
+bool isDoorInPosition(Vector3 currPos, Vector3 targetPos)
+{	
 	return (currPos == targetPos);
-}*/
-		
+}
+
 		
 void UpdateDoor1()
 {
@@ -95,14 +120,25 @@ void UpdateDoor1()
 	{
 		if (doorState) //"close"
 		{
-		//	if (isDoorInPosition(door1.transform.position, door1Down)) return;	
+			if (isDoorInPosition(door1.transform.position, door1Down)) return;	
+
+			if (door1.transform.position.y < door1Down.y)
+				door1.transform.position = door1Down;
+			else	
+				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y - speed, door1.transform.position.z);
 			
-			
+			//clamp
+				
 		}
 		else //"open"
 		{
-		//	if (isDoorInPosition(door1.transform.position, door1Up)) return;	
-						
+			if (isDoorInPosition(door1.transform.position, door1Up)) return;	
+		
+			if (door1.transform.position.y > door1Up.y)
+				door1.transform.position = door1Up;
+			else	
+				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y + speed, door1.transform.position.z);
+
 		}
 		
 		
@@ -111,14 +147,23 @@ void UpdateDoor1()
 	{
 		if (doorState) //"close"
 		{
-		//		if (isDoorInPosition(door1.transform.position, door1Up)) return;	
-
+			if (isDoorInPosition(door1.transform.position, door1Up)) return;	
+				
+			if (door1.transform.position.y > door1Up.y)
+				door1.transform.position = door1Up;
+			else	
+				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y + speed, door1.transform.position.z);
 			
 		}
 		else //"open"
 		{
-		//		if (isDoorInPosition(door1.transform.position, door1Down)) return;	
-					
+		 	 if (isDoorInPosition(door1.transform.position, door1Down)) return;
+				
+			if (door1.transform.position.y < door1Down.y)
+				door1.transform.position = door1Down;
+			else	
+				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y - speed, door1.transform.position.z);
+		
 		}
 
 		
@@ -128,14 +173,30 @@ void UpdateDoor1()
 	
 void UpdateDoor2()
 {
-	if (startmode == 0 || startmode == 2)
+	if (startmode == 0 || startmode == 3)
 	{
 		if (doorState) //"close"
 		{
+			if (isDoorInPosition(door2.transform.position, door2Up)) return;
+			
+				
+			if (door2.transform.position.y > door2Up.y)
+				door2.transform.position = door2Up;
+			else		
+				door2.transform.position = new Vector3(door2.transform.position.x, door2.transform.position.y + speed, door2.transform.position.z);
+	
+			
 		}
 		else //"open"
 		{
-						
+			if (isDoorInPosition(door2.transform.position, door2Down)) return;
+				
+				
+			if (door2.transform.position.y < door2Down.y)
+				door2.transform.position = door2Down;
+			else	
+				door2.transform.position = new Vector3(door2.transform.position.x, door2.transform.position.y - speed, door2.transform.position.z);
+	
 		}
 		
 	}
@@ -143,10 +204,25 @@ void UpdateDoor2()
 	{
 		if (doorState) //"close"
 		{
+			if (isDoorInPosition(door2.transform.position, door2Down)) return;	
+				
+				
+							
+			if (door2.transform.position.y < door2Down.y)
+				door2.transform.position = door2Down;
+			else		
+				door2.transform.position = new Vector3(door2.transform.position.x, door2.transform.position.y - speed, door2.transform.position.z);
+		
+			
 		}
 		else //"open"
 		{
-						
+			if (isDoorInPosition(door2.transform.position, door2Up)) return;
+			if (door2.transform.position.y > door2Up.y)
+				door2.transform.position = door2Up;
+			else		
+				door2.transform.position = new Vector3(door2.transform.position.x, door2.transform.position.y + speed, door2.transform.position.z);
+	
 		}
 		
 	}		
@@ -157,11 +233,12 @@ void UpdateDoor2()
 //These must be updated every frame. Put only those things you can't escape from updating every frame here.
 void FixedUpdate()
 {
+	/*
 	lastFrameTime = thisFrameTime;
 	thisFrameTime = (float)PhotonNetwork.time;
 		
 	photonDelta = thisFrameTime - lastFrameTime;
-
+	*/
 	GameObject SpawnManager = GameObject.Find("Code");
 	GameManagerVik MoverTest = SpawnManager.GetComponent<GameManagerVik>();
 	
@@ -180,8 +257,10 @@ void FixedUpdate()
 		
 	if (MoverTest.gameStarted && !started)
 	{		
-		resetDoorTime(PhotonTargets.OthersBuffered);
-		started = true;		
+		
+		resetDoorTime(PhotonTargets.Others);
+		started = true;	
+		
 	}	
 		
 	UpdateDoor1();
@@ -212,7 +291,7 @@ void OnTriggerStay()
 	
 //The door will open/shut upon touch, doesn't matter if the player is on the button or not. Therefore TriggerEntry is the best method, doors will not have
 //to reset this way.
-void OnTriggerEntry()
+void OnTriggerEnter()
 {
 	doorState = !doorState;		
 }

@@ -145,7 +145,7 @@ void FixedUpdate()
 	if (MoverTest.gameStarted && !started)
 	{		
 		localLiftTime = -5.0f;
-		sendLiftTime(PhotonTargets.OthersBuffered);
+		sendLiftTime(PhotonTargets.Others);
 		started = true;		
 	}	
 }		
@@ -158,7 +158,6 @@ void OnTriggerStay()
 		
 	localLiftTime += photonDelta;
 		
-	Debug.Log(localLiftTime);			
 	float math = Mathf.Sin(localLiftTime*speed+timingOffset);
 	//Debug.Log(math);
 	float offset = (1.0f + math)* height / 2.0f;

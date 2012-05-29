@@ -119,7 +119,7 @@ public class PhotonEditor : EditorWindow
             // The current performance is 'OK' as we do check if the list changes (add/remove/duplicate should always change the length)
 
             //We are currently checking all selected PhotonViews every editor-frame
-            //Instead, we only want to check this when an NEW asset is placed in a scene (at editor time)
+            //Instead, we only want to check this when an asset is placed in a scene (at editor time)
             //We need some sort of "OnCreated" call for scene objects.
             UnityEngine.Object[] objs = Selection.GetFiltered(typeof(PhotonView), SelectionMode.ExcludePrefab | SelectionMode.Editable | SelectionMode.Deep);
             if (objs.Length>0 && (
@@ -127,7 +127,7 @@ public class PhotonEditor : EditorWindow
                 (lastFirstElement != objs[0])  
                 ))
             {
-                
+                lastFirstElement = objs[0];
                 bool changed = false;
                 foreach (UnityEngine.Object obj in objs)
                 {
@@ -142,7 +142,6 @@ public class PhotonEditor : EditorWindow
                     AssetDatabase.Refresh();
                 }
                 lastPhotonViewListLength = objs.Length;
-                lastFirstElement = objs[0];
             }
 
             // Check the newly opened scene for wrong PhotonViews
