@@ -18,7 +18,10 @@ public class ChatVik : Photon.MonoBehaviour
     private Vector2 scrollPos = Vector2.zero;
     private string chatInput = "";
     private float lastUnfocusTime = 0;
-		
+	
+	
+	private string chatterClass = "";
+	private bool joined = false;
 	
 	private string path; //path to save chat log to
 	private string fileName; //file name for the chat log
@@ -31,19 +34,13 @@ public class ChatVik : Photon.MonoBehaviour
 		//Access the initial chatlog to see if it is empty
 		path = Application.dataPath;
 		
-		/*
-		var sr = new StreamReader(path + "/" + fileName);
-		var fileContents = sr.ReadToEnd();
-		sr.Close();
-		*/
-		//if its not empty create a new log with a timestamp
-		//if(fileContents != "")
-	//	{
+
 		fileName = "/ChatLog " + timeStamp + ".txt";	
-	//	}
+
+
+		
 		
 		path = Application.dataPath +fileName;
-		
 	}
 	
     void Awake()
@@ -94,9 +91,11 @@ public class ChatVik : Photon.MonoBehaviour
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
 
-    
+   		GUILayout.EndArea();
+		
 
-        GUILayout.EndArea();
+		
+		
     }
 
     public static void AddMessage(string text)
@@ -110,7 +109,7 @@ public class ChatVik : Photon.MonoBehaviour
     [RPC]
     void SendChatMessage(string text, PhotonMessageInfo info)
     {
-        string communication = "[" + info.sender + "] " + text;
+        string communication = "[" + info.sender + "("+chatterClass +")] " + text;
 		
 		AddMessage(communication);
 				
@@ -125,7 +124,7 @@ public class ChatVik : Photon.MonoBehaviour
 	[RPC]
 	void AnnounceJoin(PhotonMessageInfo info)
 	{
-		string communication = "[" + info.sender + "] has joined the game.";
+		string communication = "[" + info.sender + "("+chatterClass +")] has joined the game.";
 		AddMessage(communication);
 		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
 		{
@@ -136,9 +135,9 @@ public class ChatVik : Photon.MonoBehaviour
 	}
 	
 	[RPC]
-	void AnnouceLeave(PhotonMessageInfo info)
+	void AnnounceLeave(PhotonMessageInfo info)
 	{
-		string communication = "[" + info.sender + "] has disconnected.";
+		string communication = "[" + info.sender + "("+chatterClass +")] has disconnected.";
 		AddMessage(communication);
 		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
 		{
@@ -172,21 +171,36 @@ public class ChatVik : Photon.MonoBehaviour
 
     void OnLeftRoom()
     {
-        photonView.RPC("AnnouceLeave", PhotonTargets.All, chatInput);
-		
+       	
 		this.enabled = false;
     }
 
     void OnJoinedRoom()
     {
         this.enabled = true;
-	    photonView.RPC("AnnouceJoin", PhotonTargets.All, chatInput);
+	   
 		
     }
     void OnCreatedRoom()
     {
         this.enabled = true;
     }
+	
+	void Update()
+	{
+		if (!joined)
+		{
+			GameObject SpawnManager = GameObject.Find("Code");
+			GameManagerVik MoverTest = SpawnManager.GetComponent<GameManagerVik>();
+			chatterClass = MoverTest.selectedClass;
+			if (chatterClass != "")
+			{
+				joined = true;
+
+			 	photonView.RPC("AnnounceJoin", PhotonTargets.All);
+			}		
+		}
+	}
 	
 	
 	

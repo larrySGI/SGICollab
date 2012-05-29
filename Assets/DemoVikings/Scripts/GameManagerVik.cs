@@ -59,7 +59,7 @@ public class GameManagerVik : Photon.MonoBehaviour
         // Spawn our local player
 		if(prefabName=="Mover")
 		{
-        	PhotonNetwork.Instantiate(prefabName, transform.position+transform.right,transform.rotation, 0, objs);
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right,transform.rotation, 0, objs);
 		}
 		if(prefabName=="Jumper")
 		{
