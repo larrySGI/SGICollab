@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-
+//aasdas
 public class BoxUpdate : Photon.MonoBehaviour
 {
 	
