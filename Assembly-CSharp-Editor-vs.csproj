@@ -53,15 +53,23 @@
      <Compile Include="Assets\Photon Unity Networking\Editor\PhotonNetwork\PhotonEditor.cs" />
      <Compile Include="Assets\Photon Unity Networking\Editor\PhotonNetwork\PhotonViewInspector.cs" />
      <Compile Include="Assets\Photon Unity Networking\Editor\PhotonNetwork\PhotonViewPrefabApply.cs" />
+     <None Include="Assets\ChatLog 05-43-57-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\release_history.txt" />
+     <None Include="Assets\ChatLog 05-59-12-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
      <None Include="Assets\DemoVikings\Demo\READ ME FIRST.txt" />
+     <None Include="Assets\ChatLog 04-23-57-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\Photon3Unity3D.xml" />
+     <None Include="Assets\ChatLog 03-01-46-2012-05-29.txt" />
      <None Include="Assets\DemoVikings\Demo\Shaders\NewShader.shader" />
      <None Include="Assets\ChatLog 01-25-45-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 06-02-30-2012-05-29.txt" />
      <None Include="Assets\ChatLog 02-21-34-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 06-03-48-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\readme.txt" />
      <None Include="Assets\ChatLog 02-04-31-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 05-46-47-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 05-58-23-2012-05-29.txt" />
  <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
  </Reference>
