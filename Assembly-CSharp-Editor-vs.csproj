@@ -58,7 +58,10 @@
      <None Include="Assets\DemoVikings\Demo\READ ME FIRST.txt" />
      <None Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\Photon3Unity3D.xml" />
      <None Include="Assets\DemoVikings\Demo\Shaders\NewShader.shader" />
+     <None Include="Assets\ChatLog 01-25-45-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 02-21-34-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\readme.txt" />
+     <None Include="Assets\ChatLog 02-04-31-2012-05-29.txt" />
  <Reference Include="Library\ScriptAssemblies\Assembly-UnityScript">
  <HintPath>Library\ScriptAssemblies\Assembly-UnityScript.dll</HintPath>
  </Reference>
