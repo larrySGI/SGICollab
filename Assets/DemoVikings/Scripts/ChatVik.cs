@@ -43,6 +43,7 @@ public class ChatVik : Photon.MonoBehaviour
 	//	}
 		
 		path = Application.dataPath +fileName;
+		
 	}
 	
     void Awake()
@@ -116,8 +117,38 @@ public class ChatVik : Photon.MonoBehaviour
 		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
 		{
 			AddToChatLog(fs, communication + Environment.NewLine);	
+			fs.Close();
+			fs.Dispose();
 		}
     }
+	
+	[RPC]
+	void AnnounceJoin(PhotonMessageInfo info)
+	{
+		string communication = "[" + info.sender + "] has joined the game.";
+		AddMessage(communication);
+		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
+		{
+			AddToChatLog(fs, communication + Environment.NewLine);	
+			fs.Close();
+			fs.Dispose();
+		}
+	}
+	
+	[RPC]
+	void AnnouceLeave(PhotonMessageInfo info)
+	{
+		string communication = "[" + info.sender + "] has disconnected.";
+		AddMessage(communication);
+		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
+		{
+			AddToChatLog(fs, communication + Environment.NewLine);	
+			fs.Close();
+			fs.Dispose();
+		}
+	
+	}
+	
 	
     void SendChat(PhotonTargets target)
     {
@@ -137,15 +168,20 @@ public class ChatVik : Photon.MonoBehaviour
             chatInput = "";
         }
     }
+	 
 
     void OnLeftRoom()
     {
-        this.enabled = false;
+        photonView.RPC("AnnouceLeave", PhotonTargets.All, chatInput);
+		
+		this.enabled = false;
     }
 
     void OnJoinedRoom()
     {
         this.enabled = true;
+	    photonView.RPC("AnnouceJoin", PhotonTargets.All, chatInput);
+		
     }
     void OnCreatedRoom()
     {
