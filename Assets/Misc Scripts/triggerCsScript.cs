@@ -150,9 +150,13 @@ void FixedUpdate()
 	}	
 }		
 	
-
+void OnTriggerEnter(){
+		Playtomic.Log.LevelCounterMetric("LiftXswitchPressed", 0);
+}
+	
 //Larry: This method is more useful than TriggerEnter and TriggerExit. It only runs if there's an object on top of the trigger, so will handle situations such as "player quits game while on top of button" or
 //"object is deleted while on top of button". 
+	
 void OnTriggerStay()
 {
 		

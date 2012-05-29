@@ -8,7 +8,8 @@ public class MainMenuVik : Photon.MonoBehaviour
     {
  // added after push
         //PhotonNetwork.logLevel = NetworkLogLevel.Full;
-
+		Playtomic.Initialize(428042, "077e33f2d4704abd", "15d6d5a5dd864d97a38851a7541448");
+		Playtomic.Log.View();
         //Connect to the main photon server. This is the only IP and port we ever need to set(!)
         if (!PhotonNetwork.connected)
             PhotonNetwork.ConnectUsingSettings("v1.0"); // version of the game/demo. used to separate older clients from newer ones (e.g. if incompatible)
@@ -58,6 +59,7 @@ public class MainMenuVik : Photon.MonoBehaviour
         roomName = GUILayout.TextField(roomName);
         if (GUILayout.Button("GO"))
         {
+			Playtomic.Log.Play();
             PhotonNetwork.JoinRoom(roomName);
         }
         GUILayout.EndHorizontal();
@@ -68,6 +70,7 @@ public class MainMenuVik : Photon.MonoBehaviour
         roomName = GUILayout.TextField(roomName);
         if (GUILayout.Button("GO"))
         {
+			Playtomic.Log.Play();
             PhotonNetwork.CreateRoom(roomName, true, true, 10);
         }
         GUILayout.EndHorizontal();
@@ -83,6 +86,7 @@ public class MainMenuVik : Photon.MonoBehaviour
         {
             if (GUILayout.Button("GO"))
             {
+				Playtomic.Log.Play();
                 PhotonNetwork.JoinRandomRoom();
             }
         }
@@ -104,6 +108,7 @@ public class MainMenuVik : Photon.MonoBehaviour
                 GUILayout.Label(game.name + " " + game.playerCount + "/" + game.maxPlayers);
                 if (GUILayout.Button("JOIN"))
                 {
+					Playtomic.Log.Play();
                     PhotonNetwork.JoinRoom(game.name);
                 }
                 GUILayout.EndHorizontal();
