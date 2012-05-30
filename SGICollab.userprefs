@@ -1,12 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/HeatmapEmitter/background/HeatmapEmitter.cs">
-    <Files>
-      <File FileName="Assets/DemoVikings/Scripts/ThirdPersonControllerNET.cs" Line="302" Column="37" />
-      <File FileName="Assets/HeatmapEmitter/readme.txt" Line="1" Column="1" />
-      <File FileName="Assets/HeatmapEmitter/background/HeatmapEmitter.cs" Line="100" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

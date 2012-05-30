@@ -91,7 +91,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	{
 		int targetIndex = 0;
 		
-		Debug.Log(cameras.Length);
 		foreach (GameObject c in cameras)
 		{
 			
@@ -207,7 +206,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		{
 			targetDistance = Mathf.Min ((hit.point - target.transform.position).magnitude, optimalDistance);
 			
-			Debug.Log(hit.point);
 				// If something is hit, set the target distance to the hit position
 		}
 		else

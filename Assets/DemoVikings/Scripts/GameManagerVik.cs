@@ -156,7 +156,11 @@ public class GameManagerVik : Photon.MonoBehaviour
 			
 			if (GUILayout.Button("Leave& QUIT"))
        		{
-       			PhotonNetwork.LeaveRoom();
+			//	GameObject SpawnManager = GameObject.Find("Code");
+		//		ChatVik cv = SpawnManager.GetComponent<ChatVik>();
+				ChatVik.SP.AnnounceLeave();
+				
+				PhotonNetwork.LeaveRoom();
 				//local
 				gameStarted = false;
 				
