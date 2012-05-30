@@ -51,7 +51,7 @@ public class EndingBoxScript : MonoBehaviour {
 			//Rect r = new Rect(0, Screen.height -100, Screen.width, 100);
 			
 //			GUILayout.BeginArea(rect);
-			
+			Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 			GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			Application.LoadLevel("Level1");
 //			GUILayout.Label("Level Complete");

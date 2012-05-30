@@ -7,6 +7,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
 	//added a line here
+	private int level_number=0;
 	public Rigidbody target;
 	public int blockammo;
 	public int plankammo;
@@ -111,6 +112,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			{
 				if (Input.GetKeyUp("r")){
 				if(blockammo>0){
+						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 						PhotonNetwork.Instantiate("pBlock",transform.position+transform.forward,transform.rotation,0);
 				
 				blockammo--;
@@ -118,6 +120,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				}
 				if (Input.GetKeyUp("t")){
 				if(plankammo>0){
+					Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
 						PhotonNetwork.Instantiate("pPlatform",transform.position+transform.forward,transform.rotation,0);
 				
 				plankammo--;
@@ -282,6 +285,10 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void FixedUpdate ()
 	// Handle movement here since physics will only be calculated in fixed frames anyway
 	{
+		long xpos = (int)transform.position.x+21;
+		long ypos = (int)transform.position.z-29;
+		
+		
 		grounded = isFourPointGrounded ();
 
       	if (isRemotePlayer) return;
@@ -295,6 +302,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if (Input.GetButtonDown ("Jump"))
 			// Handle jumping
 			{
+				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
+				print("sending analytics");
 				target.AddForce (
 					jumpSpeed * target.transform.up +
 						target.velocity.normalized * directionalJumpFactor,

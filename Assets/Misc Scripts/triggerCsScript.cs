@@ -3,6 +3,7 @@ using System.Collections;
 
 public class triggerCsScript : Photon.MonoBehaviour {
 public float height = 3.2f;
+public string liftNameAnalytics;
 public Texture viewerTexture;
 public float speed = 0.3f;
 private float timingOffset = 0.0f;
@@ -151,7 +152,8 @@ void FixedUpdate()
 }		
 	
 void OnTriggerEnter(){
-		Playtomic.Log.LevelCounterMetric("LiftXswitchPressed", 0);
+		Playtomic.Log.LevelCounterMetric(liftNameAnalytics, 0);
+		print("sent analytics for lift switch pressed");
 }
 	
 //Larry: This method is more useful than TriggerEnter and TriggerExit. It only runs if there's an object on top of the trigger, so will handle situations such as "player quits game while on top of button" or
