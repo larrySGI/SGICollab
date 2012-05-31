@@ -122,13 +122,13 @@ public class ChatVik : Photon.MonoBehaviour
     }
 	
 
-	void AnnounceJoin()
+	public void AnnounceJoin()
 	{
 		string communication =  "("+chatterClass +") has joined the game.";
 		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
 	}
 	
-	void AnnounceLeave()
+	public void AnnounceLeave()
 	{
 		string communication =  "("+chatterClass +") has left the game.";
 		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
@@ -154,8 +154,7 @@ public class ChatVik : Photon.MonoBehaviour
             chatInput = "";
         }
     }
-	 
-
+	
     void OnLeftRoom()
     {
        	
