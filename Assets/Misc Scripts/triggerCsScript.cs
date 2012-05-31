@@ -3,11 +3,26 @@ using System.Collections;
 
 public class triggerCsScript : Photon.MonoBehaviour {
 public float height = 3.2f;
+public string liftNameAnalytics;
+
+public bool move_x = false;
+public bool move_y = true;
+public bool move_z = false;
+
+public float height_x = 3.2f;	
+public float height_y = 3.2f;
+public float height_z = 3.2f;
+
+private float offset_x = 0.0f;
+private float offset_y = 0.0f;
+private float offset_z = 0.0f;
+
 public Texture viewerTexture;
 public float speed = 0.3f;
 private float timingOffset = 0.0f;
 //private bool startMove;
 public GameObject target;
+	
 
 private Vector3 originPos;	
 private Vector3 FinalPos;
@@ -96,7 +111,6 @@ void OnTriggerExit() {
 [RPC]
 void updateLiftTime (float liftTime)
 {	
-	Debug.Log("updating lift");
 		
     localLiftTime = liftTime;
 	
@@ -127,10 +141,6 @@ void FixedUpdate()
 	thisFrameTime = (float)PhotonNetwork.time;
 		
 	photonDelta = thisFrameTime - lastFrameTime;
-
-	
-	
-
 		
 	GameObject SpawnManager = GameObject.Find("Code");
 	GameManagerVik MoverTest = SpawnManager.GetComponent<GameManagerVik>();
@@ -151,7 +161,8 @@ void FixedUpdate()
 }		
 	
 void OnTriggerEnter(){
-		Playtomic.Log.LevelCounterMetric("LiftXswitchPressed", 0);
+		Playtomic.Log.LevelCounterMetric(liftNameAnalytics, 0);
+		print("sent analytics for lift switch pressed");
 }
 	
 //Larry: This method is more useful than TriggerEnter and TriggerExit. It only runs if there's an object on top of the trigger, so will handle situations such as "player quits game while on top of button" or
@@ -164,9 +175,25 @@ void OnTriggerStay()
 		
 	float math = Mathf.Sin(localLiftTime*speed+timingOffset);
 	//Debug.Log(math);
-	float offset = (1.0f + math)* height / 2.0f;
+	if (move_x) 	
+		 offset_x = (1.0f + math)* height_x / 2.0f;
+	else
+		 offset_x = 0.0f;
 	
-	FinalPos = originPos + new Vector3(0.0f, offset, 0.0f);
+		
+	if (move_y) 	
+		 offset_y = (1.0f + math)* height_y / 2.0f;
+	else
+		 offset_y = 0.0f;
+		
+	if (move_z) 	
+		 offset_z = (1.0f + math)* height_z / 2.0f;
+	else
+		 offset_z = 0.0f;
+	
+	
+		
+	FinalPos = originPos + new Vector3(offset_x, offset_y, offset_z);
 			
 	if(target.transform.position != FinalPos)
 	{

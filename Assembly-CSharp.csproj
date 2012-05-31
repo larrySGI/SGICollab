@@ -78,23 +78,33 @@
      <None Include="Assets\ChatLog 05-43-57-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\release_history.txt" />
      <None Include="Assets\ChatLog 05-59-12-2012-05-29.txt" />
+     <None Include="Assets\Standard assets\Playtomic\README.txt" />
      <None Include="Assets\Photon Unity Networking\changelog.txt" />
      <None Include="Assets\DemoVikings\Demo\READ ME FIRST.txt" />
      <None Include="Assets\ChatLog 04-23-57-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\Photon3Unity3D.xml" />
+     <None Include="Assets\ChatLog 06-13-22-2012-05-29.txt" />
      <None Include="Assets\ChatLog 03-01-46-2012-05-29.txt" />
      <None Include="Assets\DemoVikings\Demo\Shaders\NewShader.shader" />
      <None Include="Assets\ChatLog 01-25-45-2012-05-29.txt" />
      <None Include="Assets\ChatLog 06-02-30-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 06-19-22-2012-05-29.txt" />
      <None Include="Assets\ChatLog 02-21-34-2012-05-29.txt" />
+     <None Include="Assets\Standard assets\Playtomic\LICENSE.txt" />
      <None Include="Assets\ChatLog 06-03-48-2012-05-29.txt" />
      <None Include="Assets\Photon Unity Networking\readme.txt" />
      <None Include="Assets\ChatLog 02-04-31-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 06-17-43-2012-05-29.txt" />
+     <None Include="Assets\ChatLog 06-17-01-2012-05-29.txt" />
      <None Include="Assets\ChatLog 05-46-47-2012-05-29.txt" />
      <None Include="Assets\ChatLog 05-58-23-2012-05-29.txt" />
  <Reference Include="Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\Photon3Unity3D">
  <HintPath>Assets\Photon Unity Networking\Plugins\PhotonNetwork\library\Photon3Unity3D.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{E14CD66E-B820-0075-181D-C7B192113A9E}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

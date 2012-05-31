@@ -109,7 +109,7 @@ public class ChatVik : Photon.MonoBehaviour
     [RPC]
     void SendChatMessage(string text, PhotonMessageInfo info)
     {
-        string communication = "[" + info.sender + "("+chatterClass +")] " + text;
+        string communication = "[" + info.sender + "] " + text;
 		
 		AddMessage(communication);
 				
@@ -121,30 +121,17 @@ public class ChatVik : Photon.MonoBehaviour
 		}
     }
 	
-	[RPC]
-	void AnnounceJoin(PhotonMessageInfo info)
+
+	public void AnnounceJoin()
 	{
-		string communication = "[" + info.sender + "("+chatterClass +")] has joined the game.";
-		AddMessage(communication);
-		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
-		{
-			AddToChatLog(fs, communication + Environment.NewLine);	
-			fs.Close();
-			fs.Dispose();
-		}
+		string communication =  "("+chatterClass +") has joined the game.";
+		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
 	}
 	
-	[RPC]
-	void AnnounceLeave(PhotonMessageInfo info)
+	public void AnnounceLeave()
 	{
-		string communication = "[" + info.sender + "("+chatterClass +")] has disconnected.";
-		AddMessage(communication);
-		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
-		{
-			AddToChatLog(fs, communication + Environment.NewLine);	
-			fs.Close();
-			fs.Dispose();
-		}
+		string communication =  "("+chatterClass +") has left the game.";
+		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
 	
 	}
 	
@@ -153,7 +140,7 @@ public class ChatVik : Photon.MonoBehaviour
     {
         if (chatInput != "")
         {
-            photonView.RPC("SendChatMessage", target, chatInput);
+            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput);
             chatInput = "";
         }
     }
@@ -163,12 +150,11 @@ public class ChatVik : Photon.MonoBehaviour
         if (chatInput != "")
         {
             chatInput = "[PM] " + chatInput;
-            photonView.RPC("SendChatMessage", target, chatInput);
+            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput);
             chatInput = "";
         }
     }
-	 
-
+	
     void OnLeftRoom()
     {
        	
@@ -197,7 +183,7 @@ public class ChatVik : Photon.MonoBehaviour
 			{
 				joined = true;
 
-			 	photonView.RPC("AnnounceJoin", PhotonTargets.All);
+			 	AnnounceJoin();
 			}		
 		}
 	}
