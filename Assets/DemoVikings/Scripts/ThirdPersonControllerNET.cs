@@ -285,8 +285,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void FixedUpdate ()
 	// Handle movement here since physics will only be calculated in fixed frames anyway
 	{
-		long xpos = (int)transform.position.x+21;
-		long ypos = (int)transform.position.z-29;
+	//	long xpos = (int)transform.position.x+21;
+//		long ypos = (int)transform.position.z-29;
 		
 		
 		grounded = isFourPointGrounded ();

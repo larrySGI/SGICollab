@@ -10,7 +10,8 @@ public float speed = 0.3f;
 
 public GameObject door1;
 public GameObject door2;
-public float doorOpenHeight = 3.2f;
+public float door1OpenHeight = 3.2f;
+public float door2OpenHeight = 3.2f;
 	
 public int startmode;	//where 0 is the default, 1 swaps the up and down, 2 means both doors down, 3 means both doors up.
 	
@@ -30,6 +31,8 @@ private float photonDelta;
 private bool started = false;
 private bool doorState = false; //true for "open", false for "close"
 	
+private bool height1Negative = false;
+private bool height2Negative = false;
 	
 [RPC]
 void resetDoors(bool doors)
@@ -72,37 +75,14 @@ void Start () {
 	//startMove = false;
 	door1Down = door1.transform.position;
 	door2Down = door2.transform.position;
+	
+	//for doors that sink into the ground instead
+	if (door1OpenHeight < 0) height1Negative = true;
+	if (door2OpenHeight < 0) height2Negative = true;
 		
-	door1Up = new Vector3(door1Down.x, door1Down.y + doorOpenHeight, door1Down.z);
-	door2Up = new Vector3(door2Down.x, door2Down.y + doorOpenHeight, door2Down.z);
-	/*
-	switch (startmode)
-	{
-		case 0:
-			door1.transform.position = door1Down;
-			door2.transform.position = door2Up;
-			break;
-		case 1:
-			door1.transform.position = door1Up;
-			door2.transform.position = door2Down;
+	door1Up = new Vector3(door1Down.x, door1Down.y + door1OpenHeight, door1Down.z);
+	door2Up = new Vector3(door2Down.x, door2Down.y + door2OpenHeight, door2Down.z);
 
-			break;
-		case 2:
-			door1.transform.position = door1Down;
-			door2.transform.position = door2Down;
-
-			break;
-		default:
-			door1.transform.position = door1Up;
-			door2.transform.position = door2Up;
-			break;
-	}
-		
-		
-	//thisFrameTime = (float)PhotonNetwork.time;
-		
-	doorState = false;
-	*/
 }	
 
 bool isDoorInPosition(Vector3 currPos, Vector3 targetPos)
@@ -118,12 +98,24 @@ void UpdateDoor1()
 		if (doorState) //"close"
 		{
 			if (isDoorInPosition(door1.transform.position, door1Down)) return;	
-
-			if (door1.transform.position.y < door1Down.y)
-				door1.transform.position = door1Down;
-			else	
-				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y - speed, door1.transform.position.z);
 			
+			door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y - speed, door1.transform.position.z);
+	
+			if (height1Negative)
+			{
+				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y + speed, door1.transform.position.z);
+			
+				if (door1.transform.position.y > door1Down.y)
+					door1.transform.position = door1Down;
+			}
+					
+			else
+			{
+				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y - speed, door1.transform.position.z);
+	
+				if (door1.transform.position.y < door1Down.y)
+					door1.transform.position = door1Down;
+			}
 			//clamp
 				
 		}
@@ -131,20 +123,31 @@ void UpdateDoor1()
 		{
 			if (isDoorInPosition(door1.transform.position, door1Up)) return;	
 		
-			if (door1.transform.position.y > door1Up.y)
-				door1.transform.position = door1Up;
-			else	
+			if (height1Negative)
+			{
+				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y - speed, door1.transform.position.z);
+
+				if (door1.transform.position.y < door1Up.y)
+					door1.transform.position = door1Up;
+			
+			}
+			else
+			{
 				door1.transform.position = new Vector3(door1.transform.position.x, door1.transform.position.y + speed, door1.transform.position.z);
 
+				if (door1.transform.position.y > door1Up.y)
+					door1.transform.position = door1Up;
+			}
 		}
 		
 		
 	}
-	else
+	else //DOOR 1 LOGIC IS FLIPPED
 	{
 		if (doorState) //"close"
 		{
 			if (isDoorInPosition(door1.transform.position, door1Up)) return;	
+			
 				
 			if (door1.transform.position.y > door1Up.y)
 				door1.transform.position = door1Up;
@@ -290,6 +293,7 @@ void OnTriggerStay()
 //to reset this way.
 void OnTriggerEnter()
 {
+	
 	doorState = !doorState;		
 }
 	
