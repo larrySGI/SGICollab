@@ -109,7 +109,6 @@ void OnTriggerExit() {
 [RPC]
 void updateLiftTime (float liftTime)
 {	
-	Debug.Log("updating lift");
 		
     localLiftTime = liftTime;
 	

@@ -30,14 +30,11 @@ private float photonDelta;
 private bool started = false;
 private bool doorState = false; //true for "open", false for "close"
 	
-//Larry: Network code attempt, disabled for now
-	
 	
 [RPC]
 void resetDoors(bool doors)
 {	
 		
- 	Debug.Log("Resetting doors");
 	//Temporarily here
 	switch (startmode)
 	{
