@@ -19,7 +19,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public int playerCount = 0;
 	
 	public Texture aTexture;
-	
+	void Awake(){
+	DontDestroyOnLoad(this);	
+	}
 	void OnJoinedRoom()
     {
 		//StartGame(this.jumperPrefabName);
@@ -55,7 +57,7 @@ public class GameManagerVik : Photon.MonoBehaviour
         
         object[] objs = new object[1]; // Put our bool data in an object array, to send
         objs[0] = enabledRenderers;
-		 
+		 print ("starting game");
         // Spawn our local player
 		if(prefabName=="Mover")
 		{
@@ -79,24 +81,27 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//spawn network synced objects
 		//PhotonNetwork.Instantiate("checkPointTriggerLift", transform.position+transform.right*10, transform.rotation, 0);
 		//PhotonNetwork.Instantiate("liftPrefab", transform.position+transform.right*15, transform.rotation, 0);
-		//Time.timeScale=0;
+		Time.timeScale=0;
 		gameStarted = true;
 		
 	}
 	
 	void Update()
 	{
-	/*	
+		// &&
+			//   GameObject.FindWithTag("Viewer") &&
+			//   GameObject.FindWithTag("Mover")
 			if(GameObject.FindWithTag("Builder") && 
-			   GameObject.FindWithTag("Jumper") &&
-			   GameObject.FindWithTag("Viewer") &&
-			   GameObject.FindWithTag("Mover"))
+			   GameObject.FindWithTag("Jumper"))
 			{
 				Time.timeScale=1;
+			if(Application.loadedLevelName == "MainMenuScene"){
+				Application.LoadLevel("Level1");
+			}
 			}
 			else
 				Time.timeScale = 0;
-			*/			
+						
 	}
 
 
