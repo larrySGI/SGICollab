@@ -125,12 +125,14 @@ public class ChatVik : Photon.MonoBehaviour
 	public void AnnounceJoin()
 	{
 		string communication =  "("+chatterClass +") has joined the game.";
+		if (photonView)
 		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
 	}
 	
 	public void AnnounceLeave()
 	{
 		string communication =  "("+chatterClass +") has left the game.";
+		if (photonView)
 		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
 	
 	}
@@ -179,7 +181,7 @@ public class ChatVik : Photon.MonoBehaviour
 			GameObject SpawnManager = GameObject.Find("Code");
 			GameManagerVik MoverTest = SpawnManager.GetComponent<GameManagerVik>();
 			chatterClass = MoverTest.selectedClass;
-			if (chatterClass != "")
+			if (chatterClass != "" && MoverTest.gameStarted)
 			{
 				joined = true;
 

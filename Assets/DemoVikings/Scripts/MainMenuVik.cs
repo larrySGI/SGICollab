@@ -7,6 +7,13 @@ public class MainMenuVik : Photon.MonoBehaviour
 {	
     private menuState currentMenuState;
 	
+	
+	void Start()
+	{
+		
+		
+	}
+	
     void Awake()
     {
 		//this will keep the code object from being destroyed
@@ -43,7 +50,7 @@ public class MainMenuVik : Photon.MonoBehaviour
         if (PhotonNetwork.room != null)
             return; //Only when we're not in a Room
 		
-		switch (currentMenuState){
+		switch (currentMenuState) {
 			case menuState.login:
 				ShowLoginGUI();
 				break;
@@ -147,7 +154,8 @@ public class MainMenuVik : Photon.MonoBehaviour
 		        if (GUILayout.Button("GO"))
 		        {
 					Playtomic.Log.Play();
-		            PhotonNetwork.CreateRoom(roomName, true, true, 10);
+					//set number of players to 4. - Larry
+		            PhotonNetwork.CreateRoom(roomName, true, true, 4);
 		        }
 	        GUILayout.EndHorizontal();
 	

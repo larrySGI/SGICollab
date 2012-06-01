@@ -89,19 +89,41 @@ public class GameManagerVik : Photon.MonoBehaviour
 	void Update()
 	{
 		// &&
-			//   GameObject.FindWithTag("Viewer") &&
-			//   GameObject.FindWithTag("Mover")
+		/*
+			   GameObject.FindWithTag("Viewer") &&
+			   GameObject.FindWithTag("Mover")
 			if(GameObject.FindWithTag("Builder") && 
 			   GameObject.FindWithTag("Jumper"))
 			{
 				Time.timeScale=1;
-			if(Application.loadedLevelName == "MainMenuScene"){
+			if(Application.loadedLevelName == "MainMenuScene")
+			{
 				Application.LoadLevel("Level1");
 			}
 			}
 			else
 				Time.timeScale = 0;
-						
+		*/
+		
+		if (GameObject.FindWithTag("Viewer") && 
+			GameObject.FindWithTag("Mover") &&
+			GameObject.FindWithTag("Builder") &&
+			GameObject.FindWithTag("Jumper"))
+		{
+			Time.timeScale = 1;
+		}
+		else
+		{
+			Time.timeScale = 0;
+			return; //premature return on scale 0. 
+		}
+		
+		//replace with main menu logic kthx
+		if(Application.loadedLevelName == "MainMenuScene")
+		{
+			Application.LoadLevel("Level1");
+		}
+		
 	}
 
 
@@ -146,7 +168,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 			 if (GUILayout.Button("Leave& QUIT"))
 	        {
         	    PhotonNetwork.LeaveRoom();
-    	    }
+				selectedClass = "";
+		    }
 
 			GUILayout.EndArea();
 		}
@@ -166,6 +189,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				ChatVik.SP.AnnounceLeave();
 				
 				PhotonNetwork.LeaveRoom();
+				selectedClass = "";
 				//local
 				gameStarted = false;
 				
