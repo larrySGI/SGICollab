@@ -22,7 +22,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	public LayerMask groundLayers = -1;
 		// Which layers should be walkable?
 		// NOTICE: Make sure that the target collider is not in any of these layers!
-	public float groundedCheckOffset = 1.0f;
+	public float groundedCheckOffset;
 		// Tweak so check starts from just within target footing
 	public bool
 		showGizmos = true,
@@ -287,9 +287,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void FixedUpdate ()
 	// Handle movement here since physics will only be calculated in fixed frames anyway
 	{
-	//	long xpos = (int)transform.position.x+21;
-//		long ypos = (int)transform.position.z-29;
-		
+
 		
 		grounded = isFourPointGrounded ();
 
@@ -333,7 +331,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 					appliedSpeed /= walkSpeedDownscale;
 				}*/
-
+				
+				
 				if (movement.magnitude > inputThreshold)
 				// Only apply movement if we have sufficient input
 				{
@@ -384,9 +383,33 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 
 						target.velocity = new Vector3(clampx, target.velocity.y, clampz);*/
 				}
+				/*else
+				// If we are grounded and don't have significant input, just stop horizontal movement
+				{
+					target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
+					return;
+				}*/
 		}
+		
+		
+		
 	}
-	
+	/*
+	void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+		
+		if (hit.moveDirection.y > 0.01)
+		{
+			return;
+		}
+		
+		if (hit.moveDirection.y < -0.9 && hit.normal.y > 0.9)
+		{
+			target.transform.position = new Vector3(target.transform.position.x,
+													target.transform.position.y - hit.moveDirection.y,
+													target.transform.position.z);
+		}
+	}*/
 	
 	void OnDrawGizmos ()
 	// Use gizmos to gain information about the state of your setup

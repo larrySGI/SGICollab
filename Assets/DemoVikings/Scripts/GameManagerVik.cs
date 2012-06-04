@@ -121,7 +121,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel("ImportedScene");
+			Application.LoadLevel("Level1");
 		}
 		
 	}
