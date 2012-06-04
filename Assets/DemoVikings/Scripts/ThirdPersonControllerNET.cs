@@ -325,6 +325,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
 					// Scale down applied speed if in walk mode
+				
 				/*
 				if (Input.GetAxis ("Vertical") < 0.0f)
 				// Scale down applied speed if walking backwards
@@ -332,18 +333,18 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					appliedSpeed /= walkSpeedDownscale;
 				}*/
 				
-				
-				if (movement.magnitude > inputThreshold)
+				//Larry - this movement threshold thing is what's causing the viking to fall through the elevator! 
+				//if (movement.magnitude > inputThreshold)
 				// Only apply movement if we have sufficient input
-				{
+				//{
 					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
-				}
-				else
+				//}
+				//else
 				// If we are grounded and don't have significant input, just stop horizontal movement
-				{
-					target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
-					return;
-				}
+				//{
+			//		target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
+		//			return;
+		//		}
 			}
 		}
 		else
@@ -363,32 +364,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					appliedSpeed /= walkSpeedDownscale;
 				}*/
 
-				if (movement.magnitude > inputThreshold)
+				//if (movement.magnitude > inputThreshold)
 				// Only apply movement if we have sufficient input
-				{
+				//{
 					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
-				
-				//clamp target velocity in all directions
-				/*	float clampx = target.velocity.x, clampz = target.velocity.z;			
-				
-					if (clampx > jumpforwardspeed)
-						clampx = jumpforwardspeed;
-					if (clampx < -jumpforwardspeed)
-						clampx = -jumpforwardspeed;
-			
-					if (clampz > jumpforwardspeed)
-						clampz = jumpforwardspeed;
-					if (clampz < -jumpforwardspeed)
-						clampz = -jumpforwardspeed;
 
-						target.velocity = new Vector3(clampx, target.velocity.y, clampz);*/
-				}
-				/*else
-				// If we are grounded and don't have significant input, just stop horizontal movement
-				{
-					target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
-					return;
-				}*/
+				//}
 		}
 		
 		
