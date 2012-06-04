@@ -15,7 +15,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	private float holdDistance = 1.0f;
 	private Rigidbody rigid;
 		// The object we're steering
-	public float speed = 1.0f, walkSpeedDownscale = 1.0f, turnSpeed = 2.0f, mouseTurnSpeed = 0.9f, jumpSpeed = 1.0f;
+	public float speed = 1.0f, jumpforwardspeed = 2.5f, walkSpeedDownscale = 1.0f, 
+	jumpSpeedDownScale = 3.0f,
+	turnSpeed = 2.0f, mouseTurnSpeed = 0.9f, jumpSpeed = 1.0f;
 		// Tweak to ajust character responsiveness
 	public LayerMask groundLayers = -1;
 		// Which layers should be walkable?
@@ -299,7 +301,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			target.drag = groundDrag;
 				// Apply drag when we're grounded
 			
-			if (Input.GetButtonDown ("Jump"))
+			if (Input.GetButtonDown ("Jump") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
 			// Handle jumping
 			{
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
@@ -347,8 +349,41 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 		else
 		{
-			target.drag = 0.0f;
-				// If we're airborne, we should have no drag
+			  target.drag = 0.5f;
+				// If we're airborne, we should have less drag
+			
+				Vector3 movement = Input.GetAxis ("Vertical") * target.transform.forward +
+				SidestepAxisInput * target.transform.right;
+				
+				float appliedSpeed = speed/10;
+					// Scale down applied speed if in walk mode
+				/*
+				if (Input.GetAxis ("Vertical") < 0.0f)
+				// Scale down applied speed if walking backwards
+				{
+					appliedSpeed /= walkSpeedDownscale;
+				}*/
+
+				if (movement.magnitude > inputThreshold)
+				// Only apply movement if we have sufficient input
+				{
+					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
+				
+				//clamp target velocity in all directions
+				/*	float clampx = target.velocity.x, clampz = target.velocity.z;			
+				
+					if (clampx > jumpforwardspeed)
+						clampx = jumpforwardspeed;
+					if (clampx < -jumpforwardspeed)
+						clampx = -jumpforwardspeed;
+			
+					if (clampz > jumpforwardspeed)
+						clampz = jumpforwardspeed;
+					if (clampz < -jumpforwardspeed)
+						clampz = -jumpforwardspeed;
+
+						target.velocity = new Vector3(clampx, target.velocity.y, clampz);*/
+				}
 		}
 	}
 	
