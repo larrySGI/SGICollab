@@ -6,13 +6,14 @@ enum GravityGunState { Free, Catch, Occupied, Charge, Release};
 public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
-	//added a line here
+	private bool hasSpawned = false;
+	
 	private int level_number=0;
 	public Rigidbody target;
 	public int blockammo;
 	public int plankammo;
 	private GravityGunState gravityGunState =0;
-	private float holdDistance = 1.0f;
+	public float holdDistance = 1.0f;
 	private Rigidbody rigid;
 		// The object we're steering
 	public float speed = 1.0f, jumpforwardspeed = 2.5f, walkSpeedDownscale = 1.0f, 
@@ -145,9 +146,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                    if(hit.rigidbody) 
 										{
 					                        rigid = hit.rigidbody;
-					                        rigid.isKinematic = true;
-					                        gravityGunState = GravityGunState.Catch;
-					                       
+					                  //      rigid.isKinematic = true;
+											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
+											if (rigid.name.Contains("pPlatform") ||
+												rigid.name.Contains("pBlock"))
+					                        	gravityGunState = GravityGunState.Catch;
+											else
+					                       		rigid = null;
 					                    }
 					                }
 					     }
@@ -184,7 +189,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				else if(gravityGunState == GravityGunState.Release) 
 				{
 					            
-					    gravityGunState = GravityGunState.Free;
+					   	rigid = null;
+						gravityGunState = GravityGunState.Free;
 				}
 		
 		}
@@ -349,7 +355,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 		else
 		{
-			  target.drag = 0.5f;
+			    target.drag = 0.5f;
 				// If we're airborne, we should have less drag
 			
 				Vector3 movement = Input.GetAxis ("Vertical") * target.transform.forward +

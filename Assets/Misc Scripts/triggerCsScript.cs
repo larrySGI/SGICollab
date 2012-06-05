@@ -18,7 +18,7 @@ private float offset_y = 0.0f;
 private float offset_z = 0.0f;
 
 public Texture viewerTexture;
-public float speed = 0.3f;
+public float speed = 0.2f;
 private float timingOffset = 0.0f;
 //private bool startMove;
 public GameObject target;
@@ -105,8 +105,6 @@ void OnTriggerExit() {
 	startMove = false;
 }*/
 
-//Larry: Network code attempt, disabled for now
-	
 	
 [RPC]
 void updateLiftTime (float liftTime)
@@ -197,7 +195,7 @@ void OnTriggerStay()
 			
 	if(target.transform.position != FinalPos)
 	{
-			target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, Time.deltaTime * 2);
+			target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, Time.deltaTime);
 	}
 		
 }		

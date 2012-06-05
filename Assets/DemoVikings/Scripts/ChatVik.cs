@@ -19,6 +19,7 @@ public class ChatVik : Photon.MonoBehaviour
     private string chatInput = "";
     private float lastUnfocusTime = 0;
 	
+	private GameManagerVik manager;
 	
 	private string chatterClass = "";
 	private bool joined = false;
@@ -28,29 +29,39 @@ public class ChatVik : Photon.MonoBehaviour
 
 	void Start()
 	{
+	
+	
+	}
+	
+    void Awake()
+    {
+       	GameObject SpawnManager = GameObject.Find("Code");
+		manager = SpawnManager.GetComponent<GameManagerVik>();
+		
+		
 		var dt = DateTime.Now;
 		var timeStamp = String.Format("{0:hh-mm-ss-yyyy-MM-dd}", dt);
 		
 		//Access the initial chatlog to see if it is empty
 		path = Application.dataPath;
-		
-
 		fileName = "/ChatLog " + timeStamp + ".txt";	
-
-
-		
-		
 		path = Application.dataPath +fileName;
-	}
-	
-    void Awake()
-    {
-        SP = this;
+		
+		SP = this;
     }
+	
+	public void Reset()
+	{
+		SP = this;
+	}
 
     void OnGUI()
     {        
-        GUI.SetNextControlName("");
+      //  Debug.Log(SP == null);
+		
+		if (!manager.gameStarted) return;
+		
+		GUI.SetNextControlName("");
 
         GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight));
         
@@ -67,10 +78,12 @@ public class ChatVik : Photon.MonoBehaviour
         //Chat input
         GUILayout.BeginHorizontal(); 
         GUI.SetNextControlName("ChatField");
-    chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(200));
+    	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(200));
        
-        if (Event.current.type == EventType.keyDown && Event.current.character == '\n'){
-            if (GUI.GetNameOfFocusedControl() == "ChatField")
+        if (Event.current.type == EventType.keyDown && Event.current.character == '\n')
+		{
+         	Debug.Log("This should work");
+			if (GUI.GetNameOfFocusedControl() == "ChatField")
             {                
                 SendChat(PhotonTargets.All);
                 lastUnfocusTime = Time.time;
@@ -176,15 +189,15 @@ public class ChatVik : Photon.MonoBehaviour
 	
 	void Update()
 	{
+		Debug.Log(SP == null);
 		if (!joined)
 		{
-			GameObject SpawnManager = GameObject.Find("Code");
-			GameManagerVik MoverTest = SpawnManager.GetComponent<GameManagerVik>();
-			chatterClass = MoverTest.selectedClass;
-			if (chatterClass != "" && MoverTest.gameStarted)
+			
+			chatterClass = manager.selectedClass;
+			if (chatterClass != "" && manager.gameStarted)
 			{
 				joined = true;
-
+				Debug.Log(chatterClass);
 			 	AnnounceJoin();
 			}		
 		}

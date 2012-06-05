@@ -75,7 +75,8 @@ public class MainMenuVik : Photon.MonoBehaviour
     }
 	
 	
-	void ShowLoginGUI(){
+	void ShowLoginGUI()
+	{
 		GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 300) / 2, 400, 300));
 		
 			GUILayout.Label("Log In");
