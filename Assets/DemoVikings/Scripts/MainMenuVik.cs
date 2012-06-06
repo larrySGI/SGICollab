@@ -9,7 +9,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 {	
     private menuState currentMenuState;
 	public static bool userTally = false;
-	
+	public static int maxLevelData = 0;
 	
 	void Start()
 	{
@@ -42,10 +42,11 @@ public class MainMenuVik : Photon.MonoBehaviour
     private Vector2 scrollPos = Vector2.zero;
 	private string emailInput = "";
 	private string email2Input = "hotmail";
-	private string email3Input = "";
+	private string email3Input = ""; //email1 + email2 combined xxx@hotmail.com
 	private string nickInput = "";
 	private string pass1Input = "";
 	private string pass2Input = "";
+	private int levelSelected = maxLevelData;
 	
 	
     void OnGUI()
@@ -61,6 +62,9 @@ public class MainMenuVik : Photon.MonoBehaviour
 		
 		switch (currentMenuState) {
 			case menuState.login:
+				//ShowLoginGUI();
+				//if(userTally)
+				//	currentMenuState = menuState.profile;
 				StartCoroutine(ShowLoginGUI());
 				break;
 			case menuState.signup:
@@ -112,6 +116,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 	        GUILayout.BeginHorizontal();		
 		        if (GUILayout.Button("Create New Account", GUILayout.Width(200)))
 		        {
+					//StartCoroutine(LoginForms.getData("qq", "qq", "email")); delete this testing line soon
 					pass1Input = "";
 					currentMenuState = menuState.signup;
 		        }		
@@ -123,6 +128,8 @@ public class MainMenuVik : Photon.MonoBehaviour
 		        }
 	        GUILayout.EndHorizontal();
         GUILayout.EndArea();
+		
+		//return null;
 	}
 	
 	//IEnumerator because needs yield return to check for errors in creating account
@@ -195,6 +202,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 		
 	        //Player name
 	        GUILayout.Label("Welcome back, " + PhotonNetwork.playerName);
+	        GUILayout.Label("Max level reached: " + maxLevelData);
 	
 	        GUILayout.Space(30);	
 	
@@ -206,18 +214,6 @@ public class MainMenuVik : Photon.MonoBehaviour
 		        {
 					Playtomic.Log.Play();
 		            PhotonNetwork.JoinRoom(roomName);
-		        }
-	        GUILayout.EndHorizontal();
-	
-	        //Create a room (fails if exist!)
-	        GUILayout.BeginHorizontal();
-		        GUILayout.Label("CREATE ROOM:", GUILayout.Width(150));
-		        roomName = GUILayout.TextField(roomName);
-		        if (GUILayout.Button("GO"))
-		        {
-					Playtomic.Log.Play();
-					//set number of players to 4. - Larry
-		            PhotonNetwork.CreateRoom(roomName, true, true, 4);
 		        }
 	        GUILayout.EndHorizontal();
 	
@@ -237,8 +233,38 @@ public class MainMenuVik : Photon.MonoBehaviour
 		            }
 		        }
 	        GUILayout.EndHorizontal();
-	
+		
+	        //Create a room (fails if exist!)
+	        GUILayout.BeginHorizontal();
+		        GUILayout.Label("CREATE ROOM:", GUILayout.Width(150));
+		        roomName = GUILayout.TextField(roomName);
+	        GUILayout.EndHorizontal();
+		
+	        GUILayout.BeginHorizontal();
+				GUILayout.Space(150);
+				if(GUILayout.Button("<<", GUILayout.Width(30))){
+					levelSelected--;
+					if(levelSelected < 0)
+						levelSelected = 0;
+				}
+				GUILayout.Label("Level " + levelSelected.ToString(), GUILayout.Width(50));
+				if(GUILayout.Button(">>", GUILayout.Width(30))){
+					levelSelected++;
+					if(levelSelected > maxLevelData)
+						levelSelected = maxLevelData;
+				}
+		
+		        if (GUILayout.Button("GO"))
+		        {
+					GameManagerVik.setNextLevel(levelSelected);
+					Playtomic.Log.Play();
+					//set number of players to 4. - Larry
+		            PhotonNetwork.CreateRoom(roomName, true, true, 4);
+		        }
+	        GUILayout.EndHorizontal();
+		
 	        GUILayout.Space(30);
+		
 	        GUILayout.Label("ROOM LISTING:");
 	        if (PhotonNetwork.GetRoomList().Length == 0)
 	        {

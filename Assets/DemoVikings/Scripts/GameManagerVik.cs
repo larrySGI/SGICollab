@@ -19,9 +19,19 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public int playerCount = 0;
 	
 	public Texture aTexture;
+	
+	//create levels array
+	private static int nextLevel;
+	private string[] levelNames = new string[] {"tutorial",
+												"Level1",
+												"Level2",
+												"Level3"};
+	
+	
 	void Awake(){
-	DontDestroyOnLoad(this);	
+		DontDestroyOnLoad(this);	
 	}
+	
 	void OnJoinedRoom()
     {
 		//StartGame(this.jumperPrefabName);
@@ -105,7 +115,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				Time.timeScale = 0;
 		*/
 		
-		if (//GameObject.FindWithTag("Viewer"))// && 
+		if (//GameObject.FindWithTag("Viewer") && 
 			GameObject.FindWithTag("Mover") &&
 			GameObject.FindWithTag("Builder")) //&&
 			//GameObject.FindWithTag("Jumper"))
@@ -121,7 +131,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel("Level1");
+			//Application.LoadLevel("Level1");
+			Application.LoadLevel(nextLevel);
 		}
 		
 	}
@@ -209,5 +220,9 @@ public class GameManagerVik : Photon.MonoBehaviour
     {
         Debug.LogWarning("OnFailedToConnectToPhoton");
     }
+	
+	public static void setNextLevel(int level){
+		nextLevel = level;
+	}
   
 }
