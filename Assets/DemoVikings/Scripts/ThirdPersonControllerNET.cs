@@ -6,13 +6,14 @@ enum GravityGunState { Free, Catch, Occupied, Charge, Release};
 public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
-	//added a line here
+	private bool hasSpawned = false;
+	
 	private int level_number=0;
 	public Rigidbody target;
 	public int blockammo;
 	public int plankammo;
 	private GravityGunState gravityGunState =0;
-	private float holdDistance = 1.0f;
+	public float holdDistance = 1.0f;
 	private Rigidbody rigid;
 		// The object we're steering
 	public float speed = 1.0f, jumpforwardspeed = 2.5f, walkSpeedDownscale = 1.0f, 
@@ -22,7 +23,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	public LayerMask groundLayers = -1;
 		// Which layers should be walkable?
 		// NOTICE: Make sure that the target collider is not in any of these layers!
-	public float groundedCheckOffset = 1.0f;
+	public float groundedCheckOffset;
 		// Tweak so check starts from just within target footing
 	public bool
 		showGizmos = true,
@@ -145,9 +146,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                    if(hit.rigidbody) 
 										{
 					                        rigid = hit.rigidbody;
-					                        rigid.isKinematic = true;
-					                        gravityGunState = GravityGunState.Catch;
-					                       
+					                  //      rigid.isKinematic = true;
+											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
+											if (rigid.name.Contains("pPlatform") ||
+												rigid.name.Contains("pBlock"))
+					                        	gravityGunState = GravityGunState.Catch;
+											else
+					                       		rigid = null;
 					                    }
 					                }
 					     }
@@ -184,7 +189,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				else if(gravityGunState == GravityGunState.Release) 
 				{
 					            
-					    gravityGunState = GravityGunState.Free;
+					   	rigid = null;
+						gravityGunState = GravityGunState.Free;
 				}
 		
 		}
@@ -287,9 +293,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void FixedUpdate ()
 	// Handle movement here since physics will only be calculated in fixed frames anyway
 	{
-	//	long xpos = (int)transform.position.x+21;
-//		long ypos = (int)transform.position.z-29;
-		
+
 		
 		grounded = isFourPointGrounded ();
 
@@ -327,29 +331,31 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
 					// Scale down applied speed if in walk mode
+				
 				/*
 				if (Input.GetAxis ("Vertical") < 0.0f)
 				// Scale down applied speed if walking backwards
 				{
 					appliedSpeed /= walkSpeedDownscale;
 				}*/
-
-				if (movement.magnitude > inputThreshold)
+				
+				//Larry - this movement threshold thing is what's causing the viking to fall through the elevator! 
+				//if (movement.magnitude > inputThreshold)
 				// Only apply movement if we have sufficient input
-				{
+				//{
 					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
-				}
-				else
+				//}
+				//else
 				// If we are grounded and don't have significant input, just stop horizontal movement
-				{
-					target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
-					return;
-				}
+				//{
+			//		target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
+		//			return;
+		//		}
 			}
 		}
 		else
 		{
-			  target.drag = 0.5f;
+			    target.drag = 0.5f;
 				// If we're airborne, we should have less drag
 			
 				Vector3 movement = Input.GetAxis ("Vertical") * target.transform.forward +
@@ -364,29 +370,33 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					appliedSpeed /= walkSpeedDownscale;
 				}*/
 
-				if (movement.magnitude > inputThreshold)
+				//if (movement.magnitude > inputThreshold)
 				// Only apply movement if we have sufficient input
-				{
+				//{
 					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
-				
-				//clamp target velocity in all directions
-				/*	float clampx = target.velocity.x, clampz = target.velocity.z;			
-				
-					if (clampx > jumpforwardspeed)
-						clampx = jumpforwardspeed;
-					if (clampx < -jumpforwardspeed)
-						clampx = -jumpforwardspeed;
-			
-					if (clampz > jumpforwardspeed)
-						clampz = jumpforwardspeed;
-					if (clampz < -jumpforwardspeed)
-						clampz = -jumpforwardspeed;
 
-						target.velocity = new Vector3(clampx, target.velocity.y, clampz);*/
-				}
+				//}
 		}
+		
+		
+		
 	}
-	
+	/*
+	void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+		
+		if (hit.moveDirection.y > 0.01)
+		{
+			return;
+		}
+		
+		if (hit.moveDirection.y < -0.9 && hit.normal.y > 0.9)
+		{
+			target.transform.position = new Vector3(target.transform.position.x,
+													target.transform.position.y - hit.moveDirection.y,
+													target.transform.position.z);
+		}
+	}*/
 	
 	void OnDrawGizmos ()
 	// Use gizmos to gain information about the state of your setup

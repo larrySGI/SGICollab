@@ -57,7 +57,7 @@ public class GameManagerVik : Photon.MonoBehaviour
         
         object[] objs = new object[1]; // Put our bool data in an object array, to send
         objs[0] = enabledRenderers;
-		 print ("starting game");
+		// print ("starting game");
         // Spawn our local player
 		if(prefabName=="Mover")
 		{
@@ -105,10 +105,10 @@ public class GameManagerVik : Photon.MonoBehaviour
 				Time.timeScale = 0;
 		*/
 		
-		if (GameObject.FindWithTag("Viewer") && 
+		if (//GameObject.FindWithTag("Viewer"))// && 
 			GameObject.FindWithTag("Mover") &&
-			GameObject.FindWithTag("Builder") &&
-			GameObject.FindWithTag("Jumper"))
+			GameObject.FindWithTag("Builder")) //&&
+			//GameObject.FindWithTag("Jumper"))
 		{
 			Time.timeScale = 1;
 		}
@@ -121,7 +121,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel("ImportedScene");
+			Application.LoadLevel("Level1");
 		}
 		
 	}

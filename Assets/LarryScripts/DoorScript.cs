@@ -19,7 +19,7 @@ public class DoorScript : Photon.MonoBehaviour {
 	public bool startingDoorState = false; //closed;
 	private bool currDoorState = false;
 	private bool height_y_negative = false;
-	
+
 	public void ResetDoor()
 	{
 		currDoorState = startingDoorState;
@@ -45,6 +45,7 @@ public class DoorScript : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
+		
 		if (currDoorState) //up
 		{
 			if (!isDoorInPosition(this.transform.position, upPos))
