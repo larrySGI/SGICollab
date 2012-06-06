@@ -7,27 +7,29 @@ public class UniParseTest : MonoBehaviour {
 	IEnumerator Start () {
 		
 		//Register a new user
-//		var user = ParseClass.users.New();
-//		user.Set("username", "myName");
-//		user.Set("password", "myPasss");
-//		user.Create();
-//		while(!user.isDone) yield return null;
-//		//check for error
-//		if(user.error != null) {
-//			//A message is printed automatically. We can diagnose the issue by examing the HTTP code.
-//			Debug.Log(user.code);
-//			
-//		}
-//		
-//		//Authenticate an existing user
-		var auth_user = ParseClass.Authenticate("myName","myPasss");
-		while(!auth_user.isDone) yield return null;
+		var user = ParseClass.users.New();
+		user.Set("username", "bbName");
+		user.Set("password", "bbPass");
+		//user.Set("email", "bbMail");
+		user.Create();
+		while(!user.isDone) yield return null;
 		//check for error
-		if(auth_user.error != null) {
-			Debug.Log("An error occured, likely a bad password!");
-		}else{
-		Debug.Log(auth_user.Get<string>("latestStage"));
+		if(user.error != null) {
+			//A message is printed automatically. We can diagnose the issue by examing the HTTP code.
+			Debug.Log(user.code);			
 		}
+		else
+			print("no error");
+	
+		//Authenticate an existing user
+//		var auth_user = ParseClass.Authenticate("aaName","aaPass");
+//		while(!auth_user.isDone) yield return null;
+//		//check for error
+//		if(auth_user.error != null) {
+//			Debug.Log("An error occured, likely a bad password!");
+//		}else{
+//		Debug.Log(auth_user.Get<string>("latestStage"));
+//		}
 //		
 //		//HOWTO: Create a new class
 //		var commentClass = new ParseClass("/classes/Comment");
