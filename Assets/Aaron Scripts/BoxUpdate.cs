@@ -19,23 +19,17 @@ public class BoxUpdate : Photon.MonoBehaviour
 		transform.position = newPosition;	
 		transform.rotation = newRotation;
 	}
-	/*
-	[RPC]
-	void turnOnKinematics()
-	{	
-		rigidbody.isKinematic = true;
-	}
-	[RPC]
-	void turnOffKinematics()
-	{	
-		rigidbody.isKinematic = false;
-		
-
-	}
-	*/
-	public void setCarry(bool Carry)
+	
+	[RPC] 
+	void setCarryNetwork (bool Carry)
 	{
 		isCarried = Carry;
+	}
+	
+	public void setCarry(bool Carry) 
+	{
+		isCarried = Carry;
+		photonView.RPC("setCarryNetwork", PhotonTargets.Others, isCarried);
 	}
 	
 	void Start()
@@ -48,9 +42,7 @@ public class BoxUpdate : Photon.MonoBehaviour
 	void Awake () 
 	{
 		
-		//	myTransform = transform;
-			
-			photonView.RPC("updateMovement", PhotonTargets.OthersBuffered, myTransform.position, myTransform.rotation);
+		photonView.RPC("updateMovement", PhotonTargets.Others, transform.position, transform.rotation);
 		
 		
 	}
@@ -63,42 +55,28 @@ public class BoxUpdate : Photon.MonoBehaviour
 		{
 			rigidbody.mass = 2;
 			rigidbody.isKinematic = true;
-		//	if(Vector3.Distance(myTransform.position, lastPosition) >=0.01)
-		//	{
-				
-				//if raycast hits lift, set position to 
-				
-				//lastPosition = myTransform.position;
-			photonView.RPC("updateMovement", PhotonTargets.Others,transform.position, transform.rotation);		
-					
-				
-				
-			//}
 			
-			//if(Quaternion.Angle(myTransform.rotation, lastRotation) >=1)
-			//{	
-				//Capture the player's rotation before the RPC is fired
-				//This det ermins if the player has turned in the previous if statement
-				 
-				//lastRotation = myTransform.rotation;
+			//the mover is the one who updates the position only when he's carrying it. In all other instances, this doesn't matter.
+			if (manager.selectedClass == "Mover")
+			{
+				photonView.RPC("updateMovement", PhotonTargets.Others,transform.position, transform.rotation);		
 				
 				photonView.RPC("updateMovement", PhotonTargets.Others, transform.position, transform.rotation);
 				
-			//}
+			}
 		}
 		else
 		{
+			//the box weighs 9999 and can only be pushed at this point. This logic allows the box to obey the laws of physics even if a Mover is not present,
+			//the weight should prevent the box from being moved by random elements. 
 			rigidbody.isKinematic= false;
 			rigidbody.mass = 9999;
+			//this is the same way a viking can remain on the lift - we force an AddForce calculation so the thing updates.
+			rigidbody.AddForce (new Vector3(0,0,0), ForceMode.VelocityChange);
 		}
 			
 	}
-	/*		
-	public void OnKinematics()
-	{
-		photonView.RPC("turnOnKinematics", PhotonTargets.Others);
-	}
-	*/
+
 	
 
 }

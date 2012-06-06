@@ -20,7 +20,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public Texture aTexture;
 	void Awake(){
-	DontDestroyOnLoad(this);	
+		DontDestroyOnLoad(this);	
 	}
 	void OnJoinedRoom()
     {
@@ -128,7 +128,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel("ImportedScene");
+			Application.LoadLevel("Level1");
 		}
 		
 	}
