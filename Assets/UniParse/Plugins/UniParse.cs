@@ -41,7 +41,5 @@ public class UniParse : MonoBehaviour
 		r.AddHeader ("Content-Type", "application/json");
 		if(payLoad != null) r.Text = JSON.JsonEncode (payLoad);
 		return r;
-	}
-	
+	}	
 }
-
