@@ -106,9 +106,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 		*/
 		
 		if (//GameObject.FindWithTag("Viewer"))// && 
-			GameObject.FindWithTag("Mover") &&
-			GameObject.FindWithTag("Builder")) //&&
-			//GameObject.FindWithTag("Jumper"))
+			//GameObject.FindWithTag("Mover") &&
+			//GameObject.FindWithTag("Builder")) //&&
+			GameObject.FindWithTag("Jumper"))
 		{
 			Time.timeScale = 1;
 		}
@@ -121,7 +121,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel("Level1");
+			//Application.LoadLevel("Level1");
+			Debug.Log ("This should work");
+			Application.LoadLevel("JumperTutorial");
 		}
 		
 	}

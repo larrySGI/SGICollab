@@ -189,7 +189,6 @@ public class ChatVik : Photon.MonoBehaviour
 	
 	void Update()
 	{
-		Debug.Log(SP == null);
 		if (!joined)
 		{
 			
