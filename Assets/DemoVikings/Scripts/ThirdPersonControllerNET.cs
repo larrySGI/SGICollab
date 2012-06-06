@@ -146,11 +146,19 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                    if(hit.rigidbody) 
 										{
 					                        rigid = hit.rigidbody;
+										
 					                  //      rigid.isKinematic = true;
 											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
 											if (rigid.name.Contains("pPlatform") ||
 												rigid.name.Contains("pBlock"))
-					                        	gravityGunState = GravityGunState.Catch;
+											{
+					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
+												{
+													Debug.Log("this?");
+													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
+												}
+												gravityGunState = GravityGunState.Catch;
+											}
 											else
 					                       		rigid = null;
 					                    }
@@ -180,8 +188,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					    {
 							if(rigid.name.Contains("pPlatform"))
 								rigid.isKinematic = true;
-							else	
+							else
+							{
+								if (rigid.gameObject.GetComponent<BoxUpdate>())
+												{
+													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(false);
+												}
+
 								rigid.isKinematic = false;
+							}
 							gravityGunState = GravityGunState.Release;
 					                   
 					    }

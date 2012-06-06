@@ -40,8 +40,15 @@ public class GameManagerVik : Photon.MonoBehaviour
         while(PhotonNetwork.room!=null || PhotonNetwork.connected==false)
             yield return 0;
 
-        Application.LoadLevel(Application.loadedLevel);
-
+        //Application.LoadLevel(Application.loadedLevel);
+		
+		
+		//destroy the code object here! Otherwise when we go back to main we'll actually *duplicate* it, which is what we don't want because
+		//it messes up the main menu.
+		Destroy(GameObject.Find("Code"));
+		
+		//kick the user back to the MainMenu. (Might wanna put something in that level)
+		Application.LoadLevel("MainMenuScene");
     }
 
     void StartGame(string prefabName)
@@ -121,7 +128,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel("Level1");
+			Application.LoadLevel("ImportedScene");
 		}
 		
 	}
