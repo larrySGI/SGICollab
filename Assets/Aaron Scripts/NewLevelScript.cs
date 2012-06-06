@@ -34,10 +34,9 @@ public class NewLevelScript : MonoBehaviour {
 				cam.LoadCameras();
 			
 		}
-			
-		
-		
 	}
+	
+	
 	
 	// Update is called once per frame
 	void Update () {

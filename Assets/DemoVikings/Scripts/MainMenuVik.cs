@@ -116,7 +116,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 	        GUILayout.BeginHorizontal();		
 		        if (GUILayout.Button("Create New Account", GUILayout.Width(200)))
 		        {
-					//StartCoroutine(LoginForms.getData("qq", "qq", "email")); delete this testing line soon
+					//StartCoroutine(LoginForms.getData("qq", "qq", "email")); 		tested getData() works, delete this testing line soon
 					pass1Input = "";
 					currentMenuState = menuState.signup;
 		        }		
@@ -128,8 +128,6 @@ public class MainMenuVik : Photon.MonoBehaviour
 		        }
 	        GUILayout.EndHorizontal();
         GUILayout.EndArea();
-		
-		//return null;
 	}
 	
 	//IEnumerator because needs yield return to check for errors in creating account
@@ -192,8 +190,6 @@ public class MainMenuVik : Photon.MonoBehaviour
 				}
 	        GUILayout.EndHorizontal();
         GUILayout.EndArea();
-		
-		//yield break;
 	}
 	
 	

@@ -16,22 +16,26 @@ public class GameManagerVik : Photon.MonoBehaviour
     public string selectedClass;
 	
 	public bool gameStarted = false;
+	
+	public bool level_tester_mode = false;
+	
 	public int playerCount = 0;
 	
 	public Texture aTexture;
 	
 	//create levels array
 	private static int nextLevel;
-	private string[] levelNames = new string[] {"tutorial",
+	private string[] levelNames = new string[] {"JumperTutorial",
 												"Level1",
 												"Level2",
 												"Level3"};
 	
 	
 	void Awake(){
-		DontDestroyOnLoad(this);	
+
+		if (!level_tester_mode)
+			DontDestroyOnLoad(this);
 	}
-	
 	void OnJoinedRoom()
     {
 		//StartGame(this.jumperPrefabName);
@@ -50,13 +54,24 @@ public class GameManagerVik : Photon.MonoBehaviour
         while(PhotonNetwork.room!=null || PhotonNetwork.connected==false)
             yield return 0;
 
-        Application.LoadLevel(Application.loadedLevel);
-
+        if (level_tester_mode)
+			Application.LoadLevel(Application.loadedLevel);
+		else
+		{
+		
+		//destroy the code object here! Otherwise when we go back to main we'll actually *duplicate* it, which is what we don't want because
+		//it messes up the main menu.
+			Destroy(GameObject.Find("Code"));
+		
+		//kick the user back to the MainMenu. (Might wanna put something in that level)
+			Application.LoadLevel("MainMenuScene");
+		}
     }
 
     void StartGame(string prefabName)
     {
-        Camera.main.farClipPlane = 1000; //Main menu set this to 0.4 for a nicer BG    
+        
+		Camera.main.farClipPlane = 1000; //Main menu set this to 0.4 for a nicer BG    
 
         //prepare instantiation data for the viking: Randomly diable the axe and/or shield
        
@@ -91,34 +106,26 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//spawn network synced objects
 		//PhotonNetwork.Instantiate("checkPointTriggerLift", transform.position+transform.right*10, transform.rotation, 0);
 		//PhotonNetwork.Instantiate("liftPrefab", transform.position+transform.right*15, transform.rotation, 0);
-		Time.timeScale=0;
 		gameStarted = true;
+
+		if (level_tester_mode) 
+			Time.timeScale = 1;
+		else		
+			Time.timeScale=0;
 		
 	}
 	
 	void Update()
 	{
-		// &&
-		/*
-			   GameObject.FindWithTag("Viewer") &&
-			   GameObject.FindWithTag("Mover")
-			if(GameObject.FindWithTag("Builder") && 
-			   GameObject.FindWithTag("Jumper"))
-			{
-				Time.timeScale=1;
-			if(Application.loadedLevelName == "MainMenuScene")
-			{
-				Application.LoadLevel("Level1");
-			}
-			}
-			else
-				Time.timeScale = 0;
-		*/
+		if (level_tester_mode) return;
 		
-		if (//GameObject.FindWithTag("Viewer") && 
-			GameObject.FindWithTag("Mover") &&
-			GameObject.FindWithTag("Builder")) //&&
-			//GameObject.FindWithTag("Jumper"))
+		
+
+		if (//GameObject.FindWithTag("Viewer"))// && 
+			//GameObject.FindWithTag("Mover") &&
+			//GameObject.FindWithTag("Builder")) //&&
+			GameObject.FindWithTag("Jumper"))
+
 		{
 			Time.timeScale = 1;
 		}
@@ -132,7 +139,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
 			//Application.LoadLevel("Level1");
+
 			Application.LoadLevel(nextLevel);
+
 		}
 		
 	}
@@ -188,7 +197,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		{
 		
 			
-			if(Time.timeScale==0)
+			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
