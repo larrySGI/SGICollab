@@ -196,7 +196,6 @@ public class ChatVik : Photon.MonoBehaviour
 			if (chatterClass != "" && manager.gameStarted)
 			{
 				joined = true;
-				Debug.Log(chatterClass);
 			 	AnnounceJoin();
 			}		
 		}

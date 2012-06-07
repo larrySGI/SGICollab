@@ -95,6 +95,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 		camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
+		
 	}
 	
 	//finds a camera called "MAIN CAMERA" in the scene. This will be used to move the 
