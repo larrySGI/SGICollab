@@ -126,5 +126,7 @@ public class LoginForms : MonoBehaviour {
 		var user = ParseClass.Authenticate(username, password);
 		while(!user.isDone) yield return null;
 		Debug.Log(user.Get<string>(data));
+		
+		//yield return user.Get<string>(data);
 	}
 }
