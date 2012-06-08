@@ -1,0 +1,3065 @@
+fileFormatVersion: 2
+guid: d6b76c0ae4380d8488f32a3ad8282764
+ModelImporter:
+  fileIDToRecycleName:
+    4300000: NGon01
+    4300002: Line42
+    4300004: Line43
+    4300006: Line11
+    4300008: Line12
+    4300010: Layer:2D-_
+    4300012: Layer:2D-0
+    4300014: Layer:2D-1
+    4300016: Layer:2D-2
+    4300018: Line41
+    4300020: Line47
+    4300022: obj_71
+    4300024: obj_70
+    4300026: obj_69
+    4300028: Line69
+    4300030: Line70
+    4300032: Layer:2D-3
+    4300034: Layer:2D-4
+    4300036: Layer:2D-5
+    4300038: Layer:2D-6
+    4300040: Line76
+    4300042: Line78
+    4300044: Line49
+    4300046: Line50
+    4300048: Layer:2D-7
+    4300050: Layer:2D-8
+    4300052: Layer:2D-9
+    4300054: Layer:2D10
+    4300056: Line56
+    4300058: Line58
+    4300060: Line59
+    4300062: Line60
+    4300064: Layer:2D11
+    4300066: Layer:2D12
+    4300068: Layer:2D13
+    4300070: Layer:2D14
+    4300072: Line66
+    4300074: Line68
+    4300076: Line79
+    4300078: Line80
+    4300080: Layer:2D15
+    4300082: Layer:2D16
+    4300084: Layer:2D17
+    4300086: Layer:2D18
+    4300088: Line86
+    4300090: Line88
+    4300092: Layer:2D19
+    4300094: Layer:2D20
+    4300096: Layer:2D21
+    4300098: Layer:2D22
+    4300100: Line96
+    4300102: Line98
+    4300104: NGon02
+    4300106: Line61
+    4300108: Line02
+    4300110: Line01
+    4300112: Tube19
+    4300114: Box44
+    4300116: Box45
+    4300118: Line46
+    4300120: Box48
+    4300122: Box49
+    4300124: Tube21
+    4300126: Line48
+    4300128: Line44
+    4300130: Line99
+    4300132: Line03
+    4300134: Line100
+    4300136: Line71
+    4300138: Line72
+    4300140: Tube28
+    4300142: Box62
+    4300144: Box63
+    4300146: Line73
+    4300148: Box64
+    4300150: Box65
+    4300152: Tube29
+    4300154: Line74
+    4300156: Box66
+    4300158: Box67
+    4300160: Tube30
+    4300162: Line75
+    4300164: Line77
+    4300166: Line51
+    4300168: Line52
+    4300170: Tube22
+    4300172: Box50
+    4300174: Box51
+    4300176: Line53
+    4300178: Box52
+    4300180: Box53
+    4300182: Tube23
+    4300184: Line54
+    4300186: Box54
+    4300188: Box55
+    4300190: Tube24
+    4300192: Line55
+    4300194: Line57
+    4300196: Line97
+    4300198: Line62
+    4300200: Tube25
+    4300202: Box56
+    4300204: Box57
+    4300206: Line63
+    4300208: Box58
+    4300210: Box59
+    4300212: Tube26
+    4300214: Line64
+    4300216: Box60
+    4300218: Box61
+    4300220: Tube27
+    4300222: Line65
+    4300224: Line67
+    4300226: Line81
+    4300228: Line82
+    4300230: Tube31
+    4300232: Box68
+    4300234: Box69
+    4300236: Line83
+    4300238: Box70
+    4300240: Box71
+    4300242: Tube32
+    4300244: Line84
+    4300246: Box72
+    4300248: Box73
+    4300250: Tube33
+    4300252: Line85
+    4300254: Line87
+    4300256: Line91
+    4300258: Line92
+    4300260: Tube34
+    4300262: Box74
+    4300264: Box75
+    4300266: Line93
+    4300268: Box76
+    4300270: Box77
+    4300272: Tube35
+    4300274: Line94
+    4300276: Box78
+    4300278: Box79
+    4300280: Tube36
+    4300282: Line95
+    4300284: obj_68
+    4300286: obj_25
+    4300288: obj_26
+    4300290: obj_27
+    4300292: obj_28
+    4300294: obj_29
+    4300296: obj_30
+    4300298: obj_31
+    4300300: obj_68
+    4300302: obj_69
+    4300304: obj_70
+    4300306: obj_35
+    4300308: obj_71
+    4300310: obj_25
+    4300312: obj_26
+    4300314: obj_27
+    4300316: obj_28
+    4300318: obj_29
+    4300320: obj_30
+    4300322: obj_31
+    4300324: obj_68
+    4300326: obj_69
+    4300328: obj_70
+    4300330: obj_35
+    4300332: obj_71
+    4300334: obj_25
+    4300336: obj_26
+    4300338: obj_35
+    4300340: obj_28
+    4300342: obj_29
+    4300344: obj_30
+    4300346: obj_31
+    4300348: obj_68
+    4300350: obj_69
+    4300352: obj_70
+    4300354: obj_71
+    4300356: obj_27
+    4300358: obj_25
+    4300360: obj_26
+    4300362: obj_35
+    4300364: obj_28
+    4300366: obj_29
+    4300368: obj_30
+    4300370: obj_31
+    4300372: obj_68
+    4300374: obj_69
+    4300376: obj_70
+    4300378: obj_71
+    4300380: obj_27
+    4300382: obj_25
+    4300384: obj_26
+    4300386: obj_35
+    4300388: obj_28
+    4300390: obj_29
+    4300392: obj_30
+    4300394: obj_31
+    4300396: obj_68
+    4300398: obj_69
+    4300400: obj_70
+    4300402: obj_71
+    4300404: obj_27
+    4300406: obj_25
+    4300408: obj_26
+    4300410: obj_35
+    4300412: obj_28
+    4300414: obj_29
+    4300416: obj_30
+    4300418: obj_31
+    4300420: obj_27
+    4300422: Loft01
+    4300424: Gengon01
+    4300426: Tube01
+    4300428: Tube02
+  serializedVersion: 10
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    generateAnimations: 3
+    bakeSimulation: 0
+    splitAnimations: 1
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .100000001
+    meshCompression: 0
+    addColliders: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMesh: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  textMetaNamesToFileIDs:
+    //RootNode:
+      data:
+        first: 1
+        second: 50880100
+      data:
+        first: 4
+        second: 301c0600
+      data:
+        first: 111
+        second: 605fa900
+    Box44:
+      data:
+        first: 1
+        second: da870100
+      data:
+        first: 4
+        second: ba1b0600
+      data:
+        first: 23
+        second: 9a192300
+      data:
+        first: 33
+        second: da5b3200
+    Box45:
+      data:
+        first: 1
+        second: d8870100
+      data:
+        first: 4
+        second: b81b0600
+      data:
+        first: 23
+        second: 98192300
+      data:
+        first: 33
+        second: d85b3200
+    Box48:
+      data:
+        first: 1
+        second: d4870100
+      data:
+        first: 4
+        second: b41b0600
+      data:
+        first: 23
+        second: 94192300
+      data:
+        first: 33
+        second: d45b3200
+    Box49:
+      data:
+        first: 1
+        second: d2870100
+      data:
+        first: 4
+        second: b21b0600
+      data:
+        first: 23
+        second: 92192300
+      data:
+        first: 33
+        second: d25b3200
+    Box50:
+      data:
+        first: 1
+        second: a0870100
+      data:
+        first: 4
+        second: 801b0600
+      data:
+        first: 23
+        second: 60192300
+      data:
+        first: 33
+        second: a05b3200
+    Box51:
+      data:
+        first: 1
+        second: 9e870100
+      data:
+        first: 4
+        second: 7e1b0600
+      data:
+        first: 23
+        second: 5e192300
+      data:
+        first: 33
+        second: 9e5b3200
+    Box52:
+      data:
+        first: 1
+        second: 9a870100
+      data:
+        first: 4
+        second: 7a1b0600
+      data:
+        first: 23
+        second: 5a192300
+      data:
+        first: 33
+        second: 9a5b3200
+    Box53:
+      data:
+        first: 1
+        second: 98870100
+      data:
+        first: 4
+        second: 781b0600
+      data:
+        first: 23
+        second: 58192300
+      data:
+        first: 33
+        second: 985b3200
+    Box54:
+      data:
+        first: 1
+        second: 92870100
+      data:
+        first: 4
+        second: 721b0600
+      data:
+        first: 23
+        second: 52192300
+      data:
+        first: 33
+        second: 925b3200
+    Box55:
+      data:
+        first: 1
+        second: 90870100
+      data:
+        first: 4
+        second: 701b0600
+      data:
+        first: 23
+        second: 50192300
+      data:
+        first: 33
+        second: 905b3200
+    Box56:
+      data:
+        first: 1
+        second: 82870100
+      data:
+        first: 4
+        second: 621b0600
+      data:
+        first: 23
+        second: 42192300
+      data:
+        first: 33
+        second: 825b3200
+    Box57:
+      data:
+        first: 1
+        second: 80870100
+      data:
+        first: 4
+        second: 601b0600
+      data:
+        first: 23
+        second: 40192300
+      data:
+        first: 33
+        second: 805b3200
+    Box58:
+      data:
+        first: 1
+        second: 7c870100
+      data:
+        first: 4
+        second: 5c1b0600
+      data:
+        first: 23
+        second: 3c192300
+      data:
+        first: 33
+        second: 7c5b3200
+    Box59:
+      data:
+        first: 1
+        second: 7a870100
+      data:
+        first: 4
+        second: 5a1b0600
+      data:
+        first: 23
+        second: 3a192300
+      data:
+        first: 33
+        second: 7a5b3200
+    Box60:
+      data:
+        first: 1
+        second: 74870100
+      data:
+        first: 4
+        second: 541b0600
+      data:
+        first: 23
+        second: 34192300
+      data:
+        first: 33
+        second: 745b3200
+    Box61:
+      data:
+        first: 1
+        second: 72870100
+      data:
+        first: 4
+        second: 521b0600
+      data:
+        first: 23
+        second: 32192300
+      data:
+        first: 33
+        second: 725b3200
+    Box62:
+      data:
+        first: 1
+        second: be870100
+      data:
+        first: 4
+        second: 9e1b0600
+      data:
+        first: 23
+        second: 7e192300
+      data:
+        first: 33
+        second: be5b3200
+    Box63:
+      data:
+        first: 1
+        second: bc870100
+      data:
+        first: 4
+        second: 9c1b0600
+      data:
+        first: 23
+        second: 7c192300
+      data:
+        first: 33
+        second: bc5b3200
+    Box64:
+      data:
+        first: 1
+        second: b8870100
+      data:
+        first: 4
+        second: 981b0600
+      data:
+        first: 23
+        second: 78192300
+      data:
+        first: 33
+        second: b85b3200
+    Box65:
+      data:
+        first: 1
+        second: b6870100
+      data:
+        first: 4
+        second: 961b0600
+      data:
+        first: 23
+        second: 76192300
+      data:
+        first: 33
+        second: b65b3200
+    Box66:
+      data:
+        first: 1
+        second: b0870100
+      data:
+        first: 4
+        second: 901b0600
+      data:
+        first: 23
+        second: 70192300
+      data:
+        first: 33
+        second: b05b3200
+    Box67:
+      data:
+        first: 1
+        second: ae870100
+      data:
+        first: 4
+        second: 8e1b0600
+      data:
+        first: 23
+        second: 6e192300
+      data:
+        first: 33
+        second: ae5b3200
+    Box68:
+      data:
+        first: 1
+        second: 64870100
+      data:
+        first: 4
+        second: 441b0600
+      data:
+        first: 23
+        second: 24192300
+      data:
+        first: 33
+        second: 645b3200
+    Box69:
+      data:
+        first: 1
+        second: 62870100
+      data:
+        first: 4
+        second: 421b0600
+      data:
+        first: 23
+        second: 22192300
+      data:
+        first: 33
+        second: 625b3200
+    Box70:
+      data:
+        first: 1
+        second: 5e870100
+      data:
+        first: 4
+        second: 3e1b0600
+      data:
+        first: 23
+        second: 1e192300
+      data:
+        first: 33
+        second: 5e5b3200
+    Box71:
+      data:
+        first: 1
+        second: 5c870100
+      data:
+        first: 4
+        second: 3c1b0600
+      data:
+        first: 23
+        second: 1c192300
+      data:
+        first: 33
+        second: 5c5b3200
+    Box72:
+      data:
+        first: 1
+        second: 56870100
+      data:
+        first: 4
+        second: 361b0600
+      data:
+        first: 23
+        second: 16192300
+      data:
+        first: 33
+        second: 565b3200
+    Box73:
+      data:
+        first: 1
+        second: 54870100
+      data:
+        first: 4
+        second: 341b0600
+      data:
+        first: 23
+        second: 14192300
+      data:
+        first: 33
+        second: 545b3200
+    Box74:
+      data:
+        first: 1
+        second: 46870100
+      data:
+        first: 4
+        second: 261b0600
+      data:
+        first: 23
+        second: 06192300
+      data:
+        first: 33
+        second: 465b3200
+    Box75:
+      data:
+        first: 1
+        second: 44870100
+      data:
+        first: 4
+        second: 241b0600
+      data:
+        first: 23
+        second: 04192300
+      data:
+        first: 33
+        second: 445b3200
+    Box76:
+      data:
+        first: 1
+        second: 40870100
+      data:
+        first: 4
+        second: 201b0600
+      data:
+        first: 23
+        second: 00192300
+      data:
+        first: 33
+        second: 405b3200
+    Box77:
+      data:
+        first: 1
+        second: 3e870100
+      data:
+        first: 4
+        second: 1e1b0600
+      data:
+        first: 23
+        second: fe182300
+      data:
+        first: 33
+        second: 3e5b3200
+    Box78:
+      data:
+        first: 1
+        second: 38870100
+      data:
+        first: 4
+        second: 181b0600
+      data:
+        first: 23
+        second: f8182300
+      data:
+        first: 33
+        second: 385b3200
+    Box79:
+      data:
+        first: 1
+        second: 36870100
+      data:
+        first: 4
+        second: 161b0600
+      data:
+        first: 23
+        second: f6182300
+      data:
+        first: 33
+        second: 365b3200
+    Gengon01:
+      data:
+        first: 1
+        second: a4860100
+      data:
+        first: 4
+        second: 841a0600
+      data:
+        first: 23
+        second: 64182300
+      data:
+        first: 33
+        second: a45a3200
+    Group01:
+      data:
+        first: 1
+        second: e4870100
+      data:
+        first: 4
+        second: c41b0600
+    Layer:2D-0:
+      data:
+        first: 1
+        second: 42880100
+      data:
+        first: 4
+        second: 221c0600
+      data:
+        first: 23
+        second: 001a2300
+      data:
+        first: 33
+        second: 405c3200
+    Layer:2D-1:
+      data:
+        first: 1
+        second: 40880100
+      data:
+        first: 4
+        second: 201c0600
+      data:
+        first: 23
+        second: fe192300
+      data:
+        first: 33
+        second: 3e5c3200
+    Layer:2D-2:
+      data:
+        first: 1
+        second: 3e880100
+      data:
+        first: 4
+        second: 1e1c0600
+      data:
+        first: 23
+        second: fc192300
+      data:
+        first: 33
+        second: 3c5c3200
+    Layer:2D-3:
+      data:
+        first: 1
+        second: 2e880100
+      data:
+        first: 4
+        second: 0e1c0600
+      data:
+        first: 23
+        second: ec192300
+      data:
+        first: 33
+        second: 2c5c3200
+    Layer:2D-4:
+      data:
+        first: 1
+        second: 2c880100
+      data:
+        first: 4
+        second: 0c1c0600
+      data:
+        first: 23
+        second: ea192300
+      data:
+        first: 33
+        second: 2a5c3200
+    Layer:2D-5:
+      data:
+        first: 1
+        second: 2a880100
+      data:
+        first: 4
+        second: 0a1c0600
+      data:
+        first: 23
+        second: e8192300
+      data:
+        first: 33
+        second: 285c3200
+    Layer:2D-6:
+      data:
+        first: 1
+        second: 28880100
+      data:
+        first: 4
+        second: 081c0600
+      data:
+        first: 23
+        second: e6192300
+      data:
+        first: 33
+        second: 265c3200
+    Layer:2D-7:
+      data:
+        first: 1
+        second: 1e880100
+      data:
+        first: 4
+        second: fe1b0600
+      data:
+        first: 23
+        second: dc192300
+      data:
+        first: 33
+        second: 1c5c3200
+    Layer:2D-8:
+      data:
+        first: 1
+        second: 1c880100
+      data:
+        first: 4
+        second: fc1b0600
+      data:
+        first: 23
+        second: da192300
+      data:
+        first: 33
+        second: 1a5c3200
+    Layer:2D-9:
+      data:
+        first: 1
+        second: 1a880100
+      data:
+        first: 4
+        second: fa1b0600
+      data:
+        first: 23
+        second: d8192300
+      data:
+        first: 33
+        second: 185c3200
+    Layer:2D-_:
+      data:
+        first: 1
+        second: 44880100
+      data:
+        first: 4
+        second: 241c0600
+      data:
+        first: 23
+        second: 021a2300
+      data:
+        first: 33
+        second: 425c3200
+    Layer:2D10:
+      data:
+        first: 1
+        second: 18880100
+      data:
+        first: 4
+        second: f81b0600
+      data:
+        first: 23
+        second: d6192300
+      data:
+        first: 33
+        second: 165c3200
+    Layer:2D11:
+      data:
+        first: 1
+        second: 0e880100
+      data:
+        first: 4
+        second: ee1b0600
+      data:
+        first: 23
+        second: cc192300
+      data:
+        first: 33
+        second: 0c5c3200
+    Layer:2D12:
+      data:
+        first: 1
+        second: 0c880100
+      data:
+        first: 4
+        second: ec1b0600
+      data:
+        first: 23
+        second: ca192300
+      data:
+        first: 33
+        second: 0a5c3200
+    Layer:2D13:
+      data:
+        first: 1
+        second: 0a880100
+      data:
+        first: 4
+        second: ea1b0600
+      data:
+        first: 23
+        second: c8192300
+      data:
+        first: 33
+        second: 085c3200
+    Layer:2D14:
+      data:
+        first: 1
+        second: 08880100
+      data:
+        first: 4
+        second: e81b0600
+      data:
+        first: 23
+        second: c6192300
+      data:
+        first: 33
+        second: 065c3200
+    Layer:2D15:
+      data:
+        first: 1
+        second: fe870100
+      data:
+        first: 4
+        second: de1b0600
+      data:
+        first: 23
+        second: bc192300
+      data:
+        first: 33
+        second: fc5b3200
+    Layer:2D16:
+      data:
+        first: 1
+        second: fc870100
+      data:
+        first: 4
+        second: dc1b0600
+      data:
+        first: 23
+        second: ba192300
+      data:
+        first: 33
+        second: fa5b3200
+    Layer:2D17:
+      data:
+        first: 1
+        second: fa870100
+      data:
+        first: 4
+        second: da1b0600
+      data:
+        first: 23
+        second: b8192300
+      data:
+        first: 33
+        second: f85b3200
+    Layer:2D18:
+      data:
+        first: 1
+        second: f8870100
+      data:
+        first: 4
+        second: d81b0600
+      data:
+        first: 23
+        second: b6192300
+      data:
+        first: 33
+        second: f65b3200
+    Layer:2D19:
+      data:
+        first: 1
+        second: f2870100
+      data:
+        first: 4
+        second: d21b0600
+      data:
+        first: 23
+        second: b0192300
+      data:
+        first: 33
+        second: f05b3200
+    Layer:2D20:
+      data:
+        first: 1
+        second: f0870100
+      data:
+        first: 4
+        second: d01b0600
+      data:
+        first: 23
+        second: ae192300
+      data:
+        first: 33
+        second: ee5b3200
+    Layer:2D21:
+      data:
+        first: 1
+        second: ee870100
+      data:
+        first: 4
+        second: ce1b0600
+      data:
+        first: 23
+        second: ac192300
+      data:
+        first: 33
+        second: ec5b3200
+    Layer:2D22:
+      data:
+        first: 1
+        second: ec870100
+      data:
+        first: 4
+        second: cc1b0600
+      data:
+        first: 23
+        second: aa192300
+      data:
+        first: 33
+        second: ea5b3200
+    Line01:
+      data:
+        first: 1
+        second: de870100
+      data:
+        first: 4
+        second: be1b0600
+      data:
+        first: 23
+        second: 9e192300
+      data:
+        first: 33
+        second: de5b3200
+    Line02:
+      data:
+        first: 1
+        second: e0870100
+      data:
+        first: 4
+        second: c01b0600
+      data:
+        first: 23
+        second: a0192300
+      data:
+        first: 33
+        second: e05b3200
+    Line03:
+      data:
+        first: 1
+        second: c8870100
+      data:
+        first: 4
+        second: a81b0600
+      data:
+        first: 23
+        second: 88192300
+      data:
+        first: 33
+        second: c85b3200
+    Line100:
+      data:
+        first: 1
+        second: c6870100
+      data:
+        first: 4
+        second: a61b0600
+      data:
+        first: 23
+        second: 86192300
+      data:
+        first: 33
+        second: c65b3200
+    Line11:
+      data:
+        first: 1
+        second: 48880100
+      data:
+        first: 4
+        second: 281c0600
+      data:
+        first: 23
+        second: 061a2300
+      data:
+        first: 33
+        second: 465c3200
+    Line12:
+      data:
+        first: 1
+        second: 46880100
+      data:
+        first: 4
+        second: 261c0600
+      data:
+        first: 23
+        second: 041a2300
+      data:
+        first: 33
+        second: 445c3200
+    Line41:
+      data:
+        first: 1
+        second: 3c880100
+      data:
+        first: 4
+        second: 1c1c0600
+      data:
+        first: 23
+        second: fa192300
+      data:
+        first: 33
+        second: 3a5c3200
+    Line42:
+      data:
+        first: 1
+        second: 4c880100
+      data:
+        first: 4
+        second: 2c1c0600
+      data:
+        first: 23
+        second: 0a1a2300
+      data:
+        first: 33
+        second: 4a5c3200
+    Line43:
+      data:
+        first: 1
+        second: 4a880100
+      data:
+        first: 4
+        second: 2a1c0600
+      data:
+        first: 23
+        second: 081a2300
+      data:
+        first: 33
+        second: 485c3200
+    Line44:
+      data:
+        first: 1
+        second: cc870100
+      data:
+        first: 4
+        second: ac1b0600
+      data:
+        first: 23
+        second: 8c192300
+      data:
+        first: 33
+        second: cc5b3200
+    Line46:
+      data:
+        first: 1
+        second: d6870100
+      data:
+        first: 4
+        second: b61b0600
+      data:
+        first: 23
+        second: 96192300
+      data:
+        first: 33
+        second: d65b3200
+    Line47:
+      data:
+        first: 1
+        second: 3a880100
+      data:
+        first: 4
+        second: 1a1c0600
+      data:
+        first: 23
+        second: f8192300
+      data:
+        first: 33
+        second: 385c3200
+    Line48:
+      data:
+        first: 1
+        second: ce870100
+      data:
+        first: 4
+        second: ae1b0600
+      data:
+        first: 23
+        second: 8e192300
+      data:
+        first: 33
+        second: ce5b3200
+    Line49:
+      data:
+        first: 1
+        second: 22880100
+      data:
+        first: 4
+        second: 021c0600
+      data:
+        first: 23
+        second: e0192300
+      data:
+        first: 33
+        second: 205c3200
+    Line50:
+      data:
+        first: 1
+        second: 20880100
+      data:
+        first: 4
+        second: 001c0600
+      data:
+        first: 23
+        second: de192300
+      data:
+        first: 33
+        second: 1e5c3200
+    Line51:
+      data:
+        first: 1
+        second: a6870100
+      data:
+        first: 4
+        second: 861b0600
+      data:
+        first: 23
+        second: 66192300
+      data:
+        first: 33
+        second: a65b3200
+    Line52:
+      data:
+        first: 1
+        second: a4870100
+      data:
+        first: 4
+        second: 841b0600
+      data:
+        first: 23
+        second: 64192300
+      data:
+        first: 33
+        second: a45b3200
+    Line53:
+      data:
+        first: 1
+        second: 9c870100
+      data:
+        first: 4
+        second: 7c1b0600
+      data:
+        first: 23
+        second: 5c192300
+      data:
+        first: 33
+        second: 9c5b3200
+    Line54:
+      data:
+        first: 1
+        second: 94870100
+      data:
+        first: 4
+        second: 741b0600
+      data:
+        first: 23
+        second: 54192300
+      data:
+        first: 33
+        second: 945b3200
+    Line55:
+      data:
+        first: 1
+        second: 8c870100
+      data:
+        first: 4
+        second: 6c1b0600
+      data:
+        first: 23
+        second: 4c192300
+      data:
+        first: 33
+        second: 8c5b3200
+    Line56:
+      data:
+        first: 1
+        second: 16880100
+      data:
+        first: 4
+        second: f61b0600
+      data:
+        first: 23
+        second: d4192300
+      data:
+        first: 33
+        second: 145c3200
+    Line57:
+      data:
+        first: 1
+        second: 8a870100
+      data:
+        first: 4
+        second: 6a1b0600
+      data:
+        first: 23
+        second: 4a192300
+      data:
+        first: 33
+        second: 8a5b3200
+    Line58:
+      data:
+        first: 1
+        second: 14880100
+      data:
+        first: 4
+        second: f41b0600
+      data:
+        first: 23
+        second: d2192300
+      data:
+        first: 33
+        second: 125c3200
+    Line59:
+      data:
+        first: 1
+        second: 12880100
+      data:
+        first: 4
+        second: f21b0600
+      data:
+        first: 23
+        second: d0192300
+      data:
+        first: 33
+        second: 105c3200
+    Line60:
+      data:
+        first: 1
+        second: 10880100
+      data:
+        first: 4
+        second: f01b0600
+      data:
+        first: 23
+        second: ce192300
+      data:
+        first: 33
+        second: 0e5c3200
+    Line61:
+      data:
+        first: 1
+        second: e2870100
+      data:
+        first: 4
+        second: c21b0600
+      data:
+        first: 23
+        second: a2192300
+      data:
+        first: 33
+        second: e25b3200
+    Line62:
+      data:
+        first: 1
+        second: 86870100
+      data:
+        first: 4
+        second: 661b0600
+      data:
+        first: 23
+        second: 46192300
+      data:
+        first: 33
+        second: 865b3200
+    Line63:
+      data:
+        first: 1
+        second: 7e870100
+      data:
+        first: 4
+        second: 5e1b0600
+      data:
+        first: 23
+        second: 3e192300
+      data:
+        first: 33
+        second: 7e5b3200
+    Line64:
+      data:
+        first: 1
+        second: 76870100
+      data:
+        first: 4
+        second: 561b0600
+      data:
+        first: 23
+        second: 36192300
+      data:
+        first: 33
+        second: 765b3200
+    Line65:
+      data:
+        first: 1
+        second: 6e870100
+      data:
+        first: 4
+        second: 4e1b0600
+      data:
+        first: 23
+        second: 2e192300
+      data:
+        first: 33
+        second: 6e5b3200
+    Line66:
+      data:
+        first: 1
+        second: 06880100
+      data:
+        first: 4
+        second: e61b0600
+      data:
+        first: 23
+        second: c4192300
+      data:
+        first: 33
+        second: 045c3200
+    Line67:
+      data:
+        first: 1
+        second: 6c870100
+      data:
+        first: 4
+        second: 4c1b0600
+      data:
+        first: 23
+        second: 2c192300
+      data:
+        first: 33
+        second: 6c5b3200
+    Line68:
+      data:
+        first: 1
+        second: 04880100
+      data:
+        first: 4
+        second: e41b0600
+      data:
+        first: 23
+        second: c2192300
+      data:
+        first: 33
+        second: 025c3200
+    Line69:
+      data:
+        first: 1
+        second: 32880100
+      data:
+        first: 4
+        second: 121c0600
+      data:
+        first: 23
+        second: f0192300
+      data:
+        first: 33
+        second: 305c3200
+    Line70:
+      data:
+        first: 1
+        second: 30880100
+      data:
+        first: 4
+        second: 101c0600
+      data:
+        first: 23
+        second: ee192300
+      data:
+        first: 33
+        second: 2e5c3200
+    Line71:
+      data:
+        first: 1
+        second: c4870100
+      data:
+        first: 4
+        second: a41b0600
+      data:
+        first: 23
+        second: 84192300
+      data:
+        first: 33
+        second: c45b3200
+    Line72:
+      data:
+        first: 1
+        second: c2870100
+      data:
+        first: 4
+        second: a21b0600
+      data:
+        first: 23
+        second: 82192300
+      data:
+        first: 33
+        second: c25b3200
+    Line73:
+      data:
+        first: 1
+        second: ba870100
+      data:
+        first: 4
+        second: 9a1b0600
+      data:
+        first: 23
+        second: 7a192300
+      data:
+        first: 33
+        second: ba5b3200
+    Line74:
+      data:
+        first: 1
+        second: b2870100
+      data:
+        first: 4
+        second: 921b0600
+      data:
+        first: 23
+        second: 72192300
+      data:
+        first: 33
+        second: b25b3200
+    Line75:
+      data:
+        first: 1
+        second: aa870100
+      data:
+        first: 4
+        second: 8a1b0600
+      data:
+        first: 23
+        second: 6a192300
+      data:
+        first: 33
+        second: aa5b3200
+    Line76:
+      data:
+        first: 1
+        second: 26880100
+      data:
+        first: 4
+        second: 061c0600
+      data:
+        first: 23
+        second: e4192300
+      data:
+        first: 33
+        second: 245c3200
+    Line77:
+      data:
+        first: 1
+        second: a8870100
+      data:
+        first: 4
+        second: 881b0600
+      data:
+        first: 23
+        second: 68192300
+      data:
+        first: 33
+        second: a85b3200
+    Line78:
+      data:
+        first: 1
+        second: 24880100
+      data:
+        first: 4
+        second: 041c0600
+      data:
+        first: 23
+        second: e2192300
+      data:
+        first: 33
+        second: 225c3200
+    Line79:
+      data:
+        first: 1
+        second: 02880100
+      data:
+        first: 4
+        second: e21b0600
+      data:
+        first: 23
+        second: c0192300
+      data:
+        first: 33
+        second: 005c3200
+    Line80:
+      data:
+        first: 1
+        second: 00880100
+      data:
+        first: 4
+        second: e01b0600
+      data:
+        first: 23
+        second: be192300
+      data:
+        first: 33
+        second: fe5b3200
+    Line81:
+      data:
+        first: 1
+        second: 6a870100
+      data:
+        first: 4
+        second: 4a1b0600
+      data:
+        first: 23
+        second: 2a192300
+      data:
+        first: 33
+        second: 6a5b3200
+    Line82:
+      data:
+        first: 1
+        second: 68870100
+      data:
+        first: 4
+        second: 481b0600
+      data:
+        first: 23
+        second: 28192300
+      data:
+        first: 33
+        second: 685b3200
+    Line83:
+      data:
+        first: 1
+        second: 60870100
+      data:
+        first: 4
+        second: 401b0600
+      data:
+        first: 23
+        second: 20192300
+      data:
+        first: 33
+        second: 605b3200
+    Line84:
+      data:
+        first: 1
+        second: 58870100
+      data:
+        first: 4
+        second: 381b0600
+      data:
+        first: 23
+        second: 18192300
+      data:
+        first: 33
+        second: 585b3200
+    Line85:
+      data:
+        first: 1
+        second: 50870100
+      data:
+        first: 4
+        second: 301b0600
+      data:
+        first: 23
+        second: 10192300
+      data:
+        first: 33
+        second: 505b3200
+    Line86:
+      data:
+        first: 1
+        second: f6870100
+      data:
+        first: 4
+        second: d61b0600
+      data:
+        first: 23
+        second: b4192300
+      data:
+        first: 33
+        second: f45b3200
+    Line87:
+      data:
+        first: 1
+        second: 4e870100
+      data:
+        first: 4
+        second: 2e1b0600
+      data:
+        first: 23
+        second: 0e192300
+      data:
+        first: 33
+        second: 4e5b3200
+    Line88:
+      data:
+        first: 1
+        second: f4870100
+      data:
+        first: 4
+        second: d41b0600
+      data:
+        first: 23
+        second: b2192300
+      data:
+        first: 33
+        second: f25b3200
+    Line91:
+      data:
+        first: 1
+        second: 4c870100
+      data:
+        first: 4
+        second: 2c1b0600
+      data:
+        first: 23
+        second: 0c192300
+      data:
+        first: 33
+        second: 4c5b3200
+    Line92:
+      data:
+        first: 1
+        second: 4a870100
+      data:
+        first: 4
+        second: 2a1b0600
+      data:
+        first: 23
+        second: 0a192300
+      data:
+        first: 33
+        second: 4a5b3200
+    Line93:
+      data:
+        first: 1
+        second: 42870100
+      data:
+        first: 4
+        second: 221b0600
+      data:
+        first: 23
+        second: 02192300
+      data:
+        first: 33
+        second: 425b3200
+    Line94:
+      data:
+        first: 1
+        second: 3a870100
+      data:
+        first: 4
+        second: 1a1b0600
+      data:
+        first: 23
+        second: fa182300
+      data:
+        first: 33
+        second: 3a5b3200
+    Line95:
+      data:
+        first: 1
+        second: 32870100
+      data:
+        first: 4
+        second: 121b0600
+      data:
+        first: 23
+        second: f2182300
+      data:
+        first: 33
+        second: 325b3200
+    Line96:
+      data:
+        first: 1
+        second: ea870100
+      data:
+        first: 4
+        second: ca1b0600
+      data:
+        first: 23
+        second: a8192300
+      data:
+        first: 33
+        second: e85b3200
+    Line97:
+      data:
+        first: 1
+        second: 88870100
+      data:
+        first: 4
+        second: 681b0600
+      data:
+        first: 23
+        second: 48192300
+      data:
+        first: 33
+        second: 885b3200
+    Line98:
+      data:
+        first: 1
+        second: e8870100
+      data:
+        first: 4
+        second: c81b0600
+      data:
+        first: 23
+        second: a6192300
+      data:
+        first: 33
+        second: e65b3200
+    Line99:
+      data:
+        first: 1
+        second: ca870100
+      data:
+        first: 4
+        second: aa1b0600
+      data:
+        first: 23
+        second: 8a192300
+      data:
+        first: 33
+        second: ca5b3200
+    Loft01:
+      data:
+        first: 1
+        second: a6860100
+      data:
+        first: 4
+        second: 861a0600
+      data:
+        first: 23
+        second: 66182300
+      data:
+        first: 33
+        second: a65a3200
+    NGon01:
+      data:
+        first: 1
+        second: 4e880100
+      data:
+        first: 4
+        second: 2e1c0600
+      data:
+        first: 23
+        second: 0c1a2300
+      data:
+        first: 33
+        second: 4c5c3200
+    NGon02:
+      data:
+        first: 1
+        second: e6870100
+      data:
+        first: 4
+        second: c61b0600
+      data:
+        first: 23
+        second: a4192300
+      data:
+        first: 33
+        second: e45b3200
+    Tube01:
+      data:
+        first: 1
+        second: a2860100
+      data:
+        first: 4
+        second: 821a0600
+      data:
+        first: 23
+        second: 62182300
+      data:
+        first: 33
+        second: a25a3200
+    Tube02:
+      data:
+        first: 1
+        second: a0860100
+      data:
+        first: 4
+        second: 801a0600
+      data:
+        first: 23
+        second: 60182300
+      data:
+        first: 33
+        second: a05a3200
+    Tube19:
+      data:
+        first: 1
+        second: dc870100
+      data:
+        first: 4
+        second: bc1b0600
+      data:
+        first: 23
+        second: 9c192300
+      data:
+        first: 33
+        second: dc5b3200
+    Tube21:
+      data:
+        first: 1
+        second: d0870100
+      data:
+        first: 4
+        second: b01b0600
+      data:
+        first: 23
+        second: 90192300
+      data:
+        first: 33
+        second: d05b3200
+    Tube22:
+      data:
+        first: 1
+        second: a2870100
+      data:
+        first: 4
+        second: 821b0600
+      data:
+        first: 23
+        second: 62192300
+      data:
+        first: 33
+        second: a25b3200
+    Tube23:
+      data:
+        first: 1
+        second: 96870100
+      data:
+        first: 4
+        second: 761b0600
+      data:
+        first: 23
+        second: 56192300
+      data:
+        first: 33
+        second: 965b3200
+    Tube24:
+      data:
+        first: 1
+        second: 8e870100
+      data:
+        first: 4
+        second: 6e1b0600
+      data:
+        first: 23
+        second: 4e192300
+      data:
+        first: 33
+        second: 8e5b3200
+    Tube25:
+      data:
+        first: 1
+        second: 84870100
+      data:
+        first: 4
+        second: 641b0600
+      data:
+        first: 23
+        second: 44192300
+      data:
+        first: 33
+        second: 845b3200
+    Tube26:
+      data:
+        first: 1
+        second: 78870100
+      data:
+        first: 4
+        second: 581b0600
+      data:
+        first: 23
+        second: 38192300
+      data:
+        first: 33
+        second: 785b3200
+    Tube27:
+      data:
+        first: 1
+        second: 70870100
+      data:
+        first: 4
+        second: 501b0600
+      data:
+        first: 23
+        second: 30192300
+      data:
+        first: 33
+        second: 705b3200
+    Tube28:
+      data:
+        first: 1
+        second: c0870100
+      data:
+        first: 4
+        second: a01b0600
+      data:
+        first: 23
+        second: 80192300
+      data:
+        first: 33
+        second: c05b3200
+    Tube29:
+      data:
+        first: 1
+        second: b4870100
+      data:
+        first: 4
+        second: 941b0600
+      data:
+        first: 23
+        second: 74192300
+      data:
+        first: 33
+        second: b45b3200
+    Tube30:
+      data:
+        first: 1
+        second: ac870100
+      data:
+        first: 4
+        second: 8c1b0600
+      data:
+        first: 23
+        second: 6c192300
+      data:
+        first: 33
+        second: ac5b3200
+    Tube31:
+      data:
+        first: 1
+        second: 66870100
+      data:
+        first: 4
+        second: 461b0600
+      data:
+        first: 23
+        second: 26192300
+      data:
+        first: 33
+        second: 665b3200
+    Tube32:
+      data:
+        first: 1
+        second: 5a870100
+      data:
+        first: 4
+        second: 3a1b0600
+      data:
+        first: 23
+        second: 1a192300
+      data:
+        first: 33
+        second: 5a5b3200
+    Tube33:
+      data:
+        first: 1
+        second: 52870100
+      data:
+        first: 4
+        second: 321b0600
+      data:
+        first: 23
+        second: 12192300
+      data:
+        first: 33
+        second: 525b3200
+    Tube34:
+      data:
+        first: 1
+        second: 48870100
+      data:
+        first: 4
+        second: 281b0600
+      data:
+        first: 23
+        second: 08192300
+      data:
+        first: 33
+        second: 485b3200
+    Tube35:
+      data:
+        first: 1
+        second: 3c870100
+      data:
+        first: 4
+        second: 1c1b0600
+      data:
+        first: 23
+        second: fc182300
+      data:
+        first: 33
+        second: 3c5b3200
+    Tube36:
+      data:
+        first: 1
+        second: 34870100
+      data:
+        first: 4
+        second: 141b0600
+      data:
+        first: 23
+        second: f4182300
+      data:
+        first: 33
+        second: 345b3200
+    obj_01:
+      data:
+        first: 1
+        second: fe860100
+      data:
+        first: 4
+        second: de1a0600
+      data:
+        first: 23
+        second: be182300
+      data:
+        first: 33
+        second: fe5a3200
+    obj_02:
+      data:
+        first: 1
+        second: fc860100
+      data:
+        first: 4
+        second: dc1a0600
+      data:
+        first: 23
+        second: bc182300
+      data:
+        first: 33
+        second: fc5a3200
+    obj_03:
+      data:
+        first: 1
+        second: e8860100
+      data:
+        first: 4
+        second: c81a0600
+      data:
+        first: 23
+        second: a8182300
+      data:
+        first: 33
+        second: e85a3200
+    obj_04:
+      data:
+        first: 1
+        second: f8860100
+      data:
+        first: 4
+        second: d81a0600
+      data:
+        first: 23
+        second: b8182300
+      data:
+        first: 33
+        second: f85a3200
+    obj_05:
+      data:
+        first: 1
+        second: f6860100
+      data:
+        first: 4
+        second: d61a0600
+      data:
+        first: 23
+        second: b6182300
+      data:
+        first: 33
+        second: f65a3200
+    obj_06:
+      data:
+        first: 1
+        second: f4860100
+      data:
+        first: 4
+        second: d41a0600
+      data:
+        first: 23
+        second: b4182300
+      data:
+        first: 33
+        second: f45a3200
+    obj_07:
+      data:
+        first: 1
+        second: f2860100
+      data:
+        first: 4
+        second: d21a0600
+      data:
+        first: 23
+        second: b2182300
+      data:
+        first: 33
+        second: f25a3200
+    obj_08:
+      data:
+        first: 1
+        second: f0860100
+      data:
+        first: 4
+        second: d01a0600
+      data:
+        first: 23
+        second: b0182300
+      data:
+        first: 33
+        second: f05a3200
+    obj_09:
+      data:
+        first: 1
+        second: ee860100
+      data:
+        first: 4
+        second: ce1a0600
+      data:
+        first: 23
+        second: ae182300
+      data:
+        first: 33
+        second: ee5a3200
+    obj_10:
+      data:
+        first: 1
+        second: ec860100
+      data:
+        first: 4
+        second: cc1a0600
+      data:
+        first: 23
+        second: ac182300
+      data:
+        first: 33
+        second: ec5a3200
+    obj_11:
+      data:
+        first: 1
+        second: fa860100
+      data:
+        first: 4
+        second: da1a0600
+      data:
+        first: 23
+        second: ba182300
+      data:
+        first: 33
+        second: fa5a3200
+    obj_12:
+      data:
+        first: 1
+        second: ea860100
+      data:
+        first: 4
+        second: ca1a0600
+      data:
+        first: 23
+        second: aa182300
+      data:
+        first: 33
+        second: ea5a3200
+    obj_13:
+      data:
+        first: 1
+        second: e6860100
+      data:
+        first: 4
+        second: c61a0600
+      data:
+        first: 23
+        second: a6182300
+      data:
+        first: 33
+        second: e65a3200
+    obj_14:
+      data:
+        first: 1
+        second: e4860100
+      data:
+        first: 4
+        second: c41a0600
+      data:
+        first: 23
+        second: a4182300
+      data:
+        first: 33
+        second: e45a3200
+    obj_15:
+      data:
+        first: 1
+        second: d0860100
+      data:
+        first: 4
+        second: b01a0600
+      data:
+        first: 23
+        second: 90182300
+      data:
+        first: 33
+        second: d05a3200
+    obj_16:
+      data:
+        first: 1
+        second: e0860100
+      data:
+        first: 4
+        second: c01a0600
+      data:
+        first: 23
+        second: a0182300
+      data:
+        first: 33
+        second: e05a3200
+    obj_17:
+      data:
+        first: 1
+        second: de860100
+      data:
+        first: 4
+        second: be1a0600
+      data:
+        first: 23
+        second: 9e182300
+      data:
+        first: 33
+        second: de5a3200
+    obj_18:
+      data:
+        first: 1
+        second: dc860100
+      data:
+        first: 4
+        second: bc1a0600
+      data:
+        first: 23
+        second: 9c182300
+      data:
+        first: 33
+        second: dc5a3200
+    obj_19:
+      data:
+        first: 1
+        second: da860100
+      data:
+        first: 4
+        second: ba1a0600
+      data:
+        first: 23
+        second: 9a182300
+      data:
+        first: 33
+        second: da5a3200
+    obj_20:
+      data:
+        first: 1
+        second: d8860100
+      data:
+        first: 4
+        second: b81a0600
+      data:
+        first: 23
+        second: 98182300
+      data:
+        first: 33
+        second: d85a3200
+    obj_21:
+      data:
+        first: 1
+        second: d6860100
+      data:
+        first: 4
+        second: b61a0600
+      data:
+        first: 23
+        second: 96182300
+      data:
+        first: 33
+        second: d65a3200
+    obj_22:
+      data:
+        first: 1
+        second: d4860100
+      data:
+        first: 4
+        second: b41a0600
+      data:
+        first: 23
+        second: 94182300
+      data:
+        first: 33
+        second: d45a3200
+    obj_23:
+      data:
+        first: 1
+        second: e2860100
+      data:
+        first: 4
+        second: c21a0600
+      data:
+        first: 23
+        second: a2182300
+      data:
+        first: 33
+        second: e25a3200
+    obj_24:
+      data:
+        first: 1
+        second: d2860100
+      data:
+        first: 4
+        second: b21a0600
+      data:
+        first: 23
+        second: 92182300
+      data:
+        first: 33
+        second: d25a3200
+    obj_25:
+      data:
+        first: 1
+        second: 2e870100
+      data:
+        first: 4
+        second: 0e1b0600
+      data:
+        first: 23
+        second: ee182300
+      data:
+        first: 33
+        second: 2e5b3200
+    obj_26:
+      data:
+        first: 1
+        second: 2c870100
+      data:
+        first: 4
+        second: 0c1b0600
+      data:
+        first: 23
+        second: ec182300
+      data:
+        first: 33
+        second: 2c5b3200
+    obj_27:
+      data:
+        first: 1
+        second: 2a870100
+      data:
+        first: 4
+        second: 0a1b0600
+      data:
+        first: 23
+        second: ea182300
+      data:
+        first: 33
+        second: 2a5b3200
+    obj_28:
+      data:
+        first: 1
+        second: 28870100
+      data:
+        first: 4
+        second: 081b0600
+      data:
+        first: 23
+        second: e8182300
+      data:
+        first: 33
+        second: 285b3200
+    obj_29:
+      data:
+        first: 1
+        second: 26870100
+      data:
+        first: 4
+        second: 061b0600
+      data:
+        first: 23
+        second: e6182300
+      data:
+        first: 33
+        second: 265b3200
+    obj_30:
+      data:
+        first: 1
+        second: 24870100
+      data:
+        first: 4
+        second: 041b0600
+      data:
+        first: 23
+        second: e4182300
+      data:
+        first: 33
+        second: 245b3200
+    obj_31:
+      data:
+        first: 1
+        second: 22870100
+      data:
+        first: 4
+        second: 021b0600
+      data:
+        first: 23
+        second: e2182300
+      data:
+        first: 33
+        second: 225b3200
+    obj_32:
+      data:
+        first: 1
+        second: 20870100
+      data:
+        first: 4
+        second: 001b0600
+      data:
+        first: 23
+        second: e0182300
+      data:
+        first: 33
+        second: 205b3200
+    obj_33:
+      data:
+        first: 1
+        second: 1e870100
+      data:
+        first: 4
+        second: fe1a0600
+      data:
+        first: 23
+        second: de182300
+      data:
+        first: 33
+        second: 1e5b3200
+    obj_34:
+      data:
+        first: 1
+        second: 1c870100
+      data:
+        first: 4
+        second: fc1a0600
+      data:
+        first: 23
+        second: dc182300
+      data:
+        first: 33
+        second: 1c5b3200
+    obj_35:
+      data:
+        first: 1
+        second: 1a870100
+      data:
+        first: 4
+        second: fa1a0600
+      data:
+        first: 23
+        second: da182300
+      data:
+        first: 33
+        second: 1a5b3200
+    obj_36:
+      data:
+        first: 1
+        second: 18870100
+      data:
+        first: 4
+        second: f81a0600
+      data:
+        first: 23
+        second: d8182300
+      data:
+        first: 33
+        second: 185b3200
+    obj_37:
+      data:
+        first: 1
+        second: 16870100
+      data:
+        first: 4
+        second: f61a0600
+      data:
+        first: 23
+        second: d6182300
+      data:
+        first: 33
+        second: 165b3200
+    obj_38:
+      data:
+        first: 1
+        second: 14870100
+      data:
+        first: 4
+        second: f41a0600
+      data:
+        first: 23
+        second: d4182300
+      data:
+        first: 33
+        second: 145b3200
+    obj_39:
+      data:
+        first: 1
+        second: 12870100
+      data:
+        first: 4
+        second: f21a0600
+      data:
+        first: 23
+        second: d2182300
+      data:
+        first: 33
+        second: 125b3200
+    obj_40:
+      data:
+        first: 1
+        second: 10870100
+      data:
+        first: 4
+        second: f01a0600
+      data:
+        first: 23
+        second: d0182300
+      data:
+        first: 33
+        second: 105b3200
+    obj_41:
+      data:
+        first: 1
+        second: 0e870100
+      data:
+        first: 4
+        second: ee1a0600
+      data:
+        first: 23
+        second: ce182300
+      data:
+        first: 33
+        second: 0e5b3200
+    obj_42:
+      data:
+        first: 1
+        second: 0c870100
+      data:
+        first: 4
+        second: ec1a0600
+      data:
+        first: 23
+        second: cc182300
+      data:
+        first: 33
+        second: 0c5b3200
+    obj_43:
+      data:
+        first: 1
+        second: 0a870100
+      data:
+        first: 4
+        second: ea1a0600
+      data:
+        first: 23
+        second: ca182300
+      data:
+        first: 33
+        second: 0a5b3200
+    obj_44:
+      data:
+        first: 1
+        second: 08870100
+      data:
+        first: 4
+        second: e81a0600
+      data:
+        first: 23
+        second: c8182300
+      data:
+        first: 33
+        second: 085b3200
+    obj_45:
+      data:
+        first: 1
+        second: 06870100
+      data:
+        first: 4
+        second: e61a0600
+      data:
+        first: 23
+        second: c6182300
+      data:
+        first: 33
+        second: 065b3200
+    obj_46:
+      data:
+        first: 1
+        second: 04870100
+      data:
+        first: 4
+        second: e41a0600
+      data:
+        first: 23
+        second: c4182300
+      data:
+        first: 33
+        second: 045b3200
+    obj_47:
+      data:
+        first: 1
+        second: 02870100
+      data:
+        first: 4
+        second: e21a0600
+      data:
+        first: 23
+        second: c2182300
+      data:
+        first: 33
+        second: 025b3200
+    obj_48:
+      data:
+        first: 1
+        second: 00870100
+      data:
+        first: 4
+        second: e01a0600
+      data:
+        first: 23
+        second: c0182300
+      data:
+        first: 33
+        second: 005b3200
+    obj_49:
+      data:
+        first: 1
+        second: ce860100
+      data:
+        first: 4
+        second: ae1a0600
+      data:
+        first: 23
+        second: 8e182300
+      data:
+        first: 33
+        second: ce5a3200
+    obj_50:
+      data:
+        first: 1
+        second: cc860100
+      data:
+        first: 4
+        second: ac1a0600
+      data:
+        first: 23
+        second: 8c182300
+      data:
+        first: 33
+        second: cc5a3200
+    obj_51:
+      data:
+        first: 1
+        second: ca860100
+      data:
+        first: 4
+        second: aa1a0600
+      data:
+        first: 23
+        second: 8a182300
+      data:
+        first: 33
+        second: ca5a3200
+    obj_52:
+      data:
+        first: 1
+        second: c8860100
+      data:
+        first: 4
+        second: a81a0600
+      data:
+        first: 23
+        second: 88182300
+      data:
+        first: 33
+        second: c85a3200
+    obj_53:
+      data:
+        first: 1
+        second: c6860100
+      data:
+        first: 4
+        second: a61a0600
+      data:
+        first: 23
+        second: 86182300
+      data:
+        first: 33
+        second: c65a3200
+    obj_54:
+      data:
+        first: 1
+        second: c4860100
+      data:
+        first: 4
+        second: a41a0600
+      data:
+        first: 23
+        second: 84182300
+      data:
+        first: 33
+        second: c45a3200
+    obj_55:
+      data:
+        first: 1
+        second: c2860100
+      data:
+        first: 4
+        second: a21a0600
+      data:
+        first: 23
+        second: 82182300
+      data:
+        first: 33
+        second: c25a3200
+    obj_56:
+      data:
+        first: 1
+        second: c0860100
+      data:
+        first: 4
+        second: a01a0600
+      data:
+        first: 23
+        second: 80182300
+      data:
+        first: 33
+        second: c05a3200
+    obj_57:
+      data:
+        first: 1
+        second: be860100
+      data:
+        first: 4
+        second: 9e1a0600
+      data:
+        first: 23
+        second: 7e182300
+      data:
+        first: 33
+        second: be5a3200
+    obj_58:
+      data:
+        first: 1
+        second: bc860100
+      data:
+        first: 4
+        second: 9c1a0600
+      data:
+        first: 23
+        second: 7c182300
+      data:
+        first: 33
+        second: bc5a3200
+    obj_59:
+      data:
+        first: 1
+        second: ba860100
+      data:
+        first: 4
+        second: 9a1a0600
+      data:
+        first: 23
+        second: 7a182300
+      data:
+        first: 33
+        second: ba5a3200
+    obj_60:
+      data:
+        first: 1
+        second: b8860100
+      data:
+        first: 4
+        second: 981a0600
+      data:
+        first: 23
+        second: 78182300
+      data:
+        first: 33
+        second: b85a3200
+    obj_61:
+      data:
+        first: 1
+        second: b6860100
+      data:
+        first: 4
+        second: 961a0600
+      data:
+        first: 23
+        second: 76182300
+      data:
+        first: 33
+        second: b65a3200
+    obj_62:
+      data:
+        first: 1
+        second: b4860100
+      data:
+        first: 4
+        second: 941a0600
+      data:
+        first: 23
+        second: 74182300
+      data:
+        first: 33
+        second: b45a3200
+    obj_63:
+      data:
+        first: 1
+        second: b2860100
+      data:
+        first: 4
+        second: 921a0600
+      data:
+        first: 23
+        second: 72182300
+      data:
+        first: 33
+        second: b25a3200
+    obj_64:
+      data:
+        first: 1
+        second: b0860100
+      data:
+        first: 4
+        second: 901a0600
+      data:
+        first: 23
+        second: 70182300
+      data:
+        first: 33
+        second: b05a3200
+    obj_65:
+      data:
+        first: 1
+        second: ae860100
+      data:
+        first: 4
+        second: 8e1a0600
+      data:
+        first: 23
+        second: 6e182300
+      data:
+        first: 33
+        second: ae5a3200
+    obj_66:
+      data:
+        first: 1
+        second: ac860100
+      data:
+        first: 4
+        second: 8c1a0600
+      data:
+        first: 23
+        second: 6c182300
+      data:
+        first: 33
+        second: ac5a3200
+    obj_67:
+      data:
+        first: 1
+        second: aa860100
+      data:
+        first: 4
+        second: 8a1a0600
+      data:
+        first: 23
+        second: 6a182300
+      data:
+        first: 33
+        second: aa5a3200
+    obj_68:
+      data:
+        first: 1
+        second: 30870100
+      data:
+        first: 4
+        second: 101b0600
+      data:
+        first: 23
+        second: f0182300
+      data:
+        first: 33
+        second: 305b3200
+    obj_69:
+      data:
+        first: 1
+        second: 34880100
+      data:
+        first: 4
+        second: 141c0600
+      data:
+        first: 23
+        second: f2192300
+      data:
+        first: 33
+        second: 325c3200
+    obj_70:
+      data:
+        first: 1
+        second: 36880100
+      data:
+        first: 4
+        second: 161c0600
+      data:
+        first: 23
+        second: f4192300
+      data:
+        first: 33
+        second: 345c3200
+    obj_71:
+      data:
+        first: 1
+        second: 38880100
+      data:
+        first: 4
+        second: 181c0600
+      data:
+        first: 23
+        second: f6192300
+      data:
+        first: 33
+        second: 365c3200
+    obj_72:
+      data:
+        first: 1
+        second: a8860100
+      data:
+        first: 4
+        second: 881a0600
+      data:
+        first: 23
+        second: 68182300
+      data:
+        first: 33
+        second: a85a3200
