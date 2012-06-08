@@ -51,8 +51,8 @@ public class LoginForms : MonoBehaviour {
 		return null;
     }
 	
+	
 	public static IEnumerator signUp(string email, string username, string password){
-		print("signing up...");
 		
 //	   	var url = "https://api.parse.com/1/users";
 //		var request = new HTTP.Request("POST", url);
@@ -85,6 +85,7 @@ public class LoginForms : MonoBehaviour {
 		user.Set("username", username);
 		user.Set("password", password);
 		user.Set("email", email);
+		user.Set("maxStageReached", 0);
 		user.Create();		
 		Debug.Log("Creating user...");
 		while(!user.isDone) yield return null;
@@ -96,10 +97,11 @@ public class LoginForms : MonoBehaviour {
 			MainMenuVik.userTally = false;
 		}
 		else{
-			print("No error");
+			print("User created successfully!");
 			MainMenuVik.userTally = true;
 		}
 	}
+	
 	
 	public static IEnumerator login(string username, string password){
 		print("Logging in...");
@@ -114,7 +116,17 @@ public class LoginForms : MonoBehaviour {
 		else{
 			Debug.Log("Max level reached = " + user.Get<int>("maxStageReached"));
 			MainMenuVik.userTally = true;
+			MainMenuVik.maxLevelData = user.Get<int>("maxStageReached");
 		}		
 	}
 	
+	public static IEnumerator getData(string username, string password, string data){
+		print("Retrieving data...");
+		
+		var user = ParseClass.Authenticate(username, password);
+		while(!user.isDone) yield return null;
+		Debug.Log(user.Get<string>(data));
+		
+		//yield return user.Get<string>(data);
+	}
 }

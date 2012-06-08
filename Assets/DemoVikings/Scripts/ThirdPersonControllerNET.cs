@@ -6,7 +6,6 @@ enum GravityGunState { Free, Catch, Occupied, Charge, Release};
 public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
-	private bool hasSpawned = false;
 	
 	private int level_number=0;
 	public Rigidbody target;
@@ -78,17 +77,19 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 			target = GetComponent<Rigidbody> ();
 		}
+		
+		
 	}
 	
 	void Awake(){
-	DontDestroyOnLoad(this);	
+		DontDestroyOnLoad(this);	
+		
+	
 	}
 	void Start ()
 	// Verify setup, configure rigidbody
 	{
 		Setup ();
-		
-			// Retry setup if references were cleared post-add
 		
 		if (target == null)
 		{
@@ -107,7 +108,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	// Handle rotation here to ensure smooth application.
 	{
         if (isRemotePlayer) return;
-
+		
+		
 		float rotationAmount;
 		
 		
