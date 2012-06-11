@@ -12,10 +12,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	public int blockammo;
 	public int plankammo;
 	private GravityGunState gravityGunState =0;
+	
+	public float triggerHoldRange = 2.0f;
 	public float holdDistance = 1.0f;
+	
 	private Rigidbody rigid;
 		// The object we're steering
-	public float speed = 1.0f, jumpforwardspeed = 2.5f, walkSpeedDownscale = 1.0f, 
+	public float speed = 1.5f, jumpforwardspeed = 2.5f, walkSpeedDownscale = 1.0f, 
 	jumpSpeedDownScale = 3.0f,
 	turnSpeed = 2.0f, mouseTurnSpeed = 0.9f, jumpSpeed = 1.0f;
 		// Tweak to ajust character responsiveness
@@ -39,7 +42,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		groundDrag = 5.0f,
 		directionalJumpFactor = 0.7f;
 		// Tweak these to adjust behaviour relative to speed
-	private const float groundedDistance = 0.5f;
+	private const float groundedDistance = 0.2f;
 		// Tweak if character lands too soon or gets stuck "in air" often
 		
 	
@@ -83,8 +86,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	
 	void Awake(){
 		DontDestroyOnLoad(this);	
-		
-	
 	}
 	void Start ()
 	// Verify setup, configure rigidbody
@@ -116,19 +117,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if(target.name.Contains("Builder"))
 			{
 				if (Input.GetKeyUp("r")){
-				if(blockammo>0){
+					if(blockammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
-						PhotonNetwork.Instantiate("pBlock",transform.position+transform.forward,transform.rotation,0);
-				
-				blockammo--;
+						PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
+					
+						blockammo--;
 					}
 				}
 				if (Input.GetKeyUp("t")){
-				if(plankammo>0){
-					Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
-						PhotonNetwork.Instantiate("pPlatform",transform.position+transform.forward,transform.rotation,0);
-				
-				plankammo--;
+					
+					if(plankammo>0){
+						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
+						PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z, transform.rotation, 0);
+					
+						plankammo--;
 						}
 					}
 				
@@ -141,9 +143,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 					    if(Input.GetKey("t")) 
 						{
+									float range = target.transform.localScale.z * triggerHoldRange;
+					
 					                RaycastHit hit;
 									LayerMask layerMask = -1;
-					                if(Physics.Raycast(transform.position, transform.forward-transform.up,out hit, 50.0f, layerMask)) 
+					                if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
 									{
 					                    if(hit.rigidbody) 
 										{
@@ -151,8 +155,29 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 										
 					                  //      rigid.isKinematic = true;
 											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-											if (rigid.name.Contains("pPlatform") ||
-												rigid.name.Contains("pBlock"))
+											if (rigid.name.Contains("pBlock"))
+											{
+					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
+												{
+													Debug.Log("this?");
+													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
+												}
+												gravityGunState = GravityGunState.Catch;
+											}
+											else
+					                       		rigid = null;
+					                    }
+					                }
+					
+									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
+									{
+					                    if(hit.rigidbody) 
+										{
+					                        rigid = hit.rigidbody;
+										
+					                  //      rigid.isKinematic = true;
+											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
+											if (rigid.name.Contains("pPlatform"))
 											{
 					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
 												{
@@ -169,6 +194,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				}
 				else if(gravityGunState == GravityGunState.Catch) 
 				{
+						holdDistance =  transform.localScale.z + rigid.transform.localScale.z;
+				
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
 					    if(!Input.GetKey("t"))
@@ -313,7 +340,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 
 		
 		grounded = isFourPointGrounded ();
-
+		print (grounded);
       	if (isRemotePlayer) return;
 		
 	
@@ -324,7 +351,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			
 			if (Input.GetButtonDown ("Jump") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
 			// Handle jumping
-			{
+			{	
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
 				print("sending analytics");
 				target.AddForce (
