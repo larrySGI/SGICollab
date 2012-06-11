@@ -80,12 +80,7 @@ public class ThirdPersonControllerEditor : PropertyEditor
 			EndSection ();
 			
 			WideComment ("This component uses more input than is included in the default input setup:\n\n - An extra axis named \"Sidestep\" - a straight copy of the \"Horizontal\" input axis - mapped to Q (negative) and E (positive).\n\n - An extra button named \"ToggleWalk\" - same setup as the \"Jump\" button, by default mapped to \"+\" (positive).");
-					
-			BeginSection ("Builder Only");
-				PropertyField ("blockammo", blockammoProperty);
-				PropertyField ("plankammo", plankammoProperty);
-			EndSection ();
-		
+							
 			BeginSection ("Mover Only");
 				PropertyField ("triggerHoldRange", triggerHoldRangeProperty);
 				PropertyField ("holdDistance", holdDistanceProperty);

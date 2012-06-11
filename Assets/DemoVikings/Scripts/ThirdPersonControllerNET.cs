@@ -9,8 +9,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	
 	private int level_number=0;
 	public Rigidbody target;
-	public int blockammo;
-	public int plankammo;
+	public static int blockammo;
+	public static int plankammo;
 	private GravityGunState gravityGunState =0;
 	
 	public float triggerHoldRange = 2.0f;
@@ -74,7 +74,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void Setup ()
 	// If target is not set, try using fallbacks
 	{
-		blockammo =1 ;
+		blockammo = 1;
 		plankammo = 5;
 		if (target == null)
 		{
@@ -119,7 +119,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				if (Input.GetKeyUp("r")){
 					if(blockammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
-						PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
+						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
+						builtBlock.tag = "BlockTrigger";
 					
 						blockammo--;
 					}
@@ -128,7 +129,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
-						PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z, transform.rotation, 0);
+						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z, transform.rotation, 0);
+						builtPlatform.tag = "PlatformTrigger";
 					
 						plankammo--;
 						}
@@ -340,7 +342,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 
 		
 		grounded = isFourPointGrounded ();
-		print (grounded);
+		//print (grounded);
       	if (isRemotePlayer) return;
 		
 	
