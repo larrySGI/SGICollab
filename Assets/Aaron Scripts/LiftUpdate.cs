@@ -10,7 +10,7 @@ using System.Collections;
 
 public class LiftUpdate : Photon.MonoBehaviour {
 	
-	public Texture viewerTexture;
+//	public Texture viewerTexture;
 	private GameManagerVik manager;
 	
 	// Use this for initialization
@@ -25,7 +25,7 @@ public class LiftUpdate : Photon.MonoBehaviour {
 	void Update () 
 	{
 
-		
+		/*
 	
 		
 		if(manager.selectedClass == "Viewer")
@@ -33,7 +33,7 @@ public class LiftUpdate : Photon.MonoBehaviour {
 	
 			this.renderer.material.mainTexture = viewerTexture;
 		}
-		
+		*/
 	}
 	/*
 	void FixedUpdate()
