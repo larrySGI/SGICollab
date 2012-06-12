@@ -24,16 +24,6 @@ public class LiftUpdate : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-
-		/*
-	
-		
-		if(manager.selectedClass == "Viewer")
-		{
-	
-			this.renderer.material.mainTexture = viewerTexture;
-		}
-		*/
 	}
 	/*
 	void FixedUpdate()

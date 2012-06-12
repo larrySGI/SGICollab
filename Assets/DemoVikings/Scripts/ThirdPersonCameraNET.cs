@@ -275,7 +275,18 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		{
 			if (Input.GetKeyUp("t")	 && MoverTest.selectedClass == "Viewer")
 			{
-				
+				GameObject[] doorSwitches = GameObject.FindGameObjectsWithTag("SwitchForDoor");
+				foreach(GameObject button in doorSwitches)
+				{print ("another door found");
+					DoorTriggerScript thatScript = button.GetComponent<DoorTriggerScript>();
+					thatScript.toggleRevealColours();
+				}
+				GameObject[] liftSwitches = GameObject.FindGameObjectsWithTag("SwitchForLift");
+				foreach(GameObject button in liftSwitches)
+				{print ("another lift found");
+					triggerCsScript thatScript = button.GetComponent<triggerCsScript>();
+					thatScript.toggleRevealColours();
+				}
 				SwitchCamera();
 			}
 		}
