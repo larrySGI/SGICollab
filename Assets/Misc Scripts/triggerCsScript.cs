@@ -147,6 +147,7 @@ void FixedUpdate()
 	{
 	
 		this.renderer.material.mainTexture = viewerTexture;
+		target.renderer.material.mainTexture = viewerTexture;
 	}
 		
 		
