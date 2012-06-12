@@ -69,7 +69,15 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		{
 			if (Camera.main != null)
 			{				
-				cameras = GameObject.FindGameObjectsWithTag("MainCamera");
+				GameObject[] camtemp = GameObject.FindGameObjectsWithTag("ViewerCamera");
+				
+				cameras = new GameObject[camtemp.Length + 1];
+				cameras[cameras.Length - 1] = GameObject.Find("Main Camera");
+				
+				for (int i = 0; i < camtemp.Length; ++i)
+				{
+					cameras[i] = camtemp[i];	
+				}
 				
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
@@ -90,9 +98,19 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	
 	public void LoadCameras()
 	{
-		cameras = GameObject.FindGameObjectsWithTag("MainCamera");		
+				GameObject[] camtemp = GameObject.FindGameObjectsWithTag("ViewerCamera");
 				
-		currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
+				cameras = new GameObject[camtemp.Length + 1];
+				cameras[cameras.Length - 1] = GameObject.Find("Main Camera");
+				
+				for (int i = 0; i < camtemp.Length; ++i)
+				{
+					cameras[i] = camtemp[i];	
+				}
+				
+				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
+				
+				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
 				
 		camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
 		
