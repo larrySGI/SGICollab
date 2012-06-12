@@ -25,7 +25,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	//create levels array
 	private static int nextLevel;
-	private string[] levelNames = new string[] {"JumperTutorial",
+	public static string[] levelNames = new string[] {"JumperTutorial",
 												"Level1",
 												"Level2",
 												"Level3"};
@@ -138,10 +138,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel("ImportedScene");
+			Application.LoadLevel(nextLevel);
 
-		
-			
 			
 		}
 	
