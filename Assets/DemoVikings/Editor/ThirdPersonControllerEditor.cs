@@ -17,9 +17,6 @@ public class ThirdPersonControllerEditor : PropertyEditor
 	private SerializedProperty requireLockProperty;
 	private SerializedProperty controlLockProperty;
 	
-	private SerializedProperty blockammoProperty;
-	private SerializedProperty plankammoProperty;
-	
 	private SerializedProperty triggerHoldRangeProperty;
 	private SerializedProperty holdDistanceProperty;
 	
@@ -40,9 +37,6 @@ public class ThirdPersonControllerEditor : PropertyEditor
 		showGizmosProperty = 			serializedObject.FindProperty ("showGizmos");
 		requireLockProperty = 			serializedObject.FindProperty ("requireLock");
 		controlLockProperty = 			serializedObject.FindProperty ("controlLock");
-		
-		blockammoProperty = 			serializedObject.FindProperty ("blockammo");
-		plankammoProperty = 			serializedObject.FindProperty ("plankammo");
 		
 		triggerHoldRangeProperty = 		serializedObject.FindProperty ("triggerHoldRange");
 		holdDistanceProperty = 			serializedObject.FindProperty ("holdDistance");

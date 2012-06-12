@@ -232,7 +232,7 @@ namespace HTTP
 		{
 			isDone = false;
 			connected = false;	
-			var host = uri.Host + (uri.Port == 80 ? "" : ":" + uri.Port.ToString ());
+			//var host = uri.Host + (uri.Port == 80 ? "" : ":" + uri.Port.ToString ());
 			var req = new Request ("GET", uri.ToString ());
 			req.SetHeader ("Upgrade", "websocket");
 			req.SetHeader ("Connection", "Upgrade");

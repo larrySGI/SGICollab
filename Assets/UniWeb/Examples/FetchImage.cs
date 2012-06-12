@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class FetchImage : MonoBehaviour
 {
 	List<string> msgs = new List<string>();
-	string url = "http://www.differentmethods.com/wp-content/uploads/2011/05/react.jpg";
+	//string url = "http://www.differentmethods.com/wp-content/uploads/2011/05/react.jpg";
 
 	IEnumerator Start ()
 	{
