@@ -6,21 +6,26 @@ enum GravityGunState { Free, Catch, Occupied, Charge, Release};
 public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
-	//added a line here
+	
 	private int level_number=0;
 	public Rigidbody target;
-	public int blockammo;
-	public int plankammo;
+	public static int blockammo;
+	public static int plankammo;
 	private GravityGunState gravityGunState =0;
-	private float holdDistance = 1.0f;
+	
+	public float triggerHoldRange = 2.0f;
+	public float holdDistance = 1.0f;
+	
 	private Rigidbody rigid;
 		// The object we're steering
-	public float speed = 1.0f, walkSpeedDownscale = 1.0f, turnSpeed = 2.0f, mouseTurnSpeed = 0.9f, jumpSpeed = 1.0f;
+	public float speed = 1.5f, jumpforwardspeed = 2.5f, walkSpeedDownscale = 1.0f, 
+	jumpSpeedDownScale = 3.0f,
+	turnSpeed = 2.0f, mouseTurnSpeed = 0.9f, jumpSpeed = 1.0f;
 		// Tweak to ajust character responsiveness
 	public LayerMask groundLayers = -1;
 		// Which layers should be walkable?
 		// NOTICE: Make sure that the target collider is not in any of these layers!
-	public float groundedCheckOffset = 1.0f;
+	public float groundedCheckOffset;
 		// Tweak so check starts from just within target footing
 	public bool
 		showGizmos = true,
@@ -37,7 +42,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		groundDrag = 5.0f,
 		directionalJumpFactor = 0.7f;
 		// Tweak these to adjust behaviour relative to speed
-	private const float groundedDistance = 0.5f;
+	private const float groundedDistance = 0.2f;
 		// Tweak if character lands too soon or gets stuck "in air" often
 		
 	
@@ -69,23 +74,23 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void Setup ()
 	// If target is not set, try using fallbacks
 	{
-		blockammo =1 ;
+		blockammo = 1;
 		plankammo = 5;
 		if (target == null)
 		{
 			target = GetComponent<Rigidbody> ();
 		}
+		
+		
 	}
 	
 	void Awake(){
-	DontDestroyOnLoad(this);	
+		DontDestroyOnLoad(this);	
 	}
 	void Start ()
 	// Verify setup, configure rigidbody
 	{
 		Setup ();
-		
-			// Retry setup if references were cleared post-add
 		
 		if (target == null)
 		{
@@ -104,26 +109,30 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	// Handle rotation here to ensure smooth application.
 	{
         if (isRemotePlayer) return;
-
+		
+		
 		float rotationAmount;
 		
 		
 			if(target.name.Contains("Builder"))
 			{
 				if (Input.GetKeyUp("r")){
-				if(blockammo>0){
+					if(blockammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
-						PhotonNetwork.Instantiate("pBlock",transform.position+transform.forward,transform.rotation,0);
-				
-				blockammo--;
+						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
+						builtBlock.tag = "BlockTrigger";
+					
+						blockammo--;
 					}
 				}
 				if (Input.GetKeyUp("t")){
-				if(plankammo>0){
-					Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
-						PhotonNetwork.Instantiate("pPlatform",transform.position+transform.forward,transform.rotation,0);
-				
-				plankammo--;
+					
+					if(plankammo>0){
+						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
+						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z, transform.rotation, 0);
+						builtPlatform.tag = "PlatformTrigger";
+					
+						plankammo--;
 						}
 					}
 				
@@ -136,22 +145,59 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 					    if(Input.GetKey("t")) 
 						{
+									float range = target.transform.localScale.z * triggerHoldRange;
+					
 					                RaycastHit hit;
 									LayerMask layerMask = -1;
-					                if(Physics.Raycast(transform.position, transform.forward-transform.up,out hit, 50.0f, layerMask)) 
+					                if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
 									{
 					                    if(hit.rigidbody) 
 										{
 					                        rigid = hit.rigidbody;
-					                        rigid.isKinematic = true;
-					                        gravityGunState = GravityGunState.Catch;
-					                       
+										
+					                  //      rigid.isKinematic = true;
+											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
+											if (rigid.name.Contains("pBlock"))
+											{
+					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
+												{
+													Debug.Log("this?");
+													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
+												}
+												gravityGunState = GravityGunState.Catch;
+											}
+											else
+					                       		rigid = null;
+					                    }
+					                }
+					
+									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
+									{
+					                    if(hit.rigidbody) 
+										{
+					                        rigid = hit.rigidbody;
+										
+					                  //      rigid.isKinematic = true;
+											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
+											if (rigid.name.Contains("pPlatform"))
+											{
+					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
+												{
+													Debug.Log("this?");
+													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
+												}
+												gravityGunState = GravityGunState.Catch;
+											}
+											else
+					                       		rigid = null;
 					                    }
 					                }
 					     }
 				}
 				else if(gravityGunState == GravityGunState.Catch) 
 				{
+						holdDistance =  transform.localScale.z + rigid.transform.localScale.z;
+				
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
 					    if(!Input.GetKey("t"))
@@ -173,8 +219,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					    {
 							if(rigid.name.Contains("pPlatform"))
 								rigid.isKinematic = true;
-							else	
+							else
+							{
+								if (rigid.gameObject.GetComponent<BoxUpdate>())
+												{
+													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(false);
+												}
+
 								rigid.isKinematic = false;
+							}
 							gravityGunState = GravityGunState.Release;
 					                   
 					    }
@@ -182,7 +235,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				else if(gravityGunState == GravityGunState.Release) 
 				{
 					            
-					    gravityGunState = GravityGunState.Free;
+					   	rigid = null;
+						gravityGunState = GravityGunState.Free;
 				}
 		
 		}
@@ -285,12 +339,10 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void FixedUpdate ()
 	// Handle movement here since physics will only be calculated in fixed frames anyway
 	{
-	//	long xpos = (int)transform.position.x+21;
-//		long ypos = (int)transform.position.z-29;
-		
+
 		
 		grounded = isFourPointGrounded ();
-
+		//print (grounded);
       	if (isRemotePlayer) return;
 		
 	
@@ -299,9 +351,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			target.drag = groundDrag;
 				// Apply drag when we're grounded
 			
-			if (Input.GetButtonDown ("Jump"))
+			if (Input.GetButtonDown ("Jump") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
 			// Handle jumping
-			{
+			{	
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
 				print("sending analytics");
 				target.AddForce (
@@ -325,6 +377,38 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
 					// Scale down applied speed if in walk mode
+				
+				/*
+				if (Input.GetAxis ("Vertical") < 0.0f)
+				// Scale down applied speed if walking backwards
+				{
+					appliedSpeed /= walkSpeedDownscale;
+				}*/
+				
+				//Larry - this movement threshold thing is what's causing the viking to fall through the elevator! 
+				//if (movement.magnitude > inputThreshold)
+				// Only apply movement if we have sufficient input
+				//{
+					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
+				//}
+				//else
+				// If we are grounded and don't have significant input, just stop horizontal movement
+				//{
+			//		target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
+		//			return;
+		//		}
+			}
+		}
+		else
+		{
+			    target.drag = 0.5f;
+				// If we're airborne, we should have less drag
+			
+				Vector3 movement = Input.GetAxis ("Vertical") * target.transform.forward +
+				SidestepAxisInput * target.transform.right;
+				
+				float appliedSpeed = speed/10;
+					// Scale down applied speed if in walk mode
 				/*
 				if (Input.GetAxis ("Vertical") < 0.0f)
 				// Scale down applied speed if walking backwards
@@ -332,26 +416,33 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					appliedSpeed /= walkSpeedDownscale;
 				}*/
 
-				if (movement.magnitude > inputThreshold)
+				//if (movement.magnitude > inputThreshold)
 				// Only apply movement if we have sufficient input
-				{
+				//{
 					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
-				}
-				else
-				// If we are grounded and don't have significant input, just stop horizontal movement
-				{
-					target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
-					return;
-				}
-			}
+
+				//}
 		}
-		else
-		{
-			target.drag = 0.0f;
-				// If we're airborne, we should have no drag
-		}
+		
+		
+		
 	}
-	
+	/*
+	void OnControllerColliderHit(ControllerColliderHit hit)
+	{
+		
+		if (hit.moveDirection.y > 0.01)
+		{
+			return;
+		}
+		
+		if (hit.moveDirection.y < -0.9 && hit.normal.y > 0.9)
+		{
+			target.transform.position = new Vector3(target.transform.position.x,
+													target.transform.position.y - hit.moveDirection.y,
+													target.transform.position.z);
+		}
+	}*/
 	
 	void OnDrawGizmos ()
 	// Use gizmos to gain information about the state of your setup

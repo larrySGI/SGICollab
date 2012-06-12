@@ -17,6 +17,11 @@ public class ThirdPersonControllerEditor : PropertyEditor
 	private SerializedProperty requireLockProperty;
 	private SerializedProperty controlLockProperty;
 	
+	private SerializedProperty blockammoProperty;
+	private SerializedProperty plankammoProperty;
+	
+	private SerializedProperty triggerHoldRangeProperty;
+	private SerializedProperty holdDistanceProperty;
 	
 	private const float rotationSpeedHandleScale = 20.0f;
 		// Scales the visualization of the rotation speed handles. Reduce if you're dealing with larger rotation speeds.
@@ -35,6 +40,12 @@ public class ThirdPersonControllerEditor : PropertyEditor
 		showGizmosProperty = 			serializedObject.FindProperty ("showGizmos");
 		requireLockProperty = 			serializedObject.FindProperty ("requireLock");
 		controlLockProperty = 			serializedObject.FindProperty ("controlLock");
+		
+		blockammoProperty = 			serializedObject.FindProperty ("blockammo");
+		plankammoProperty = 			serializedObject.FindProperty ("plankammo");
+		
+		triggerHoldRangeProperty = 		serializedObject.FindProperty ("triggerHoldRange");
+		holdDistanceProperty = 			serializedObject.FindProperty ("holdDistance");
 	}
 	
 	
@@ -69,6 +80,11 @@ public class ThirdPersonControllerEditor : PropertyEditor
 			EndSection ();
 			
 			WideComment ("This component uses more input than is included in the default input setup:\n\n - An extra axis named \"Sidestep\" - a straight copy of the \"Horizontal\" input axis - mapped to Q (negative) and E (positive).\n\n - An extra button named \"ToggleWalk\" - same setup as the \"Jump\" button, by default mapped to \"+\" (positive).");
+							
+			BeginSection ("Mover Only");
+				PropertyField ("triggerHoldRange", triggerHoldRangeProperty);
+				PropertyField ("holdDistance", holdDistanceProperty);
+			EndSection ();
 		EndEdit ();
 	}
 	
@@ -122,6 +138,9 @@ public class ThirdPersonControllerEditor : PropertyEditor
 			{
 				turnSpeedProperty.floatValue = 360.0f / rotationSpeedHandleScale;
 			}
+		
+//			speedProperty.floatValue = 1.5f;
+//			turnSpeedProperty.floatValue = 2.0f;
 		EndEdit ();
 	}
 }

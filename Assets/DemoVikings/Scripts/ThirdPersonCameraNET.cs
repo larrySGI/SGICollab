@@ -74,6 +74,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
+				//LoadCameras();
 				
 				GameObject SpawnManager = GameObject.Find("Code");
 				MoverTest = SpawnManager.GetComponent<GameManagerVik>();
@@ -84,6 +85,17 @@ public class ThirdPersonCameraNET : MonoBehaviour
 				//camera = mainCam;
 			}
 		}
+	}
+	
+	
+	public void LoadCameras()
+	{
+		cameras = GameObject.FindGameObjectsWithTag("MainCamera");		
+				
+		currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
+				
+		camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
+		
 	}
 	
 	//finds a camera called "MAIN CAMERA" in the scene. This will be used to move the 
@@ -158,7 +170,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		lastStationaryPosition = target.transform.position;
 		targetDistance = optimalDistance = (camera.transform.position - target.transform.position).magnitude;
 	}
-	
 	
 	float ViewRadius
 	// The minimum clear radius between the camera and the target
