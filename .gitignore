@@ -4,3 +4,7 @@ Temp/
 *.sln
 *.csproj
 *.unityproj
+.DS_Store
+Assets/ChatLog*
+Assembly*
+*.userprefs
