@@ -135,7 +135,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	}
 	
 	
-	void SwitchCamera()
+	int SwitchCamera()
 	{
 		(cameras[currCameraIndex].GetComponent<Camera>() as Camera).enabled = false;
 		currCameraIndex++;
@@ -161,7 +161,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			newCam.enabled = false;
 		}
 		*/
-
+		return currCameraIndex;
 	}
 	
 
@@ -275,19 +275,24 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		{
 			if (Input.GetKeyUp("t")	 && MoverTest.selectedClass == "Viewer")
 			{
-				GameObject[] doorSwitches = GameObject.FindGameObjectsWithTag("SwitchForDoor");
-				foreach(GameObject button in doorSwitches)
-				{print ("another door found");
-					DoorTriggerScript thatScript = button.GetComponent<DoorTriggerScript>();
+//				GameObject[] doorSwitches = GameObject.FindGameObjectsWithTag("SwitchForDoor");
+//				foreach(GameObject button in doorSwitches)
+//				{//print ("another door found");
+//					DoorTriggerScript thatScript = button.GetComponent<DoorTriggerScript>();
+//					thatScript.toggleRevealColours();
+//				}
+//				GameObject[] liftSwitches = GameObject.FindGameObjectsWithTag("SwitchForLift");
+//				foreach(GameObject button in liftSwitches)
+//				{//print ("another lift found");
+//					triggerCsScript thatScript = button.GetComponent<triggerCsScript>();
+//					thatScript.toggleRevealColours();
+//				}
+				
+				if(SwitchCamera() == 0 || SwitchCamera() == 1){
+					GameObject doorSwitch = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thatScript = doorSwitch.GetComponent<DoorTriggerScript>();
 					thatScript.toggleRevealColours();
 				}
-				GameObject[] liftSwitches = GameObject.FindGameObjectsWithTag("SwitchForLift");
-				foreach(GameObject button in liftSwitches)
-				{print ("another lift found");
-					triggerCsScript thatScript = button.GetComponent<triggerCsScript>();
-					thatScript.toggleRevealColours();
-				}
-				SwitchCamera();
 			}
 		}
 		

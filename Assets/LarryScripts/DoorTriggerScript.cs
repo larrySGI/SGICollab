@@ -106,8 +106,9 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 					
 			
 			if(MoverTest.selectedClass == "Viewer"){
+			//print(revealColours);
 				if(revealColours == true)
-				{				
+				{			print("change!");	
 					this.renderer.material.mainTexture = viewerTexture;
 					if(door1)
 						door1.renderer.material.mainTexture = viewerTexture;
@@ -197,6 +198,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	}
 	
 		public void toggleRevealColours(){
+		print ("toggling");
 			if(revealColours)
 				revealColours = false;
 			else
