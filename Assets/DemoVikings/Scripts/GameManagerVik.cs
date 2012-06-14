@@ -21,14 +21,15 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public int playerCount = 0;
 	
-	public Texture aTexture;
+	public Texture aTexture;	
 	
+	private static int serverLevel = -1;	
 	//create levels array
-	private static int nextLevel;
-	public static string[] levelNames = new string[] {"JumperTutorial",
-												"Level1",
-												"Level2",
-												"Level3"};
+	private static int nextLevel = 1;
+//	public static string[] levelNames = new string[] {"JumperTutorial",
+//												"Level1",
+//												"Level2",
+//												"Level3"};
 	
 	
 	void Awake(){
@@ -67,13 +68,53 @@ public class GameManagerVik : Photon.MonoBehaviour
 			Application.LoadLevel("MainMenuScene");
 		}
     }
-
+			
+	[RPC]
+	void greetServer(int levelIndex, PhotonMessageInfo info){
+		print("Greeting server");
+		if(serverLevel < 0){
+			serverLevel = levelIndex;
+			print("Set server level");
+		}
+		else if(serverLevel != levelIndex){
+			photonView.RPC("syncToServerLevel", PhotonTargets.Others, serverLevel);
+			print("Level index adjusted");
+		}	
+		else if(serverLevel == levelIndex){
+			print("Level index correct");
+			print("Level index = " + levelIndex);		
+		}
+		else{
+			print ("wtf is this = " + levelIndex);
+		}
+	}
+	
+	[RPC]
+	void syncToServerLevel(int levelIndex, PhotonMessageInfo info){
+		serverLevel = levelIndex;
+		print("Synced server level");
+		
+		print("Synced server = " + serverLevel);
+	}
+	
     void StartGame(string prefabName)
-    {
-        
+    {        
+		print("BEFORE Greeted server");
+		print("BEFORE server = " + serverLevel);
+		print("BEFORE nextlevel = " + nextLevel);
+		//Sync to server's level
+		
+		photonView.RPC("greetServer", PhotonTargets.MasterClient, nextLevel);
+		
+		print("AFTER Greeted server");
+		print("AFTER server = " + serverLevel);
+//			while(nextLevel != serverLevel){
+//				print("level not synced yet");
+//			}
+		
 		Camera.main.farClipPlane = 1000; //Main menu set this to 0.4 for a nicer BG    
 
-        //prepare instantiation data for the viking: Randomly diable the axe and/or shield
+        //prepare instantiation data for the viking: Randomly disable the axe and/or shield
        
 		
 		bool[] enabledRenderers = new bool[2];
@@ -112,7 +153,6 @@ public class GameManagerVik : Photon.MonoBehaviour
 			Time.timeScale = 1;
 		else		
 			Time.timeScale=0;
-		
 	}
 	
 	void Update()
@@ -135,15 +175,16 @@ public class GameManagerVik : Photon.MonoBehaviour
 			return; //premature return on scale 0. 
 		}
 		
+		
+		
 		//replace with main menu logic kthx
 		if(Application.loadedLevelName == "MainMenuScene")
 		{
-			Application.LoadLevel(nextLevel);
-
-			
-		}
-	
-			
+			if(serverLevel > 0){
+				print("loading server level = " +serverLevel);
+				Application.LoadLevel(serverLevel);			
+			}
+		}			
 	}
 
 
