@@ -9,6 +9,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	new public Camera camera;
 	
 	public GameObject[] cameras;
+	private GameObject[] viewerCams;
 	GameManagerVik MoverTest; 
 	
 	public int defaultCameraIndex; //for a fast reset.
@@ -69,20 +70,34 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		{
 			if (Camera.main != null)
 			{				
-				GameObject[] camtemp = GameObject.FindGameObjectsWithTag("ViewerCamera");
+				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
 				
-				cameras = new GameObject[camtemp.Length + 1];
-				cameras[cameras.Length - 1] = GameObject.Find("Main Camera");
-				
-				for (int i = 0; i < camtemp.Length; ++i)
-				{
-					cameras[i] = camtemp[i];	
+				viewerCams = new GameObject[tempCams.Length];
+				int currID;
+				for(int x = 0; x < tempCams.Length; x++){
+					currID = tempCams[x].GetComponent<ViewerCamIndex>().myID;
+					viewerCams[currID - 1] = tempCams[x];
 				}
 				
+				cameras = new GameObject[viewerCams.Length + 1];
+				cameras[0] = GameObject.Find("Main Camera");
+				
+				for (int i = 0; i < viewerCams.Length; ++i)
+				{
+					cameras[i + 1] = viewerCams[i];	
+					(cameras[i + 1].GetComponent<Camera>() as Camera).enabled = false;
+				}
+//				print ("tempcams = " + tempCams.Length);
+//				print ("viewercams = " + viewerCams.Length);
+//				print ("cameras = " + cameras.Length);
+//				print ("camera4 = " + cameras[4]);
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
 				//LoadCameras();
+//				print("viewerCams = "+viewerCams.Length);
+//				print("cameras = "+cameras.Length);
+//				print("currCameraIndex = "+currCameraIndex);
 				
 				GameObject SpawnManager = GameObject.Find("Code");
 				MoverTest = SpawnManager.GetComponent<GameManagerVik>();
@@ -98,21 +113,21 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	
 	public void LoadCameras()
 	{
-				GameObject[] camtemp = GameObject.FindGameObjectsWithTag("ViewerCamera");
+				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
 				
-				cameras = new GameObject[camtemp.Length + 1];
+				cameras = new GameObject[tempCams.Length + 1];
 				cameras[cameras.Length - 1] = GameObject.Find("Main Camera");
 				
-				for (int i = 0; i < camtemp.Length; ++i)
+				for (int i = 0; i < tempCams.Length; ++i)
 				{
-					cameras[i] = camtemp[i];	
+					cameras[i] = tempCams[i];	
 				}
 				
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
-				
-		camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
+				GameObject SpawnManager = GameObject.Find("Code");
+				MoverTest = SpawnManager.GetComponent<GameManagerVik>();
 		
 	}
 	
@@ -138,14 +153,14 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	int SwitchCamera()
 	{
 		(cameras[currCameraIndex].GetComponent<Camera>() as Camera).enabled = false;
-		currCameraIndex++;
-	
+		currCameraIndex++;	
 		
 		if (currCameraIndex >= cameras.Length ) 
 			currCameraIndex = 0;
 	
-		(cameras[currCameraIndex].GetComponent<Camera>() as Camera).enabled = true;
+		//print("currCameraIndex = " + currCameraIndex);
 		
+		(cameras[currCameraIndex].GetComponent<Camera>() as Camera).enabled = true;
 		/*
 		Camera newCam = GameObject.Find("Camera2").GetComponent<Camera>();
 			
@@ -184,7 +199,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			enabled = false;
 			return;
 		}
-		
+		print (camera.name);
 		lastStationaryPosition = target.transform.position;
 		targetDistance = optimalDistance = (camera.transform.position - target.transform.position).magnitude;
 	}
@@ -269,30 +284,34 @@ public class ThirdPersonCameraNET : MonoBehaviour
 
 	void LateUpdate ()
 	// Update camera position - specifics are delegated to camera mode functions
-	{
-		
+	{		
 		if (MoverTest)
 		{
 			if (Input.GetKeyUp("t")	 && MoverTest.selectedClass == "Viewer")
 			{
 //				GameObject[] doorSwitches = GameObject.FindGameObjectsWithTag("SwitchForDoor");
 //				foreach(GameObject button in doorSwitches)
-//				{//print ("another door found");
+//				{print ("another door found");
 //					DoorTriggerScript thatScript = button.GetComponent<DoorTriggerScript>();
 //					thatScript.toggleRevealColours();
 //				}
 //				GameObject[] liftSwitches = GameObject.FindGameObjectsWithTag("SwitchForLift");
 //				foreach(GameObject button in liftSwitches)
-//				{//print ("another lift found");
+//				{print ("another lift found");
 //					triggerCsScript thatScript = button.GetComponent<triggerCsScript>();
 //					thatScript.toggleRevealColours();
 //				}
+				int curCam = SwitchCamera();
 				
-				if(SwitchCamera() == 0 || SwitchCamera() == 1){
-					GameObject doorSwitch = GameObject.FindGameObjectWithTag("SwitchForDoor");
-					DoorTriggerScript thatScript = doorSwitch.GetComponent<DoorTriggerScript>();
+				if(curCam == 0 || curCam == 1){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.toggleRevealColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
 					thatScript.toggleRevealColours();
-				}
+				}				
 			}
 		}
 		
