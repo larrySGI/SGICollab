@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class buttonToDestroy : MonoBehaviour {
+public class buttonToDestroy : Photon.MonoBehaviour {
 		
 	// Use this for initialization
 	void Start () {
@@ -18,12 +18,12 @@ public class buttonToDestroy : MonoBehaviour {
 		
 		GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
 		foreach(GameObject creation in platformsCreated){
-			Destroy(creation);
+			PhotonNetwork.Destroy (creation);//Destroy(creation);
 		}
 		
 		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
 		foreach(GameObject creation in blocksCreated){
-			Destroy(creation);
+			PhotonNetwork.Destroy(creation);
 		}
 		
 		//GameObject builder = GameObject.FindGameObjectWithTag("Builder");
