@@ -115,20 +115,26 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	{
 				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
 				
-				cameras = new GameObject[tempCams.Length + 1];
-				cameras[cameras.Length - 1] = GameObject.Find("Main Camera");
-				
-				for (int i = 0; i < tempCams.Length; ++i)
-				{
-					cameras[i] = tempCams[i];	
+				viewerCams = new GameObject[tempCams.Length];
+				int currID;
+				for(int x = 0; x < tempCams.Length; x++){
+					currID = tempCams[x].GetComponent<ViewerCamIndex>().myID;
+					viewerCams[currID - 1] = tempCams[x];
 				}
 				
+				cameras = new GameObject[viewerCams.Length + 1];
+				cameras[0] = GameObject.Find("Main Camera");
+				
+				for (int i = 0; i < viewerCams.Length; ++i)
+				{
+					cameras[i + 1] = viewerCams[i];	
+					(cameras[i + 1].GetComponent<Camera>() as Camera).enabled = false;
+				}
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
 				GameObject SpawnManager = GameObject.Find("Code");
 				MoverTest = SpawnManager.GetComponent<GameManagerVik>();
-		
 	}
 	
 	//finds a camera called "MAIN CAMERA" in the scene. This will be used to move the 
@@ -199,7 +205,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			enabled = false;
 			return;
 		}
-		print (camera.name);
 		lastStationaryPosition = target.transform.position;
 		targetDistance = optimalDistance = (camera.transform.position - target.transform.position).magnitude;
 	}
