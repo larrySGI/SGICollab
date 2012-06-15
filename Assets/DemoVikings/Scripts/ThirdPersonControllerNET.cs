@@ -150,13 +150,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 									
 					                RaycastHit hit;
 									LayerMask layerMask = 1;
-									if (Physics.SphereCast(transform.position, range, transform.forward, out hit, 0.3f, layerMask))	
-														   //origin,          height, direction,       , hit,   radius, layer
 										print ("Searching for pickable objects");
+									if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask))	
+														   //origin,          height, direction,       , hit,   radius, layer
+																			//Distance										radius
+									//Vector3 endPoint = Vector3
+									//if(Physics.CapsuleCast(target.transform.position, target.transform.position + target.transform.forward * range, 2.0, target.transform.forward, out hit, 0.0f, layerMask)) 
+							//Physics.CapsuleCast(
+									//Debug.DrawRay(transform.position, transform.forward, Color.green);
+					
 					                //if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
 									{
 					                    if(hit.rigidbody) 
 										{
+											Debug.Log("Picked an object");
 					                        rigid = hit.rigidbody;
 										
 					                  //      rigid.isKinematic = true;
@@ -166,7 +173,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 											{
 					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
 												{
-													Debug.Log("Picked an object");
 													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
 												}
 												gravityGunState = GravityGunState.Catch;
