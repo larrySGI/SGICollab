@@ -35,7 +35,23 @@ public class MainMenuVik : Photon.MonoBehaviour
         //Set camera clipping for nicer "main menu" background
         //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
 		//StartCoroutine(Example());
+		
 		currentMenuState = menuState.profile;
+//		GameObject codeObj = GameObject.Find("Code");
+//		if (codeObj)
+//		{		
+//			if (codeObj.GetComponent<GameManagerVik>().level_tester_mode)
+//			{
+//				//bypass login
+//				currentMenuState = menuState.profile;
+//			}
+//			else
+//			{
+//						currentMenuState = menuState.login;
+//			}
+//		}
+//		else
+//			currentMenuState = menuState.login;
     }
 
     private string roomName = "myRoom";
