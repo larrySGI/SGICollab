@@ -69,8 +69,10 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		if (camera == null)
 		{
 			if (Camera.main != null)
+
 			{				
 				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
+
 				
 				viewerCams = new GameObject[tempCams.Length];
 				int currID;
@@ -113,21 +115,39 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	
 	public void LoadCameras()
 	{
-				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
+			GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
+
 				
-				cameras = new GameObject[tempCams.Length + 1];
-				cameras[cameras.Length - 1] = GameObject.Find("Main Camera");
-				
-				for (int i = 0; i < tempCams.Length; ++i)
-				{
-					cameras[i] = tempCams[i];	
+				viewerCams = new GameObject[tempCams.Length];
+				int currID;
+				for(int x = 0; x < tempCams.Length; x++){
+					currID = tempCams[x].GetComponent<ViewerCamIndex>().myID;
+					viewerCams[currID - 1] = tempCams[x];
 				}
 				
+				cameras = new GameObject[viewerCams.Length + 1];
+				cameras[0] = GameObject.Find("Main Camera");
+				
+				for (int i = 0; i < viewerCams.Length; ++i)
+				{
+					cameras[i + 1] = viewerCams[i];	
+					(cameras[i + 1].GetComponent<Camera>() as Camera).enabled = false;
+				}
+//				print ("tempcams = " + tempCams.Length);
+//				print ("viewercams = " + viewerCams.Length);
+//				print ("cameras = " + cameras.Length);
+//				print ("camera4 = " + cameras[4]);
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
+				//LoadCameras();
+//				print("viewerCams = "+viewerCams.Length);
+//				print("cameras = "+cameras.Length);
+//				print("currCameraIndex = "+currCameraIndex);
+				
 				GameObject SpawnManager = GameObject.Find("Code");
 				MoverTest = SpawnManager.GetComponent<GameManagerVik>();
+
 		
 	}
 	
@@ -199,7 +219,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			enabled = false;
 			return;
 		}
-		print (camera.name);
 		lastStationaryPosition = target.transform.position;
 		targetDistance = optimalDistance = (camera.transform.position - target.transform.position).magnitude;
 	}

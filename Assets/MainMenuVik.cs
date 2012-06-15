@@ -3,13 +3,13 @@ using System.Collections;
 //using System.Net;
 //using System.IO;
 
-public enum menuState {login, signup, profile};
+public enum menuState {splash, login, signup, profile};
 
 public class MainMenuVik : Photon.MonoBehaviour
 {	
     private menuState currentMenuState;
 	public static bool userTally = false;
-	public static int maxLevelData = 0;
+	public static int maxLevelData = 1;
 	
 	void Start()
 	{
@@ -33,8 +33,8 @@ public class MainMenuVik : Photon.MonoBehaviour
         PhotonNetwork.playerName = PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999));
 
         //Set camera clipping for nicer "main menu" background
-        Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
-		
+        //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
+		//StartCoroutine(Example());
 		currentMenuState = menuState.login;
     }
 
@@ -46,11 +46,24 @@ public class MainMenuVik : Photon.MonoBehaviour
 	private string nickInput = "";
 	private string pass1Input = "";
 	private string pass2Input = "";
-	private int levelSelected = maxLevelData;
+	private int levelSelected = 1; //awake should give me level 1 from the beginning
+	
+	private bool initState = false;
 	
 	
     void OnGUI()
     {
+//		if(currentMenuState == menuState.splash  || !initState){
+//			//print ("stuck");
+//			if(initState)
+//				return;
+//			print ("stuck2");
+//			StartCoroutine(Example());
+//			initState = true;
+//			print ("initstate is true");
+//			return;
+//		}
+		
         if (!PhotonNetwork.connected)
         {
             ShowConnectingGUI();
@@ -61,21 +74,36 @@ public class MainMenuVik : Photon.MonoBehaviour
             return; //Only when we're not in a Room
 		
 		switch (currentMenuState) {
+			//case menuState.splash:
+			//	StartCoroutine(ShowSplash());
+			//	break;
 			case menuState.login:
-				//ShowLoginGUI();
-				//if(userTally)
-				//	currentMenuState = menuState.profile;
-				StartCoroutine(ShowLoginGUI());
+				//if(!initState){
+					StartCoroutine(ShowLoginGUI());
+				//	initState = true;
+				//}
 				break;
 			case menuState.signup:
-				StartCoroutine(ShowSignupGUI());
+				//if(!initState){
+					StartCoroutine(ShowSignupGUI());
+				//	initState = true;
+				//}
 				break;
 			case menuState.profile:
 				ShowProfileGUI();
 				break;
 		}
     }
-
+	IEnumerator Example() {
+        print("Before = "+Time.time);
+        yield return new WaitForSeconds(2);
+        print("After = " + Time.time);
+    }
+	
+	void changeStateTo(menuState nextState){
+		//initState = false;
+		currentMenuState = nextState;
+	}
 
     void ShowConnectingGUI()
     {
@@ -87,6 +115,26 @@ public class MainMenuVik : Photon.MonoBehaviour
         GUILayout.EndArea();
     }
 	
+	IEnumerator ShowSplash(){
+		print("befiore");
+		//	while(!initState){
+		//yield return new WaitForSeconds(2);
+		
+			//print ("waaaad");
+		//yield return StartCoroutine(letsWait(2.0f));		
+		StartCoroutine("letsWait", 2.0f);		
+		yield return new WaitForSeconds(2);
+		StopCoroutine("letsWait");
+		//	initState = true;
+		//}
+		print("after");
+		changeStateTo(menuState.login);
+		
+	}
+	
+	IEnumerator letsWait (float seconds) {
+        yield return new WaitForSeconds(seconds);
+    }
 	
 	//IEnumerator because needs yield return to check for errors in login
 	IEnumerator ShowLoginGUI(){
@@ -240,8 +288,8 @@ public class MainMenuVik : Photon.MonoBehaviour
 				GUILayout.Space(150);
 				if(GUILayout.Button("<<", GUILayout.Width(30))){
 					levelSelected--;
-					if(levelSelected < 0)
-						levelSelected = 0;
+					if(levelSelected < 1)
+						levelSelected = 1;
 				}
 				GUILayout.Label("Level " + levelSelected.ToString(), GUILayout.Width(50));
 				if(GUILayout.Button(">>", GUILayout.Width(30))){
@@ -252,10 +300,14 @@ public class MainMenuVik : Photon.MonoBehaviour
 		
 		        if (GUILayout.Button("GO"))
 		        {
-					GameManagerVik.setNextLevel(levelSelected);
+					
+			
+					GameManagerVik.setNextLevel(levelSelected); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
 					Playtomic.Log.Play();
 					//set number of players to 4. - Larry
 		            PhotonNetwork.CreateRoom(roomName, true, true, 4);
+					//ChatVik.createdLevelIndex = levelSelected + 1;
+					//photonView.RPC("syncServerLevel", PhotonTargets.All, levelSelected + 1);
 		        }
 	        GUILayout.EndHorizontal();
 		
@@ -276,6 +328,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 		                GUILayout.Label(game.name + " " + game.playerCount + "/" + game.maxPlayers);
 		                if (GUILayout.Button("JOIN"))
 		                {
+							GameManagerVik.setNextLevel(levelSelected + 1); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
 							Playtomic.Log.Play();
 		                    PhotonNetwork.JoinRoom(game.name);
 		                }
