@@ -24,7 +24,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public Texture aTexture;	
 	
 	public int serverLevel = -1;	
-	private static int nextLevel = 1;
+	public static int nextLevel = 1;
 	
 	
 	void Awake(){
@@ -153,9 +153,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
 		
 		
-		if (GameObject.FindWithTag("Viewer") && 
-			GameObject.FindWithTag("Mover") &&
-			GameObject.FindWithTag("Builder") &&
+		if (//GameObject.FindWithTag("Viewer") && 
+			//GameObject.FindWithTag("Mover") &&
+			//GameObject.FindWithTag("Builder") &&
 			GameObject.FindWithTag("Jumper"))
 
 		{
