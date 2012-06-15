@@ -120,7 +120,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					if(blockammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
-						builtBlock.tag = "BlockTrigger";
+						builtBlock.tag = "PlacedBlock";
 					
 						blockammo--;
 					}
@@ -130,7 +130,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
 						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z, transform.rotation, 0);
-						builtPlatform.tag = "PlatformTrigger";
+						builtPlatform.tag = "PlacedPlatform";
 					
 						plankammo--;
 						}
@@ -157,7 +157,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 										
 					                  //      rigid.isKinematic = true;
 											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-											if (rigid.name.Contains("pBlock"))
+											if (rigid.tag.Contains("BlockTrigger") || rigid.tag.Contains("PlacedBlock"))
 											{
 					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
 												{
@@ -179,7 +179,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 										
 					                  //      rigid.isKinematic = true;
 											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-											if (rigid.name.Contains("pPlatform"))
+											if (rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
 											{
 					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
 												{
