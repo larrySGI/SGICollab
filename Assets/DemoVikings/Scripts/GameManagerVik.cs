@@ -74,11 +74,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		print("Greeting server");
 		if(serverLevel < 0){
 			serverLevel = levelIndex;
-<<<<<<< HEAD
 			print("Set server level"); 
-=======
-			print("Set server level");
->>>>>>> eed22cb61943cbe2249cdd2b7f8a925cc32485d7
 		}
 		else if(serverLevel != levelIndex){
 			photonView.RPC("syncToServerLevel", PhotonTargets.Others, serverLevel);
