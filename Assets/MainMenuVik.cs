@@ -35,7 +35,6 @@ public class MainMenuVik : Photon.MonoBehaviour
         //Set camera clipping for nicer "main menu" background
         //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
 		//StartCoroutine(Example());
-		
 		currentMenuState = menuState.profile;
 //		GameObject codeObj = GameObject.Find("Code");
 //		if (codeObj)
