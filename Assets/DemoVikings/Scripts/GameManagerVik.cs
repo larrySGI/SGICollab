@@ -247,6 +247,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				gameStarted = false;
 				
         	}
+			GUILayout.Label("You are now a " + selectedClass);
 		}
 
 		
