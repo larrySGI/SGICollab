@@ -129,7 +129,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
-						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z, transform.rotation, 0);
+						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z * 2, transform.rotation, 0);
 						builtPlatform.tag = "PlacedPlatform";
 					
 						plankammo--;
@@ -143,13 +143,17 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 				if(gravityGunState == GravityGunState.Free) 
 				{
-					    if(Input.GetKey("t")) 
+					    if(Input.GetKeyDown("t")) 
 						{
 									float range = target.transform.localScale.z * triggerHoldRange;
-					
+									//float rad = target.collider.radius;
+									
 					                RaycastHit hit;
-									LayerMask layerMask = -1;
-					                if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
+									LayerMask layerMask = 1;
+									if (Physics.SphereCast(transform.position, range, transform.forward, out hit, 0.3f, layerMask))	
+														   //origin,          height, direction,       , hit,   radius, layer
+										print ("Searching for pickable objects");
+					                //if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
 									{
 					                    if(hit.rigidbody) 
 										{
@@ -157,11 +161,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 										
 					                  //      rigid.isKinematic = true;
 											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-											if (rigid.tag.Contains("BlockTrigger") || rigid.tag.Contains("PlacedBlock"))
+											if (rigid.tag.Contains("BlockTrigger") || rigid.tag.Contains("PlacedBlock")
+								 				|| rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
 											{
 					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
 												{
-													Debug.Log("this?");
+													Debug.Log("Picked an object");
 													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
 												}
 												gravityGunState = GravityGunState.Catch;
@@ -171,27 +176,27 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                    }
 					                }
 					
-									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
-									{
-					                    if(hit.rigidbody) 
-										{
-					                        rigid = hit.rigidbody;
-										
-					                  //      rigid.isKinematic = true;
-											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-											if (rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
-											{
-					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
-												{
-													Debug.Log("this?");
-													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
-												}
-												gravityGunState = GravityGunState.Catch;
-											}
-											else
-					                       		rigid = null;
-					                    }
-					                }
+//									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
+//									{
+//					                    if(hit.rigidbody) 
+//										{
+//					                        rigid = hit.rigidbody;
+//										
+//					                  //      rigid.isKinematic = true;
+//											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
+//											if (rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
+//											{
+//					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
+//												{
+//													Debug.Log("this?");
+//													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
+//												}
+//												gravityGunState = GravityGunState.Catch;
+//											}
+//											else
+//					                       		rigid = null;
+//					                    }
+//					                }
 					     }
 				}
 				else if(gravityGunState == GravityGunState.Catch) 

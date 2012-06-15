@@ -18,16 +18,13 @@ public class buttonToDestroy : Photon.MonoBehaviour {
 		
 		GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
 		foreach(GameObject creation in platformsCreated){
-			PhotonNetwork.Destroy (creation);//Destroy(creation);
+			PhotonNetwork.Destroy(creation);
 		}
 		
 		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
 		foreach(GameObject creation in blocksCreated){
 			PhotonNetwork.Destroy(creation);
 		}
-		
-		//GameObject builder = GameObject.FindGameObjectWithTag("Builder");
-		//builder.GetComponent(ThirdPersonControllerNET);
 		
 		ThirdPersonControllerNET.blockammo = 1;
 		ThirdPersonControllerNET.plankammo = 5;
