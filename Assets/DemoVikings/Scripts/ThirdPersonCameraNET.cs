@@ -69,8 +69,10 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		if (camera == null)
 		{
 			if (Camera.main != null)
+
 			{				
 				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
+
 				
 				viewerCams = new GameObject[tempCams.Length];
 				int currID;
@@ -113,7 +115,8 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	
 	public void LoadCameras()
 	{
-				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
+			GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
+
 				
 				viewerCams = new GameObject[tempCams.Length];
 				int currID;
