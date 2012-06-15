@@ -16,12 +16,12 @@ public class buttonToDestroy : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		print("Destroyed all built objects!");
 		
-		GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlatformTrigger");
+		GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
 		foreach(GameObject creation in platformsCreated){
 			Destroy(creation);
 		}
 		
-		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("BlockTrigger");
+		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
 		foreach(GameObject creation in blocksCreated){
 			Destroy(creation);
 		}
