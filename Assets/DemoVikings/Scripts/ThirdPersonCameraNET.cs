@@ -68,7 +68,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		if (camera == null)
 		{
 			if (Camera.main != null)
-			{				
+			{		
 				GameObject[] camtemp = GameObject.FindGameObjectsWithTag("ViewerCamera");
 				
 				cameras = new GameObject[camtemp.Length + 1];
@@ -105,17 +105,25 @@ public class ThirdPersonCameraNET : MonoBehaviour
 				GameObject[] camtemp = GameObject.FindGameObjectsWithTag("ViewerCamera");
 				
 				cameras = new GameObject[camtemp.Length + 1];
-				cameras[cameras.Length - 1] = GameObject.Find("Main Camera");
+				cameras[0] = GameObject.Find("Main Camera");
 				
 				for (int i = 0; i < camtemp.Length; ++i)
 				{
-					cameras[i] = camtemp[i];	
+					cameras[i + 1] = camtemp[i];	
+					(cameras[i + 1].GetComponent<Camera>() as Camera).enabled = false;
 				}
 				
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
+				//LoadCameras();
+//				print("camtemp = "+camtemp.Length);
+//				print("cameras = "+cameras.Length);
+//				print("currCameraIndex = "+currCameraIndex);
 				
+				GameObject SpawnManager = GameObject.Find("Code");
+				MoverTest = SpawnManager.GetComponent<GameManagerVik>();
+		
 		//camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
 		
 	}
@@ -188,7 +196,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			enabled = false;
 			return;
 		}
-		print (camera.name);
 		lastStationaryPosition = target.transform.position;
 		targetDistance = optimalDistance = (camera.transform.position - target.transform.position).magnitude;
 	}

@@ -9,7 +9,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 {	
     private menuState currentMenuState;
 	public static bool userTally = false;
-	public static int maxLevelData = 0;
+	public static int maxLevelData = 1;
 	
 	void Start()
 	{
@@ -46,7 +46,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 	private string nickInput = "";
 	private string pass1Input = "";
 	private string pass2Input = "";
-	private int levelSelected = maxLevelData;
+	private int levelSelected = 1; //awake should give me level 1 from the beginning
 	
 	private bool initState = false;
 	
@@ -288,8 +288,8 @@ public class MainMenuVik : Photon.MonoBehaviour
 				GUILayout.Space(150);
 				if(GUILayout.Button("<<", GUILayout.Width(30))){
 					levelSelected--;
-					if(levelSelected < 0)
-						levelSelected = 0;
+					if(levelSelected < 1)
+						levelSelected = 1;
 				}
 				GUILayout.Label("Level " + levelSelected.ToString(), GUILayout.Width(50));
 				if(GUILayout.Button(">>", GUILayout.Width(30))){
@@ -300,7 +300,9 @@ public class MainMenuVik : Photon.MonoBehaviour
 		
 		        if (GUILayout.Button("GO"))
 		        {
-					GameManagerVik.setNextLevel(levelSelected + 1); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
+					
+			
+					GameManagerVik.setNextLevel(levelSelected); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
 					Playtomic.Log.Play();
 					//set number of players to 4. - Larry
 		            PhotonNetwork.CreateRoom(roomName, true, true, 4);

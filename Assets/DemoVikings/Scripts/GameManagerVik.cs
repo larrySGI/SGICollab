@@ -65,7 +65,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			Destroy(GameObject.Find("Code"));
 		
 		//kick the user back to the MainMenu. (Might wanna put something in that level)
-			Application.LoadLevel("MainMenuScene");
+			Application.LoadLevel(0);
 		}
     }
 			
@@ -161,10 +161,10 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
 		
 		
-		if (//GameObject.FindWithTag("Viewer"))// && 
-			//GameObject.FindWithTag("Mover") &&
-			GameObject.FindWithTag("Builder")) //&&
-			//GameObject.FindWithTag("Jumper"))
+		if (GameObject.FindWithTag("Viewer") && 
+			GameObject.FindWithTag("Mover") &&
+			GameObject.FindWithTag("Builder") &&
+			GameObject.FindWithTag("Jumper"))
 
 		{
 			Time.timeScale = 1;
@@ -178,7 +178,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
 		
 		//replace with main menu logic kthx
-		if(Application.loadedLevelName == "MainMenuScene")
+		if(Application.loadedLevel == 0)
 		{
 			if(serverLevel > 0){
 				print("loading server level = " +serverLevel);
