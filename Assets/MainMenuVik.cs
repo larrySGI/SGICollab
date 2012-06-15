@@ -35,7 +35,7 @@ public class MainMenuVik : Photon.MonoBehaviour
         //Set camera clipping for nicer "main menu" background
         //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
 		//StartCoroutine(Example());
-		
+		maxLevelData = (Application.levelCount - 1);
 		currentMenuState = menuState.profile;
 //		GameObject codeObj = GameObject.Find("Code");
 //		if (codeObj)
@@ -312,6 +312,9 @@ public class MainMenuVik : Photon.MonoBehaviour
 					levelSelected++;
 					if(levelSelected > maxLevelData)
 						levelSelected = maxLevelData;
+					Debug.Log(Application.levelCount);
+					if (levelSelected > (Application.levelCount))
+						levelSelected = Application.levelCount;
 				}
 		
 		        if (GUILayout.Button("GO"))

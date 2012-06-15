@@ -21,6 +21,10 @@ public class EndingBoxScript : MonoBehaviour {
 		GameObject thatCode = GameObject.Find("Code");
 		GameManagerVik thatScript = thatCode.GetComponent<GameManagerVik>();
 		nextLevel = thatScript.serverLevel + 1;
+		
+		//last level check
+		if (nextLevel > (Application.levelCount - 1)) 
+			nextLevel = -1;
 	}
 	
 	// Update is called once per frame
@@ -59,8 +63,11 @@ public class EndingBoxScript : MonoBehaviour {
 //			GUILayout.BeginArea(rect);
 			Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 			GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
-			Application.LoadLevel(nextLevel);
-//			GUILayout.Label("Level Complete");
+			
+			if (nextLevel > -1)
+				Application.LoadLevel(nextLevel);
+			else
+				GUILayout.Label("FINAL LEVEL COMPLETE");
 			
 //			GUILayout.EndArea();
 		}
