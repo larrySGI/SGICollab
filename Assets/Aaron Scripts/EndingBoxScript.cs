@@ -7,6 +7,8 @@ public class EndingBoxScript : MonoBehaviour {
 	private bool isJumperAtEnd;
 	private bool isViewerAtEnd;
 	
+	private int nextLevel;
+	
 	public Texture aTexture;
 	
 	// Use this for initialization
@@ -15,6 +17,10 @@ public class EndingBoxScript : MonoBehaviour {
 		isMoverAtEnd = false;
 		isJumperAtEnd = false;
 		isViewerAtEnd = false;
+		
+		GameObject thatCode = GameObject.Find("Code");
+		GameManagerVik thatScript = thatCode.GetComponent<GameManagerVik>();
+		nextLevel = thatScript.serverLevel + 1;
 	}
 	
 	// Update is called once per frame
@@ -53,7 +59,7 @@ public class EndingBoxScript : MonoBehaviour {
 //			GUILayout.BeginArea(rect);
 			Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 			GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
-			Application.LoadLevel("Level1");
+			Application.LoadLevel(nextLevel);
 //			GUILayout.Label("Level Complete");
 			
 //			GUILayout.EndArea();

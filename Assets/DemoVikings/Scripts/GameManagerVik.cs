@@ -23,13 +23,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public Texture aTexture;	
 	
-	private static int serverLevel = -1;	
-	//create levels array
+	public int serverLevel = -1;	
 	private static int nextLevel = 1;
-//	public static string[] levelNames = new string[] {"JumperTutorial",
-//												"Level1",
-//												"Level2",
-//												"Level3"};
 	
 	
 	void Awake(){
@@ -80,12 +75,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 			photonView.RPC("syncToServerLevel", PhotonTargets.Others, serverLevel);
 			print("Level index adjusted");
 		}	
-		else if(serverLevel == levelIndex){
+		else{
 			print("Level index correct");
 			print("Level index = " + levelIndex);		
-		}
-		else{
-			print ("wtf is this = " + levelIndex);
 		}
 	}
 	
@@ -152,7 +144,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		if (level_tester_mode) 
 			Time.timeScale = 1;
 		else		
-			Time.timeScale=0;
+			Time.timeScale = 0;
 	}
 	
 	void Update()
