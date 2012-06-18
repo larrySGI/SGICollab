@@ -362,7 +362,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			target.drag = groundDrag;
 				// Apply drag when we're grounded
 			
-			if (Input.GetButtonDown ("Jump") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
 			{	
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
@@ -379,6 +379,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 					onJump ();
 				}
+				
 			}
 			else
 			// Only allow movement controls if we did not just jump
@@ -412,9 +413,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 		else
 		{
-			    target.drag = 0.5f;
+			    //clamping jump speed
+				if (rigidbody.velocity.y > jumpSpeed)
+					rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpSpeed, rigidbody.velocity.z);
+				target.drag = 0.5f;
+				
 				// If we're airborne, we should have less drag
-			
+				
 				Vector3 movement = Input.GetAxis ("Vertical") * target.transform.forward +
 				SidestepAxisInput * target.transform.right;
 				
