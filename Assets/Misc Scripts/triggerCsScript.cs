@@ -38,6 +38,8 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	private float localLiftTime;	
 		
 	private bool started = false;
+	
+	private bool liftShouldMove = false;
 		
 	
 	/*
@@ -163,6 +165,8 @@ public class triggerCsScript : Photon.MonoBehaviour {
 			}
 		}
 			
+		if(liftShouldMove)
+			movingTheLift();
 			
 		if (MoverTest.gameStarted && !started)
 		{		
@@ -181,8 +185,22 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	//"object is deleted while on top of button". 
 		
 	void OnTriggerStay()
-	{
-			
+	{		
+			liftShouldMove = true;
+	}	
+	
+	void OnTriggerExit(){		
+			liftShouldMove = false;
+	}
+
+	public void toggleRevealColours(){
+		if(revealColours)
+			revealColours = false;
+		else
+			revealColours = true;
+	}
+	
+	void movingTheLift(){
 		localLiftTime += photonDelta;
 			
 		float math = Mathf.Sin(localLiftTime*speed+timingOffset);
@@ -211,13 +229,5 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		{
 				target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, Time.deltaTime);
 		}
-			
-	}		
-
-	public void toggleRevealColours(){
-		if(revealColours)
-			revealColours = false;
-		else
-			revealColours = true;
 	}
 }

@@ -153,9 +153,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
 		
 		
-		if (//GameObject.FindWithTag("Viewer") && 
-			//GameObject.FindWithTag("Mover") &&
-			//GameObject.FindWithTag("Builder") &&
+		if (GameObject.FindWithTag("Viewer") && 
+			GameObject.FindWithTag("Mover") &&
+			GameObject.FindWithTag("Builder") &&
 			GameObject.FindWithTag("Jumper"))
 
 		{
