@@ -36,7 +36,7 @@ public class MainMenuVik : Photon.MonoBehaviour
         //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
 		//StartCoroutine(Example());
 		maxLevelData = (Application.levelCount - 1);
-		currentMenuState = menuState.profile;
+		currentMenuState = menuState.login;
 //		GameObject codeObj = GameObject.Find("Code");
 //		if (codeObj)
 //		{		
@@ -180,13 +180,13 @@ public class MainMenuVik : Photon.MonoBehaviour
 	        GUILayout.BeginHorizontal();		
 		        if (GUILayout.Button("Create New Account", GUILayout.Width(200)))
 		        {
-					//StartCoroutine(LoginForms.getData("qq", "qq", "email")); 		tested getData() works, delete this testing line soon
+					//StartCoroutine(UserDatabase.getData("qq", "qq", "email")); 		tested getData() works, delete this testing line soon
 					pass1Input = "";
 					currentMenuState = menuState.signup;
 		        }		
 		        if (GUILayout.Button("GO", GUILayout.Width(200)))
 		        {
-					yield return StartCoroutine(LoginForms.login(PhotonNetwork.playerName, pass1Input));
+					yield return StartCoroutine(UserDatabase.login(PhotonNetwork.playerName, pass1Input));
 					if(userTally)
 						currentMenuState = menuState.profile;
 		        }
@@ -240,7 +240,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 					}
 					else{	
 						email3Input = emailInput + "@"+ email2Input + ".com";
-						yield return StartCoroutine(LoginForms.signUp(email3Input, nickInput, pass1Input));
+						yield return StartCoroutine(UserDatabase.signUp(email3Input, nickInput, pass1Input));
 						if(userTally){
 							PhotonNetwork.playerName = nickInput;
 							currentMenuState = menuState.profile;
@@ -312,7 +312,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 					levelSelected++;
 					if(levelSelected > maxLevelData)
 						levelSelected = maxLevelData;
-					Debug.Log(Application.levelCount);
+					//Debug.Log(Application.levelCount);
 					if (levelSelected > (Application.levelCount))
 						levelSelected = Application.levelCount;
 				}
