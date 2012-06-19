@@ -36,7 +36,7 @@ public class MainMenuVik : Photon.MonoBehaviour
         //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
 		//StartCoroutine(Example());
 		maxLevelData = (Application.levelCount - 1);
-		currentMenuState = menuState.login;
+		currentMenuState = menuState.profile;
 //		GameObject codeObj = GameObject.Find("Code");
 //		if (codeObj)
 //		{		
