@@ -41,10 +41,6 @@ public class BoxUpdate : Photon.MonoBehaviour
 	
 	void Awake () 
 	{
-		
-		//photonView.RPC("updateMovement", PhotonTargets.Others, transform.position, transform.rotation);
-		
-		
 	}
 	
 	// Update is called once per frame
@@ -57,10 +53,8 @@ public class BoxUpdate : Photon.MonoBehaviour
 			rigidbody.isKinematic = true;
 			
 			//the mover is the one who updates the position only when he's carrying it. In all other instances, this doesn't matter.
-			if (manager.selectedClass == "Mover")
-			{
+			if (manager.selectedClass == "Mover"){
 				photonView.RPC("updateMovement", PhotonTargets.Others,transform.position, transform.rotation);
-				print("asd");
 			}
 		}
 		else
