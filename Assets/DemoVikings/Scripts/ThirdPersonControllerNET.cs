@@ -129,7 +129,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
-						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z, transform.rotation, 0);
+						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z * 2, transform.rotation, 0);
 						builtPlatform.tag = "PlacedPlatform";
 					
 						plankammo--;
@@ -143,25 +143,36 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 				if(gravityGunState == GravityGunState.Free) 
 				{
-					    if(Input.GetKey("t")) 
+					    if(Input.GetKeyDown("t")) 
 						{
 									float range = target.transform.localScale.z * triggerHoldRange;
-					
+									//float rad = target.collider.radius;
+									
 					                RaycastHit hit;
-									LayerMask layerMask = -1;
-					                if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
+									LayerMask layerMask = 1;
+										print ("Searching for pickable objects");
+									if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask))	
+														   //origin,          height, direction,       , hit,   radius, layer
+																			//Distance										radius
+									//Vector3 endPoint = Vector3
+									//if(Physics.CapsuleCast(target.transform.position, target.transform.position + target.transform.forward * range, 2.0, target.transform.forward, out hit, 0.0f, layerMask)) 
+							//Physics.CapsuleCast(
+									//Debug.DrawRay(transform.position, transform.forward, Color.green);
+					
+					                //if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
 									{
 					                    if(hit.rigidbody) 
 										{
+											Debug.Log("Picked an object");
 					                        rigid = hit.rigidbody;
 										
 					                  //      rigid.isKinematic = true;
 											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-											if (rigid.tag.Contains("BlockTrigger") || rigid.tag.Contains("PlacedBlock"))
+											if (rigid.tag.Contains("BlockTrigger") || rigid.tag.Contains("PlacedBlock")
+								 				|| rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
 											{
 					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
 												{
-													Debug.Log("this?");
 													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
 												}
 												gravityGunState = GravityGunState.Catch;
@@ -171,27 +182,27 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                    }
 					                }
 					
-									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
-									{
-					                    if(hit.rigidbody) 
-										{
-					                        rigid = hit.rigidbody;
-										
-					                  //      rigid.isKinematic = true;
-											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-											if (rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
-											{
-					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
-												{
-													Debug.Log("this?");
-													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
-												}
-												gravityGunState = GravityGunState.Catch;
-											}
-											else
-					                       		rigid = null;
-					                    }
-					                }
+//									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
+//									{
+//					                    if(hit.rigidbody) 
+//										{
+//					                        rigid = hit.rigidbody;
+//										
+//					                  //      rigid.isKinematic = true;
+//											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
+//											if (rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
+//											{
+//					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
+//												{
+//													Debug.Log("this?");
+//													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
+//												}
+//												gravityGunState = GravityGunState.Catch;
+//											}
+//											else
+//					                       		rigid = null;
+//					                    }
+//					                }
 					     }
 				}
 				else if(gravityGunState == GravityGunState.Catch) 
@@ -351,7 +362,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			target.drag = groundDrag;
 				// Apply drag when we're grounded
 			
-			if (Input.GetButtonDown ("Jump") || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
 			{	
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
@@ -368,6 +379,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 					onJump ();
 				}
+				
 			}
 			else
 			// Only allow movement controls if we did not just jump
@@ -401,9 +413,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 		else
 		{
-			    target.drag = 0.5f;
+			    //clamping jump speed
+				if (rigidbody.velocity.y > jumpSpeed)
+					rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpSpeed, rigidbody.velocity.z);
+				target.drag = 0.5f;
+				
 				// If we're airborne, we should have less drag
-			
+				
 				Vector3 movement = Input.GetAxis ("Vertical") * target.transform.forward +
 				SidestepAxisInput * target.transform.right;
 				

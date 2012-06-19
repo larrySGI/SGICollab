@@ -24,7 +24,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public Texture aTexture;	
 	
 	public int serverLevel = -1;	
-	private static int nextLevel = 1;
+	public static int nextLevel = 1;
 	
 	
 	void Awake(){
@@ -247,6 +247,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				gameStarted = false;
 				
         	}
+			GUILayout.Label("You are now a " + selectedClass);
 		}
 
 		
