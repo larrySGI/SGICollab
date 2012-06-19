@@ -4,6 +4,8 @@ using System.Collections;
 
 public class ThirdPersonCameraNET : MonoBehaviour
 {
+	
+	private bool menuOn = false;
 	public Collider target;
 		// The object we're looking at
 	new public Camera camera;
@@ -36,7 +38,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			// Turn this off to reduce gizmo clutter if needed
 		requireLock = true,
 			// Turn this off if the camera should be controllable even without cursor lock
-		controlLock = true;
+		controlLock = false;
 			// Turn this off if you want mouse lock controlled elsewhere
 		
 		
@@ -288,6 +290,12 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			
 				// If something is hit, set the target distance to the hit position
 		}*/
+				//turn off an on menu
+		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
+		{
+			menuOn = !menuOn;
+		}
+
 	}
 	
 
@@ -324,11 +332,29 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			}
 		}
 		
-		
+		//swapped
 		if (
-			(Input.GetMouseButton (1)) &&	// Act if a mouse button is down
+			//(Input.GetMouseButton (1)) &&	// Act if a mouse button is down
+			menuOn &&
 			(!requireLock || controlLock || Screen.lockCursor)			// ... and we're allowed to
 		)
+		{
+			if (controlLock)
+			{
+				Screen.lockCursor = false;
+			}
+			return;
+			/* //do not move if menu is on!
+			Vector3 movement = target.transform.position - lastStationaryPosition;
+			if (new Vector2 (movement.x, movement.z).magnitude > movementThreshold)
+			// Only update follow camera if we moved sufficiently
+			{
+				FollowUpdate ();
+			}*/
+	
+		
+		}
+		else
 		{
 			if (controlLock)
 			{
@@ -338,20 +364,8 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			FreeUpdate ();
 			lastStationaryPosition = target.transform.position;
 				// Update the stationary position so we don't get an immediate snap back when releasing the mouse button
-		}
-		else
-		{
-			if (controlLock)
-			{
-				Screen.lockCursor = false;
-			}
+	
 			
-			Vector3 movement = target.transform.position - lastStationaryPosition;
-			if (new Vector2 (movement.x, movement.z).magnitude > movementThreshold)
-			// Only update follow camera if we moved sufficiently
-			{
-				FollowUpdate ();
-			}
 		}
 		
 		DistanceUpdate ();
@@ -361,7 +375,10 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	void FollowUpdate ()
 	// Have the camera follow behind the character
 	{
+		if (menuOn) return;
+		
 		Vector3 cameraForward = target.transform.position - camera.transform.position;
+		
 		cameraForward = new Vector3 (cameraForward.x, 0.0f, cameraForward.z);
 			// Ignore camera elevation when calculating the angle
 		
@@ -391,17 +408,22 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		float rotationAmount;
 		
 		// Horizontal rotation:
+		//swapped
 		
-		if (Input.GetMouseButton (1))
-		// If right mouse button is held, don't rotate horizontally - the character should do that
-		{
-			FollowUpdate ();
-		}
-		else
+		if (menuOn)
 		// If left mouse button it held, do horizontal rotation
 		{
+			/*
 			rotationAmount = Input.GetAxis ("Mouse X") * rotationUpdateSpeed * Time.deltaTime;
 			camera.transform.RotateAround (target.transform.position, Vector3.up, rotationAmount);
+			 */return;
+		}
+		else
+		// If right mouse button is held, don't rotate horizontally - the character should do that
+		
+		{
+			FollowUpdate ();
+
 		}
 		
 		// Vertical rotation:
