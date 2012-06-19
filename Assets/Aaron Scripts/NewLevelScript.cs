@@ -71,7 +71,10 @@ public class NewLevelScript : MonoBehaviour {
 		
 			if(GameObject.FindGameObjectWithTag("Builder"))
 			{
-				GameObject.FindGameObjectWithTag("Builder").transform.position = BuilderSpawnPoint.transform.position;
+				GameObject builder = GameObject.FindGameObjectWithTag("Builder");
+				builder.transform.position = BuilderSpawnPoint.transform.position;
+				ThirdPersonCameraNET cam = builder.GetComponent<ThirdPersonCameraNET>();
+				cam.LoadCameras();
 				return;
 			}
 		}
@@ -80,7 +83,11 @@ public class NewLevelScript : MonoBehaviour {
 		{
 			if(GameObject.FindGameObjectWithTag("Mover"))
 			{	
-				GameObject.FindGameObjectWithTag("Mover").transform.position = MoverSpawnPoint.transform.position;
+				GameObject mover = GameObject.FindGameObjectWithTag("Mover");
+				
+				mover.transform.position = MoverSpawnPoint.transform.position;
+				ThirdPersonCameraNET cam = mover.GetComponent<ThirdPersonCameraNET>();
+				cam.LoadCameras();
 				return;
 			}
 		}
@@ -89,7 +96,13 @@ public class NewLevelScript : MonoBehaviour {
 		{
 			if(GameObject.FindGameObjectWithTag("Jumper"))
 			{
-				GameObject.FindGameObjectWithTag("Jumper").transform.position = JumperSpawnPoint.transform.position;
+				
+				GameObject jumper = GameObject.FindGameObjectWithTag("Jumper");
+				
+				jumper.transform.position = MoverSpawnPoint.transform.position;
+				
+				ThirdPersonCameraNET cam = jumper.GetComponent<ThirdPersonCameraNET>();
+				cam.LoadCameras();
 				return;
 			}
 		}

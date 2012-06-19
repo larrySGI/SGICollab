@@ -6,6 +6,8 @@ enum GravityGunState { Free, Catch, Occupied, Charge, Release};
 public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
+	private bool menuOn = false;
+	
 	
 	private int level_number=0;
 	public Rigidbody target;
@@ -32,7 +34,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			// Turn this off to reduce gizmo clutter if needed
 		requireLock = true,
 			// Turn this off if the camera should be controllable even without cursor lock
-		controlLock = false;
+		controlLock = true;
 			// Turn this on if you want mouse lock controlled by this script
 	public JumpDelegate onJump = null;
 		// Assign to this delegate to respond to the controller jumping
@@ -252,17 +254,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 		}
 		
-		if (Input.GetMouseButton (1) && (!requireLock || controlLock || Screen.lockCursor))
+		//swapped
+		//if (Input.GetMouseButton (1) && (!requireLock || controlLock || Screen.lockCursor))
+		if (menuOn && (!requireLock || controlLock || Screen.lockCursor))
+		
 		// If the right mouse button is held, rotation is locked to the mouse
-		{
-			if (controlLock)
-			{
-				Screen.lockCursor = true;
-			}
-			
-			rotationAmount = Input.GetAxis ("Mouse X") * mouseTurnSpeed * Time.deltaTime;
-		}
-		else
 		{
 			if (controlLock)
 			{
@@ -270,6 +266,17 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 			
 			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;
+		
+		}
+		else
+		{
+			if (controlLock)
+			{
+				Screen.lockCursor = true;
+			}
+			
+			rotationAmount = Input.GetAxis ("Mouse X") * mouseTurnSpeed * Time.deltaTime;
+			
 		}
 		
 		target.transform.RotateAround (target.transform.up, rotationAmount);
@@ -277,6 +284,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Backslash) || Input.GetKeyDown(KeyCode.Plus))
 		{
 			walking = !walking;
+		}
+		
+		//turn off an on menu
+		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
+		{
+			menuOn = !menuOn;
 		}
 	}
 	
@@ -286,17 +299,22 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	{
 		get
 		{
-			if (Input.GetMouseButton (1))
+			//Swapped
+			if (menuOn)//Input.GetMouseButton (1))
+			{
+				//not supposed to move when menu is on.
+				float sidestep = 0;// -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
+                return sidestep;
+
+			}
+			else
 			{
 				float sidestep = -(Input.GetKey(KeyCode.Q)?1:0) + (Input.GetKey(KeyCode.E)?1:0);
                 float horizontal = Input.GetAxis ("Horizontal");
 				
 				return Mathf.Abs (sidestep) > Mathf.Abs (horizontal) ? sidestep : horizontal;
-			}
-			else
-			{
-                float sidestep = -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
-                return sidestep;
+
+				
 			}
 		}
 	}
@@ -355,10 +373,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		grounded = isFourPointGrounded ();
 		//print (grounded);
       	if (isRemotePlayer) return;
-		
+		if (menuOn) return;	
 	
 		if (grounded)
 		{
+			
+			
 			target.drag = groundDrag;
 				// Apply drag when we're grounded
 			
