@@ -136,8 +136,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					
 						plankammo--;
 						}
-					}
-				
+					}				
 			}
 			
 			
@@ -153,16 +152,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                RaycastHit hit;
 									LayerMask layerMask = 1;
 										print ("Searching for pickable objects");
-									if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask))	
-														   //origin,          height, direction,       , hit,   radius, layer
-																			//Distance										radius
-									//Vector3 endPoint = Vector3
-									//if(Physics.CapsuleCast(target.transform.position, target.transform.position + target.transform.forward * range, 2.0, target.transform.forward, out hit, 0.0f, layerMask)) 
-							//Physics.CapsuleCast(
-									//Debug.DrawRay(transform.position, transform.forward, Color.green);
-					
-					                //if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
-									{
+									//if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask)){
+														   		  //origin,          height, direction,       		 hit,	 radius, layer
+									if(Physics.CapsuleCast(target.transform.position,(target.transform.position - target.transform.up),0.2f,target.transform.forward,out hit,2.0f,layerMask)){//distance,								 ,radius
 					                    if(hit.rigidbody) 
 										{
 											Debug.Log("Picked an object");
@@ -181,12 +173,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 											}
 											else
 					                       		rigid = null;
-					                    }
-					                }
-					
+										}
+									}
 
-					     }
+							}
 				}
+				
 				else if(gravityGunState == GravityGunState.Catch) 
 				{
 						holdDistance =  transform.localScale.z + rigid.transform.localScale.z;
@@ -357,7 +349,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 
 		
 		grounded = isFourPointGrounded ();
-		//print (grounded);
+		print (grounded);
       	if (isRemotePlayer) return;
 		if (menuOn) return;	
 	
@@ -373,14 +365,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			{	
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
 				print("sending analytics");
-				target.AddForce (
-					jumpSpeed * target.transform.up +
-						target.velocity.normalized * directionalJumpFactor,
-					ForceMode.VelocityChange
-				);
+				
+				if (target.rigidbody.velocity.y <= 0)
+				{
+					Vector3 jump = 	jumpSpeed * target.transform.up.normalized +
+						target.velocity.normalized * directionalJumpFactor;
+				
+					target.AddForce (
+						jump,
+						ForceMode.VelocityChange
+					);
 					// When jumping, we set the velocity upward with our jump speed
 					// plus some application of directional movement
-				
+				}
+								
 				if (onJump != null)
 				{
 					onJump ();
@@ -418,7 +416,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 		}
 		else
-		{
+		{		
 			    //clamping jump speed
 				if (rigidbody.velocity.y > jumpSpeed)
 					rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpSpeed, rigidbody.velocity.z);
