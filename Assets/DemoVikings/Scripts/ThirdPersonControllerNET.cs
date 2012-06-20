@@ -184,27 +184,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                    }
 					                }
 					
-//									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
-//									{
-//					                    if(hit.rigidbody) 
-//										{
-//					                        rigid = hit.rigidbody;
-//										
-//					                  //      rigid.isKinematic = true;
-//											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-//											if (rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
-//											{
-//					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
-//												{
-//													Debug.Log("this?");
-//													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
-//												}
-//												gravityGunState = GravityGunState.Catch;
-//											}
-//											else
-//					                       		rigid = null;
-//					                    }
-//					                }
+
 					     }
 				}
 				else if(gravityGunState == GravityGunState.Catch) 
@@ -218,7 +198,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
 				{            
-					    rigid.transform.position = transform.position + transform.forward * holdDistance;
+					   if (!rigid)
+						{
+							gravityGunState = GravityGunState.Free;
+							return;
+						}
+				
+						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
 					    if(Input.GetKey("t"))
 							gravityGunState = GravityGunState.Charge;
