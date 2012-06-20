@@ -173,10 +173,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 											}
 											else
 					                       		rigid = null;
-					                    }
+										}
 					                }					
 					     }
 				}
+				
 				else if(gravityGunState == GravityGunState.Catch) 
 				{
 						holdDistance =  transform.localScale.z + rigid.transform.localScale.z;
@@ -188,7 +189,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
 				{            
-					    rigid.transform.position = transform.position + transform.forward * holdDistance;
+					   if (!rigid)
+						{
+							gravityGunState = GravityGunState.Free;
+							return; 
+						}
+				
+						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
 					    if(Input.GetKey("t"))
 							gravityGunState = GravityGunState.Charge;
