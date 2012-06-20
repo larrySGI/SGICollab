@@ -70,11 +70,8 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		
 		if (camera == null)
 		{
-			if (Camera.main != null)
-
-			{				
+			if (Camera.main != null){				
 				GameObject[] tempCams = GameObject.FindGameObjectsWithTag("ViewerCamera");
-
 				
 				viewerCams = new GameObject[tempCams.Length];
 				int currID;
@@ -91,25 +88,12 @@ public class ThirdPersonCameraNET : MonoBehaviour
 					cameras[i + 1] = viewerCams[i];	
 					(cameras[i + 1].GetComponent<Camera>() as Camera).enabled = false;
 				}
-//				print ("tempcams = " + tempCams.Length);
-//				print ("viewercams = " + viewerCams.Length);
-//				print ("cameras = " + cameras.Length);
-//				print ("camera4 = " + cameras[4]);
 				currCameraIndex = defaultCameraIndex = FindMainCameraIndex();
 				
 				camera = cameras[defaultCameraIndex].GetComponent<Camera>() as Camera;
-				//LoadCameras();
-//				print("viewerCams = "+viewerCams.Length);
-//				print("cameras = "+cameras.Length);
-//				print("currCameraIndex = "+currCameraIndex);
 				
 				GameObject SpawnManager = GameObject.Find("Code");
 				MoverTest = SpawnManager.GetComponent<GameManagerVik>();
-		
-				//Camera mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-				//print(mainCam);
-				
-				//camera = mainCam;
 			}
 		}
 	}
@@ -150,8 +134,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		
 		foreach (GameObject c in cameras)
 		{
-			
-			
 			if (c.name.Contains("Main Camera"))
 				return targetIndex;
 			targetIndex++;
@@ -173,21 +155,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		//print("currCameraIndex = " + currCameraIndex);
 		
 		(cameras[currCameraIndex].GetComponent<Camera>() as Camera).enabled = true;
-		/*
-		Camera newCam = GameObject.Find("Camera2").GetComponent<Camera>();
-			
-		Camera mainCam = GameObject.Find("Main Camera").GetComponent<Camera>();
-		if(mainCam.enabled)
-		{
-			mainCam.enabled = false;
-			newCam.enabled = true;
-		}
-		else
-		{
-			mainCam.enabled = true;
-			newCam.enabled = false;
-		}
-		*/
+		
 		return currCameraIndex;
 	}
 	
@@ -256,7 +224,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		Vector3 inverseLineOfSight = camera.transform.position - target.transform.position;
 		
 		RaycastHit hit;
-		if (Physics.SphereCast (target.transform.position, ViewRadius, inverseLineOfSight, out hit, optimalDistance, obstacleLayers))
+		if (Physics.SphereCast (target.transform.position +target.transform.forward.normalized, ViewRadius, inverseLineOfSight, out hit, optimalDistance, obstacleLayers))
 		// Cast a sphere from the target towards the camera - using the view radius - checking against the obstacle layers
 		{
 			targetDistance = Mathf.Min ((hit.point - target.transform.position).magnitude, optimalDistance);
@@ -306,18 +274,6 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		{
 			if (Input.GetKeyUp("t")	 && MoverTest.selectedClass == "Viewer")
 			{
-//				GameObject[] doorSwitches = GameObject.FindGameObjectsWithTag("SwitchForDoor");
-//				foreach(GameObject button in doorSwitches)
-//				{print ("another door found");
-//					DoorTriggerScript thatScript = button.GetComponent<DoorTriggerScript>();
-//					thatScript.toggleRevealColours();
-//				}
-//				GameObject[] liftSwitches = GameObject.FindGameObjectsWithTag("SwitchForLift");
-//				foreach(GameObject button in liftSwitches)
-//				{print ("another lift found");
-//					triggerCsScript thatScript = button.GetComponent<triggerCsScript>();
-//					thatScript.toggleRevealColours();
-//				}
 				int curCam = SwitchCamera();
 				
 				if(curCam == 0 || curCam == 1){			

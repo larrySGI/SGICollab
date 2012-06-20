@@ -174,9 +174,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 											else
 					                       		rigid = null;
 										}
-									}
-
-							}
+					                }					
+					     }
 				}
 				
 				else if(gravityGunState == GravityGunState.Catch) 
