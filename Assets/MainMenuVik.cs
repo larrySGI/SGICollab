@@ -35,8 +35,8 @@ public class MainMenuVik : Photon.MonoBehaviour
         //Set camera clipping for nicer "main menu" background
         //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
 		//StartCoroutine(Example());
-		maxLevelData = (Application.levelCount - 1);
-		currentMenuState = menuState.profile;
+		
+		currentMenuState = menuState.login;
 //		GameObject codeObj = GameObject.Find("Code");
 //		if (codeObj)
 //		{		
@@ -312,9 +312,6 @@ public class MainMenuVik : Photon.MonoBehaviour
 					levelSelected++;
 					if(levelSelected > maxLevelData)
 						levelSelected = maxLevelData;
-					//Debug.Log(Application.levelCount);
-					if (levelSelected > (Application.levelCount))
-						levelSelected = Application.levelCount;
 				}
 		
 		        if (GUILayout.Button("GO"))
@@ -347,7 +344,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 		                GUILayout.Label(game.name + " " + game.playerCount + "/" + game.maxPlayers);
 		                if (GUILayout.Button("JOIN"))
 		                {
-							GameManagerVik.setNextLevel(levelSelected + 1); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
+							GameManagerVik.setNextLevel(levelSelected); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
 							Playtomic.Log.Play();
 		                    PhotonNetwork.JoinRoom(game.name);
 		                }
