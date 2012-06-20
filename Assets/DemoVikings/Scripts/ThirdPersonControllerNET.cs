@@ -152,9 +152,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                RaycastHit hit;
 									LayerMask layerMask = 1;
 										print ("Searching for pickable objects");
-									if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask)){
+									//if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask)){
 														   		  //origin,          height, direction,       		 hit,	 radius, layer
-																					//distance,								 ,radius
+									if(Physics.CapsuleCast(target.transform.position,(target.transform.position - target.transform.up),0.2f,target.transform.forward,out hit,2.0f,layerMask)){//distance,								 ,radius
 					                    if(hit.rigidbody) 
 										{
 											Debug.Log("Picked an object");
@@ -357,14 +357,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			{	
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
 				print("sending analytics");
-				target.AddForce (
-					jumpSpeed * target.transform.up +
-						target.velocity.normalized * directionalJumpFactor,
-					ForceMode.VelocityChange
-				);
+				
+				if (target.rigidbody.velocity.y <= 0)
+				{
+					Vector3 jump = 	jumpSpeed * target.transform.up.normalized +
+						target.velocity.normalized * directionalJumpFactor;
+				
+					target.AddForce (
+						jump,
+						ForceMode.VelocityChange
+					);
 					// When jumping, we set the velocity upward with our jump speed
 					// plus some application of directional movement
-				
+				}
+								
 				if (onJump != null)
 				{
 					onJump ();
@@ -402,7 +408,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 		}
 		else
-		{
+		{		
 			    //clamping jump speed
 				if (rigidbody.velocity.y > jumpSpeed)
 					rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpSpeed, rigidbody.velocity.z);
