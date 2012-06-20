@@ -224,7 +224,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		Vector3 inverseLineOfSight = camera.transform.position - target.transform.position;
 		
 		RaycastHit hit;
-		if (Physics.SphereCast (target.transform.position, ViewRadius, inverseLineOfSight, out hit, optimalDistance, obstacleLayers))
+		if (Physics.SphereCast (target.transform.position +target.transform.forward.normalized, ViewRadius, inverseLineOfSight, out hit, optimalDistance, obstacleLayers))
 		// Cast a sphere from the target towards the camera - using the view radius - checking against the obstacle layers
 		{
 			targetDistance = Mathf.Min ((hit.point - target.transform.position).magnitude, optimalDistance);
