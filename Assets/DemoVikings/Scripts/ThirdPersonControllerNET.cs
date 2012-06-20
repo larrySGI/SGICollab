@@ -201,7 +201,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					   if (!rigid)
 						{
 							gravityGunState = GravityGunState.Free;
-							return;
+							return; 
 						}
 				
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
