@@ -18,7 +18,7 @@ public class EndingBoxScript : MonoBehaviour {
 		isJumperAtEnd = false;
 		isViewerAtEnd = false;
 		
-		nextLevel = GameManagerVik.nextLevel + 1;
+		nextLevel = GameManagerVik.nextLevel;
 		
 		//last level check
 		if (nextLevel > (Application.levelCount - 1)) 
