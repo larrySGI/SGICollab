@@ -8,6 +8,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	//added by hh
     // this is a object name (must be in any Resources folder) of the prefab to spawn as player avatar.
     // read the documentation for info how to spawn dynamically loaded game objects at runtime (not using Resources folders)
+	private bool menuOn = false;
+	
+	
     public string playerPrefabName = "Charprefab";
 	public string builderPrefabName = "Builder";
 	public string jumperPrefabName = "Jumper";
@@ -176,15 +179,20 @@ public class GameManagerVik : Photon.MonoBehaviour
 				print("loading server level = " +serverLevel);
 				Application.LoadLevel(serverLevel);			
 			}
-		}			
+		}
+		
+		
+		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
+		{
+			menuOn = !menuOn;
+		}
 	}
 
 
 
     void OnGUI()
     {
-        if (PhotonNetwork.room == null) return; //Only display this GUI when inside a room
-		
+		if (PhotonNetwork.room == null) return; //Only display this GUI when inside a room
 		
 		if (selectedClass == "")
 		{
@@ -228,25 +236,20 @@ public class GameManagerVik : Photon.MonoBehaviour
 		}
 		else //already have a player type
 		{
-		
-			
+			//Need to add the Level Tester Mode on. Apparently if we don't have a Room because we're in Level Tester Mode, OnGUI only works once!
 			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-			
 			if (GUILayout.Button("Leave& QUIT"))
-       		{
-			//	GameObject SpawnManager = GameObject.Find("Code");
-		//		ChatVik cv = SpawnManager.GetComponent<ChatVik>();
-				ChatVik.SP.AnnounceLeave();
+	       	{
+					ChatVik.SP.AnnounceLeave();
 				
-				PhotonNetwork.LeaveRoom();
-				selectedClass = "";
-				//local
-				gameStarted = false;
-				
+					PhotonNetwork.LeaveRoom();
+					selectedClass = "";
+					gameStarted = false;			
         	}
+	
 			GUILayout.Label("You are now a " + selectedClass);
 		}
 

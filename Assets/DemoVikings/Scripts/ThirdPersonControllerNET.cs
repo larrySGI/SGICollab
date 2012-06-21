@@ -6,6 +6,8 @@ enum GravityGunState { Free, Catch, Occupied, Charge, Release};
 public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
+	private bool menuOn = false;
+	
 	
 	private int level_number=0;
 	public Rigidbody target;
@@ -32,7 +34,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			// Turn this off to reduce gizmo clutter if needed
 		requireLock = true,
 			// Turn this off if the camera should be controllable even without cursor lock
-		controlLock = false;
+		controlLock = true;
 			// Turn this on if you want mouse lock controlled by this script
 	public JumpDelegate onJump = null;
 		// Assign to this delegate to respond to the controller jumping
@@ -134,8 +136,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					
 						plankammo--;
 						}
-					}
-				
+					}				
 			}
 			
 			
@@ -151,16 +152,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					                RaycastHit hit;
 									LayerMask layerMask = 1;
 										print ("Searching for pickable objects");
-									if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask))	
-														   //origin,          height, direction,       , hit,   radius, layer
-																			//Distance										radius
-									//Vector3 endPoint = Vector3
-									//if(Physics.CapsuleCast(target.transform.position, target.transform.position + target.transform.forward * range, 2.0, target.transform.forward, out hit, 0.0f, layerMask)) 
-							//Physics.CapsuleCast(
-									//Debug.DrawRay(transform.position, transform.forward, Color.green);
-					
-					                //if(Physics.Raycast(transform.position, transform.forward - transform.up, out hit, range, layerMask)) 
-									{
+									//if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask)){
+														   		  //origin,          height, direction,       		 hit,	 radius, layer
+									if(Physics.CapsuleCast(target.transform.position,(target.transform.position - target.transform.up),0.2f,target.transform.forward,out hit,2.0f,layerMask)){//distance,								 ,radius
 					                    if(hit.rigidbody) 
 										{
 											Debug.Log("Picked an object");
@@ -179,32 +173,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 											}
 											else
 					                       		rigid = null;
-					                    }
-					                }
-					
-//									if(Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask)) 
-//									{
-//					                    if(hit.rigidbody) 
-//										{
-//					                        rigid = hit.rigidbody;
-//										
-//					                  //      rigid.isKinematic = true;
-//											//This prevents vikings from picking up other vikings. Only platforms and blocks can be picked up. 
-//											if (rigid.tag.Contains("PlatformTrigger") || rigid.tag.Contains("PlacedPlatform"))
-//											{
-//					                        	if (rigid.gameObject.GetComponent<BoxUpdate>())
-//												{
-//													Debug.Log("this?");
-//													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
-//												}
-//												gravityGunState = GravityGunState.Catch;
-//											}
-//											else
-//					                       		rigid = null;
-//					                    }
-//					                }
+										}
+					                }					
 					     }
 				}
+				
 				else if(gravityGunState == GravityGunState.Catch) 
 				{
 						holdDistance =  transform.localScale.z + rigid.transform.localScale.z;
@@ -216,7 +189,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
 				{            
-					    rigid.transform.position = transform.position + transform.forward * holdDistance;
+					   if (!rigid)
+						{
+							gravityGunState = GravityGunState.Free;
+							return; 
+						}
+				
+						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
 					    if(Input.GetKey("t"))
 							gravityGunState = GravityGunState.Charge;
@@ -252,17 +231,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 		}
 		
-		if (Input.GetMouseButton (1) && (!requireLock || controlLock || Screen.lockCursor))
+		//swapped
+		//if (Input.GetMouseButton (1) && (!requireLock || controlLock || Screen.lockCursor))
+		if (menuOn && (!requireLock || controlLock || Screen.lockCursor))
+		
 		// If the right mouse button is held, rotation is locked to the mouse
-		{
-			if (controlLock)
-			{
-				Screen.lockCursor = true;
-			}
-			
-			rotationAmount = Input.GetAxis ("Mouse X") * mouseTurnSpeed * Time.deltaTime;
-		}
-		else
 		{
 			if (controlLock)
 			{
@@ -270,6 +243,17 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 			
 			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;
+		
+		}
+		else
+		{
+			if (controlLock)
+			{
+				Screen.lockCursor = true;
+			}
+			
+			rotationAmount = Input.GetAxis ("Mouse X") * mouseTurnSpeed * Time.deltaTime;
+			
 		}
 		
 		target.transform.RotateAround (target.transform.up, rotationAmount);
@@ -277,6 +261,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Backslash) || Input.GetKeyDown(KeyCode.Plus))
 		{
 			walking = !walking;
+		}
+		
+		//turn off an on menu
+		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
+		{
+			menuOn = !menuOn;
 		}
 	}
 	
@@ -286,17 +276,22 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	{
 		get
 		{
-			if (Input.GetMouseButton (1))
+			//Swapped
+			if (menuOn)//Input.GetMouseButton (1))
+			{
+				//not supposed to move when menu is on.
+				float sidestep = 0;// -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
+                return sidestep;
+
+			}
+			else
 			{
 				float sidestep = -(Input.GetKey(KeyCode.Q)?1:0) + (Input.GetKey(KeyCode.E)?1:0);
                 float horizontal = Input.GetAxis ("Horizontal");
 				
 				return Mathf.Abs (sidestep) > Mathf.Abs (horizontal) ? sidestep : horizontal;
-			}
-			else
-			{
-                float sidestep = -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
-                return sidestep;
+
+				
 			}
 		}
 	}
@@ -350,15 +345,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void FixedUpdate ()
 	// Handle movement here since physics will only be calculated in fixed frames anyway
 	{
-
-		
 		grounded = isFourPointGrounded ();
 		//print (grounded);
       	if (isRemotePlayer) return;
-		
+		if (menuOn) return;	
 	
 		if (grounded)
 		{
+			
+			
 			target.drag = groundDrag;
 				// Apply drag when we're grounded
 			
@@ -367,14 +362,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			{	
 				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
 				print("sending analytics");
-				target.AddForce (
-					jumpSpeed * target.transform.up +
-						target.velocity.normalized * directionalJumpFactor,
-					ForceMode.VelocityChange
-				);
+				
+				if (target.rigidbody.velocity.y <= 0)
+				{
+					Vector3 jump = 	jumpSpeed * target.transform.up.normalized +
+						target.velocity.normalized * directionalJumpFactor;
+				
+					target.AddForce (
+						jump,
+						ForceMode.VelocityChange
+					);
 					// When jumping, we set the velocity upward with our jump speed
 					// plus some application of directional movement
-				
+				}
+								
 				if (onJump != null)
 				{
 					onJump ();
@@ -412,7 +413,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 		}
 		else
-		{
+		{		
 			    //clamping jump speed
 				if (rigidbody.velocity.y > jumpSpeed)
 					rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpSpeed, rigidbody.velocity.z);

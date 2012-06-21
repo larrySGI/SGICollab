@@ -39,7 +39,9 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		
 	private bool started = false;
 	
-	private bool liftShouldMove = false;
+	private int objectsTriggeringSameButton = 0;
+	private float actualSpeed;
+	private bool liftShldMove = false;
 		
 	
 	/*
@@ -164,8 +166,8 @@ public class triggerCsScript : Photon.MonoBehaviour {
 					target.renderer.material.mainTexture = originalTargetTexture;
 			}
 		}
-			
-		if(liftShouldMove)
+					
+		if(liftShldMove)
 			movingTheLift();
 			
 		if (MoverTest.gameStarted && !started)
@@ -176,21 +178,19 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		}	
 	}		
 		
-	void OnTriggerEnter(){
+	void OnTriggerEnter(){		
 			Playtomic.Log.LevelCounterMetric(liftNameAnalytics, 0);
 			print("sent analytics for lift switch pressed");
 	}
 		
 	//Larry: This method is more useful than TriggerEnter and TriggerExit. It only runs if there's an object on top of the trigger, so will handle situations such as "player quits game while on top of button" or
 	//"object is deleted while on top of button". 
-		
-	void OnTriggerStay()
-	{		
-			liftShouldMove = true;
+	void OnTriggerStay(){		
+		liftShldMove = true;
 	}	
 	
-	void OnTriggerExit(){		
-			liftShouldMove = false;
+	void OnTriggerExit(){	
+		liftShldMove = false;
 	}
 
 	public void toggleRevealColours(){
@@ -201,7 +201,8 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	}
 	
 	void movingTheLift(){
-		localLiftTime += photonDelta;
+		localLiftTime += photonDelta; 
+		//print("speed = " + actualSpeed);
 			
 		float math = Mathf.Sin(localLiftTime*speed+timingOffset);
 		//Debug.Log(math);

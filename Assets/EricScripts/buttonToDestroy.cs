@@ -15,8 +15,30 @@ public class buttonToDestroy : Photon.MonoBehaviour {
 		
 	void OnTriggerEnter(Collider other){
 		print("Destroyed all built objects!");
-		
+		//   print("Starting " + Time.time);
+        StartCoroutine(destroyLater(1.0F));
+       // print("Before WaitAndPrint Finishes " + Time.time);
+    
+  
 		GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+		foreach(GameObject creation in platformsCreated){
+			creation.transform.position += Vector3.up * 100.0F;
+			creation.renderer.enabled = false;
+		}
+		
+		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+		foreach(GameObject creation in blocksCreated){
+			creation.transform.position += Vector3.up * 100.0F;
+			creation.renderer.enabled = false;
+		}
+		
+		ThirdPersonControllerNET.blockammo = 1;
+		ThirdPersonControllerNET.plankammo = 5;
+		
+	}
+  IEnumerator destroyLater(float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
 		foreach(GameObject creation in platformsCreated){
 			PhotonNetwork.Destroy(creation);
 		}
@@ -26,8 +48,5 @@ public class buttonToDestroy : Photon.MonoBehaviour {
 			PhotonNetwork.Destroy(creation);
 		}
 		
-		ThirdPersonControllerNET.blockammo = 1;
-		ThirdPersonControllerNET.plankammo = 5;
-		
-	}
+    }
 }
