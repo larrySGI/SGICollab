@@ -199,4 +199,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public static void setNextLevel(int level){
 		nextLevel = level;
 	}  
+	
+	public static int getNextLevel(){
+		return nextLevel;
+	}
 }
