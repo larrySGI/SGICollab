@@ -18,9 +18,9 @@ public class EndingBoxScript : MonoBehaviour {
 		isJumperAtEnd = false;
 		isViewerAtEnd = false;
 		
-		GameObject thatCode = GameObject.Find("Code");
-		GameManagerVik thatScript = thatCode.GetComponent<GameManagerVik>();
-		nextLevel = thatScript.serverLevel + 1;
+		//GameObject thatCode = GameObject.Find("Code");
+		//GameManagerVik thatScript = thatCode.GetComponent<GameManagerVik>();
+		nextLevel = GameManagerVik.nextLevel;
 		
 		//last level check
 		if (nextLevel > (Application.levelCount - 1)) 
