@@ -10,7 +10,6 @@ public class GameManagerVik : Photon.MonoBehaviour
     // read the documentation for info how to spawn dynamically loaded game objects at runtime (not using Resources folders)
 	private bool menuOn = false;
 	
-	
     public string playerPrefabName = "Charprefab";
 	public string builderPrefabName = "Builder";
 	public string jumperPrefabName = "Jumper";
@@ -25,10 +24,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public int playerCount = 0;
 	
 	public Texture aTexture;	
-	
-	public int serverLevel = -1;	
-	public static int nextLevel = 1;
-	
+		
+	public static int nextLevel = -1;	
 	
 	void Awake(){
 
@@ -37,12 +34,10 @@ public class GameManagerVik : Photon.MonoBehaviour
 	}
 	void OnJoinedRoom()
     {
-		//StartGame(this.jumperPrefabName);
-		//selectedClass = this.jumperPrefabName;
-        //StartGame(this.moverPrefabName);
-		//selectedClass = this.moverPrefabName;
-		//StartGame(this.builderPrefabName);
-		//selectedClass = this.builderPrefabName;
+		if(!PhotonNetwork.isMasterClient)
+			{
+			photonView.RPC("SyncLevelWithMasterClient", PhotonTargets.MasterClient);	
+			}
     }
     
     IEnumerator OnLeftRoom()
@@ -56,8 +51,7 @@ public class GameManagerVik : Photon.MonoBehaviour
         if (level_tester_mode)
 			Application.LoadLevel(Application.loadedLevel);
 		else
-		{
-		
+		{		
 		//destroy the code object here! Otherwise when we go back to main we'll actually *duplicate* it, which is what we don't want because
 		//it messes up the main menu.
 			Destroy(GameObject.Find("Code"));
@@ -66,82 +60,40 @@ public class GameManagerVik : Photon.MonoBehaviour
 			Application.LoadLevel(0);
 		}
     }
-			
+		
 	[RPC]
-	void greetServer(int levelIndex, PhotonMessageInfo info){
-		print("Greeting server");
-		if(serverLevel < 0){
-			serverLevel = levelIndex;
-			print("Set server level"); 
-		}
-		else if(serverLevel != levelIndex){
-			photonView.RPC("syncToServerLevel", PhotonTargets.Others, serverLevel);
-			print("Level index adjusted");
-		}	
-		else{
-			print("Level index correct");
-			print("Level index = " + levelIndex);		
-		}
+	void SyncLevelWithMasterClient( PhotonMessageInfo info){
+	photonView.RPC("syncLevel", PhotonTargets.All, nextLevel);	
 	}
 	
 	[RPC]
-	void syncToServerLevel(int levelIndex, PhotonMessageInfo info){
-		serverLevel = levelIndex;
-		print("Synced server level");
-		
-		print("Synced server = " + serverLevel);
+	void syncLevel(int levelIndex, PhotonMessageInfo info){
+		nextLevel = levelIndex;
+		print("Synced level = " + nextLevel);
 	}
 	
     void StartGame(string prefabName)
-    {        
-		print("BEFORE Greeted server");
-		print("BEFORE server = " + serverLevel);
-		print("BEFORE nextlevel = " + nextLevel);
-		//Sync to server's level
-		
-		photonView.RPC("greetServer", PhotonTargets.MasterClient, nextLevel);
-		
-		print("AFTER Greeted server");
-		print("AFTER server = " + serverLevel);
-//			while(nextLevel != serverLevel){
-//				print("level not synced yet");
-//			}
-		
+    {    		
 		Camera.main.farClipPlane = 1000; //Main menu set this to 0.4 for a nicer BG    
 
         //prepare instantiation data for the viking: Randomly disable the axe and/or shield
-       
-		
 		bool[] enabledRenderers = new bool[2];
         enabledRenderers[0] = false;//Axe
         enabledRenderers[1] = false; //Shield
         
         object[] objs = new object[1]; // Put our bool data in an object array, to send
         objs[0] = enabledRenderers;
-		// print ("starting game");
+		
         // Spawn our local player
 		if(prefabName=="Mover")
-		{
-			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right,transform.rotation, 0, objs);
-		}
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right,transform.rotation, 0, objs);		
 		if(prefabName=="Jumper")
-		{
-        	PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*2, transform.rotation, 0, objs);
-		
-		}
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*2, transform.rotation, 0, objs);
 		if(prefabName=="Builder")
-		{
-			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*3, transform.rotation, 0, objs);
-		
-		}
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*3, transform.rotation, 0, objs);			
 		if(prefabName=="Viewer")
-		{
-        	PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*4, transform.rotation, 0, objs);
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*4, transform.rotation, 0, objs);	
 		
-		}
-		//spawn network synced objects
-		//PhotonNetwork.Instantiate("checkPointTriggerLift", transform.position+transform.right*10, transform.rotation, 0);
-		//PhotonNetwork.Instantiate("liftPrefab", transform.position+transform.right*15, transform.rotation, 0);
 		gameStarted = true;
 
 		if (level_tester_mode) 
@@ -154,83 +106,64 @@ public class GameManagerVik : Photon.MonoBehaviour
 	{
 		if (level_tester_mode) return;
 		
-		
-		
 		if (GameObject.FindWithTag("Viewer") && 
 			GameObject.FindWithTag("Mover") &&
 			GameObject.FindWithTag("Builder") &&
-			GameObject.FindWithTag("Jumper"))
-
-		{
-			Time.timeScale = 1;
+			GameObject.FindWithTag("Jumper")){
+			
+			if(Application.loadedLevel == 0){
+				if(nextLevel > 0){
+					print("loading server level = " +nextLevel);
+					Application.LoadLevel(nextLevel);		
+				}
+			}
+			else
+				Time.timeScale = 1;
 		}
-		else
-		{
+		else{
 			Time.timeScale = 0;
 			return; //premature return on scale 0. 
 		}
 		
-		
-		
-		//replace with main menu logic kthx
-		if(Application.loadedLevel == 0)
-		{
-			if(serverLevel > 0){
-				print("loading server level = " +serverLevel);
-				Application.LoadLevel(serverLevel);			
-			}
-		}
-		
-		
 		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
-		{
 			menuOn = !menuOn;
-		}
 	}
-
-
-
+	
     void OnGUI()
     {
 		if (PhotonNetwork.room == null) return; //Only display this GUI when inside a room
 		
 		if (selectedClass == "")
-		{
-			
+		{			
 			GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 300) / 2, 400, 300));
 			if(!GameObject.FindWithTag("Builder")){
-			if (GUILayout.Button("Join as Builder"))
-     	 	{
-       		 	StartGame(this.builderPrefabName);
-				selectedClass = this.builderPrefabName;
-        	}
+				if (GUILayout.Button("Join as Builder")){
+	       		 	StartGame(this.builderPrefabName);
+					selectedClass = this.builderPrefabName;
+	        	}
 			}
 			if(!GameObject.FindWithTag("Viewer")){
-			if (GUILayout.Button("Join as Viewer"))
- 	       {
- 				StartGame(this.viewerPrefabName);
-				selectedClass = this.viewerPrefabName;
-    	    }
+				if (GUILayout.Button("Join as Viewer")){
+	 				StartGame(this.viewerPrefabName);
+					selectedClass = this.viewerPrefabName;
+	    	    }
 			}
 			if(!GameObject.FindWithTag("Mover")){
-			if (GUILayout.Button("Join as Mover"))
-  		    {
- 				StartGame(this.moverPrefabName);
-				selectedClass = this.moverPrefabName;
-			}
+				if (GUILayout.Button("Join as Mover")){
+	 				StartGame(this.moverPrefabName);
+					selectedClass = this.moverPrefabName;
+				}
 			}
 			if(!GameObject.FindWithTag("Jumper")){
-			if (GUILayout.Button("Join as Jumper"))
-	   	    {
-      		    StartGame(this.jumperPrefabName);
-				selectedClass = this.jumperPrefabName;
-        	}
+				if (GUILayout.Button("Join as Jumper")){
+	      		    StartGame(this.jumperPrefabName);
+					selectedClass = this.jumperPrefabName;
+	        	}
 			}
-			 if (GUILayout.Button("Leave& QUIT"))
-	        {
+			 if (GUILayout.Button("Leave& QUIT")){
         	    PhotonNetwork.LeaveRoom();
 				selectedClass = "";
-		    }
+		     }
 
 			GUILayout.EndArea();
 		}
@@ -252,11 +185,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 			GUILayout.Label("You are now a " + selectedClass);
 		}
-
-		
-		
     }
-
 
     void OnDisconnectedFromPhoton()
     {
@@ -269,6 +198,5 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public static void setNextLevel(int level){
 		nextLevel = level;
-	}
-  
+	}  
 }
