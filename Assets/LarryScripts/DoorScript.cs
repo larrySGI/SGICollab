@@ -44,8 +44,7 @@ public class DoorScript : Photon.MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () 
-	{
-		
+	{		
 		if (currDoorState) //up
 		{
 			if (!isDoorInPosition(this.transform.position, upPos))
@@ -60,10 +59,8 @@ public class DoorScript : Photon.MonoBehaviour {
 				{
 					this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + speed, this.transform.position.z);
 					if (this.transform.position.y > upPos.y)
-						this.transform.position = upPos;
-				
-				}
-			
+						this.transform.position = upPos;				
+				}			
 			}
 		}	
 		else //down
@@ -80,17 +77,24 @@ public class DoorScript : Photon.MonoBehaviour {
 				{
 					this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y - speed, this.transform.position.z);
 					if (this.transform.position.y < downPos.y)
-						this.transform.position = downPos;
-				
-				}
-			
-			}
-		
+						this.transform.position = downPos;				
+				}			
+			}		
 		}
 	}
 	
 	public void TriggerDoor()
 	{
 		currDoorState = !currDoorState;		
+	}
+	
+	public void openDoor()
+	{
+		currDoorState = true;		
+	}
+	
+	public void closeDoor()
+	{
+		currDoorState = false;		
 	}
 }

@@ -22,7 +22,8 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 			
 	public enum TriggerMode {
 	   All_At_Once,
-	   One_By_One_Sequential
+	   One_By_One_Sequential,
+	   Hold_To_Open
 	}	
 	public TriggerMode triggerMode = TriggerMode.All_At_Once; 
 		
@@ -135,8 +136,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		
 	//The door will open/shut upon touch, doesn't matter if the player is on the button or not. Therefore TriggerEntry is the best method, doors will not have
 	//to reset this way.
-	void OnTriggerEnter()
-	{
+	void OnTriggerEnter(){
 	    if (ds1 == null && ds2 == null && ds3 == null && ds4 == null) return;
 	
 		if (triggerMode == TriggerMode.One_By_One_Sequential)
@@ -176,32 +176,59 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 			sequentialCounter++;
 			if (sequentialCounter > 3) sequentialCounter = 0;
 		}
-		else
-		{
+		else if(triggerMode == TriggerMode.All_At_Once){
 			if (ds1 != null)	
-				ds1.TriggerDoor();	
-	
+				ds1.TriggerDoor();		
 			
 			if (ds2 != null)	
 				ds2.TriggerDoor();	
 	
-	
 			if (ds3 != null)	
 				ds3.TriggerDoor();	
 	
-	
 			if (ds4 != null)	
 				ds4.TriggerDoor();	
+		}
+	}
+		
+		void OnTriggerStay(){
+			if(triggerMode == TriggerMode.Hold_To_Open){				
+				if (ds1 != null)	
+					ds1.openDoor();		
+				
+				if (ds2 != null)	
+					ds2.openDoor();	
+		
+				if (ds3 != null)	
+					ds3.openDoor();	
+		
+				if (ds4 != null)	
+					ds4.openDoor();	
+				}
+		}	
 	
+		void OnTriggerExit(){
+			if(triggerMode == TriggerMode.Hold_To_Open){				
+				if (ds1 != null)	
+					ds1.closeDoor();		
+				
+				if (ds2 != null)	
+					ds2.closeDoor();	
+		
+				if (ds3 != null)	
+					ds3.closeDoor();	
+		
+				if (ds4 != null)	
+					ds4.closeDoor();	
+				}
 		}
 	
-	}
-	
 		public void toggleRevealColours(){
-		print ("toggling");
-			if(revealColours)
-				revealColours = false;
-			else
-				revealColours = true;
+		revealColours = !revealColours;
+//		print ("toggling");
+//			if(revealColours)
+//				revealColours = false;
+//			else
+//				revealColours = true;
 		}
 }
