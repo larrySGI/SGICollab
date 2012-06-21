@@ -17,6 +17,12 @@ public class EndingBoxScript : MonoBehaviour {
 		isMoverAtEnd = false;
 		isJumperAtEnd = false;
 		isViewerAtEnd = false;
+		
+		nextLevel = GameManagerVik.nextLevel;
+		
+		//last level check
+		if (nextLevel > (Application.levelCount - 1)) 
+			nextLevel = -1;
 	}
 	
 	// Update is called once per frame
@@ -50,7 +56,7 @@ public class EndingBoxScript : MonoBehaviour {
 	{
 		if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd)
 		{
-			nextLevel = GameManagerVik.nextLevel + 1;
+			nextLevel += 1;
 			
 			//last level check
 			if (nextLevel > (Application.levelCount - 1)) 
