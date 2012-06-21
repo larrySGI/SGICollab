@@ -8,6 +8,7 @@ public class EndingBoxScript : MonoBehaviour {
 	private bool isViewerAtEnd;
 	
 	private int nextLevel;
+	private bool alreadyLoading = false;
 	
 	public Texture aTexture;
 	
@@ -23,6 +24,8 @@ public class EndingBoxScript : MonoBehaviour {
 		//last level check
 		if (nextLevel > (Application.levelCount - 1)) 
 			nextLevel = -1;
+		
+		//Debug.Log("nextLevel at start = "+nextLevel);
 	}
 	
 	// Update is called once per frame
@@ -54,17 +57,20 @@ public class EndingBoxScript : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd)
+		if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
 		{
 			nextLevel += 1;
+			GameManagerVik.nextLevel = nextLevel;
+			//Debug.Log("nextLevel updated = "+nextLevel);
+			alreadyLoading = true; 
 			
 			//last level check
 			if (nextLevel > (Application.levelCount - 1)) 
 				nextLevel = -1;
 			
-			//Rect r = new Rect(0, Screen.height -100, Screen.width, 100);
+			ThirdPersonControllerNET.blockammo = 1;
+			ThirdPersonControllerNET.plankammo = 5;
 			
-//			GUILayout.BeginArea(rect);
 			Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 			GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			
@@ -72,8 +78,6 @@ public class EndingBoxScript : MonoBehaviour {
 				Application.LoadLevel(nextLevel);
 			else
 				GUILayout.Label("FINAL LEVEL COMPLETE");
-			
-//			GUILayout.EndArea();
 		}
 	
 	}
