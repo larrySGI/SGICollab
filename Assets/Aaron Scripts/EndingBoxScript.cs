@@ -68,6 +68,9 @@ public class EndingBoxScript : MonoBehaviour {
 			if (nextLevel > (Application.levelCount - 1)) 
 				nextLevel = -1;
 			
+			ThirdPersonControllerNET.blockammo = 1;
+			ThirdPersonControllerNET.plankammo = 5;
+			
 			Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 			GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			
