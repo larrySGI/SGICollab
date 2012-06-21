@@ -18,9 +18,7 @@ public class EndingBoxScript : MonoBehaviour {
 		isJumperAtEnd = false;
 		isViewerAtEnd = false;
 		
-		//GameObject thatCode = GameObject.Find("Code");
-		//GameManagerVik thatScript = thatCode.GetComponent<GameManagerVik>();
-		nextLevel = GameManagerVik.nextLevel + 1;
+		nextLevel = GameManagerVik.nextLevel;
 		
 		//last level check
 		if (nextLevel > (Application.levelCount - 1)) 
@@ -58,6 +56,12 @@ public class EndingBoxScript : MonoBehaviour {
 	{
 		if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd)
 		{
+			nextLevel += 1;
+			
+			//last level check
+			if (nextLevel > (Application.levelCount - 1)) 
+				nextLevel = -1;
+			
 			//Rect r = new Rect(0, Screen.height -100, Screen.width, 100);
 			
 //			GUILayout.BeginArea(rect);
