@@ -13,7 +13,8 @@ public class ChatVik : Photon.MonoBehaviour
 
     public static ChatVik SP;
     public List<string> messages = new List<string>();
-
+	public List<Color> messageColor = new List<Color>();
+	
     private int chatHeight = (int)140;
     private Vector2 scrollPos = Vector2.zero;
     private string chatInput = "";
@@ -62,15 +63,17 @@ public class ChatVik : Photon.MonoBehaviour
 		if (!manager.gameStarted) return;
 		
 		GUI.SetNextControlName("");
-
+		
+		//GUI.DrawTexture(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight), texture);
+	  GUI.Box(new Rect(0, Screen.height - (chatHeight + 25.0f), 250 , chatHeight),"Chatbox");
+      		
         GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight));
-        
         //Show scroll list of chat messages
         scrollPos = GUILayout.BeginScrollView(scrollPos);
-        GUI.color = Color.cyan;
         for (int i = messages.Count - 1; i >= 0; i--)
         {
-            GUILayout.Label(messages[i]);
+            GUI.color = messageColor[i];
+			GUILayout.Label(messages[i]);
         }
         GUILayout.EndScrollView();
         GUI.color = Color.white;
@@ -82,8 +85,7 @@ public class ChatVik : Photon.MonoBehaviour
        
         if (Event.current.type == EventType.keyDown && Event.current.character == '\n')
 		{
-         	Debug.Log("This should work");
-			if (GUI.GetNameOfFocusedControl() == "ChatField")
+         	if (GUI.GetNameOfFocusedControl() == "ChatField")
             {                
                 SendChat(PhotonTargets.All);
                 lastUnfocusTime = Time.time;
@@ -111,20 +113,35 @@ public class ChatVik : Photon.MonoBehaviour
 		
     }
 
-    public static void AddMessage(string text)
+    public static void AddMessage(string text, string incomingchatterclass)
     {
         SP.messages.Add(text);
+		
+		if (incomingchatterclass == "Builder")
+			SP.messageColor.Add(Color.magenta);
+		if (incomingchatterclass == "Viewer")
+			SP.messageColor.Add(Color.green);
+
+		if (incomingchatterclass == "Jumper")
+			SP.messageColor.Add(Color.cyan);
+
+		if (incomingchatterclass == "Mover")
+			SP.messageColor.Add(Color.yellow);
+
         if (SP.messages.Count > 15)
+		{
             SP.messages.RemoveAt(0);
+			SP.messageColor.RemoveAt(0);
+		}
     }
 
 
     [RPC]
-    void SendChatMessage(string text, PhotonMessageInfo info)
+    void SendChatMessage(string text, string incomingchatter, PhotonMessageInfo info)
     {
         string communication = "[" + info.sender + "] " + text;
 		
-		AddMessage(communication);
+		AddMessage(communication, incomingchatter);
 				
 		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
 		{
@@ -139,14 +156,14 @@ public class ChatVik : Photon.MonoBehaviour
 	{
 		string communication =  "("+chatterClass +") has joined the game.";
 		if (photonView)
-		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
+		photonView.RPC("SendChatMessage", PhotonTargets.All, communication, chatterClass);
 	}
 	
 	public void AnnounceLeave()
 	{
 		string communication =  "("+chatterClass +") has left the game.";
 		if (photonView)
-		photonView.RPC("SendChatMessage", PhotonTargets.All, communication);
+		photonView.RPC("SendChatMessage", PhotonTargets.All, communication, chatterClass);
 	
 	}
 	
@@ -155,7 +172,7 @@ public class ChatVik : Photon.MonoBehaviour
     {
         if (chatInput != "")
         {
-            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput);
+            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput, chatterClass);
             chatInput = "";
         }
     }
@@ -165,7 +182,7 @@ public class ChatVik : Photon.MonoBehaviour
         if (chatInput != "")
         {
             chatInput = "[PM] " + chatInput;
-            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput);
+            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput, chatterClass);
             chatInput = "";
         }
     }
