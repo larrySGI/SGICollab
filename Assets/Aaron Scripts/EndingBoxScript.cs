@@ -20,7 +20,7 @@ public class EndingBoxScript : MonoBehaviour {
 		
 		//GameObject thatCode = GameObject.Find("Code");
 		//GameManagerVik thatScript = thatCode.GetComponent<GameManagerVik>();
-		nextLevel = GameManagerVik.nextLevel;
+		nextLevel = GameManagerVik.nextLevel + 1;
 		
 		//last level check
 		if (nextLevel > (Application.levelCount - 1)) 
