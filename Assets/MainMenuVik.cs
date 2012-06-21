@@ -13,8 +13,6 @@ public class MainMenuVik : Photon.MonoBehaviour
 	
 	void Start()
 	{
-		
-		
 	}
 	
     void Awake()
@@ -31,27 +29,8 @@ public class MainMenuVik : Photon.MonoBehaviour
 
         //Load name from PlayerPrefs
         PhotonNetwork.playerName = PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 9999));
-
-        //Set camera clipping for nicer "main menu" background
-        //Camera.main.farClipPlane = Camera.main.nearClipPlane + 0.1f;
-		//StartCoroutine(Example());
 		
 		currentMenuState = menuState.login;
-//		GameObject codeObj = GameObject.Find("Code");
-//		if (codeObj)
-//		{		
-//			if (codeObj.GetComponent<GameManagerVik>().level_tester_mode)
-//			{
-//				//bypass login
-//				currentMenuState = menuState.profile;
-//			}
-//			else
-//			{
-//						currentMenuState = menuState.login;
-//			}
-//		}
-//		else
-//			currentMenuState = menuState.login;
     }
 
     private string roomName = "myRoom";
@@ -307,12 +286,14 @@ public class MainMenuVik : Photon.MonoBehaviour
 					levelSelected--;
 					if(levelSelected < 1)
 						levelSelected = 1;
+			print(levelSelected);
 				}
 				GUILayout.Label("Level " + levelSelected.ToString(), GUILayout.Width(50));
 				if(GUILayout.Button(">>", GUILayout.Width(30))){
 					levelSelected++;
 					if(levelSelected > maxLevelData)
 						levelSelected = maxLevelData;
+			print(levelSelected);
 				}
 		
 		        if (GUILayout.Button("GO"))
@@ -321,96 +302,11 @@ public class MainMenuVik : Photon.MonoBehaviour
 					Playtomic.Log.Play();
 					//set number of players to 4. - Larry
 		            PhotonNetwork.CreateRoom(roomName, true, true, 4);
-					//photonView.RPC("syncServerLevel", PhotonTargets.All, levelSelected + 1);
 		        }
 	        GUILayout.EndHorizontal();
 		
 	        GUILayout.Space(30);
 		
-	        GUILayout.Label("ROOM LISTING:");
-	        if (PhotonNetwork.GetRoomList().Length == 0)
-	        {
-	            GUILayout.Label("..no games available..");
-	        }
-	        else
-	        {
-	            //Room listing: simply call GetRoomList: no need to fetch/poll whatever!
-	            scrollPos = GUILayout.BeginScrollView(scrollPos);
-	            foreach (RoomInfo game in PhotonNetwork.GetRoomList())
-	            {
-	                GUILayout.BeginHorizontal();
-		                GUILayout.Label(game.name + " " + game.playerCount + "/" + game.maxPlayers);
-		                if (GUILayout.Button("JOIN"))
-		                {
-							GameManagerVik.setNextLevel(levelSelected); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
-							Playtomic.Log.Play();
-		                    PhotonNetwork.JoinRoom(game.name);
-		                }
-	                GUILayout.EndHorizontal();
-	            }
-	            GUILayout.EndScrollView();
-	        }
-
-        GUILayout.EndArea();
-	}
-	
-	
-	void ShowOldGUI(){
-		GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 300) / 2, 400, 300));
-
-	        GUILayout.Label("Main Menu");
-	
-	        //Player name
-	        GUILayout.BeginHorizontal();
-		        GUILayout.Label("Player name:", GUILayout.Width(150));
-		        GUILayout.TextField(PhotonNetwork.playerName);
-		        if (GUI.changed)//Save name
-		            PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
-	        GUILayout.EndHorizontal();
-	
-	        GUILayout.Space(15);	
-	
-	        //Join room by title
-	        GUILayout.BeginHorizontal();
-		        GUILayout.Label("JOIN ROOM:", GUILayout.Width(150));
-		        roomName = GUILayout.TextField(roomName);
-		        if (GUILayout.Button("GO"))
-		        {
-					Playtomic.Log.Play();
-		            PhotonNetwork.JoinRoom(roomName);
-		        }
-	        GUILayout.EndHorizontal();
-	
-	        //Create a room (fails if exist!)
-	        GUILayout.BeginHorizontal();
-		        GUILayout.Label("CREATE ROOM:", GUILayout.Width(150));
-		        roomName = GUILayout.TextField(roomName);
-		        if (GUILayout.Button("GO"))
-		        {
-					Playtomic.Log.Play();
-					//set number of players to 4. - Larry
-		            PhotonNetwork.CreateRoom(roomName, true, true, 4);
-		        }
-	        GUILayout.EndHorizontal();
-	
-	        //Join random room
-	        GUILayout.BeginHorizontal();
-		        GUILayout.Label("JOIN RANDOM ROOM:", GUILayout.Width(150));
-		        if (PhotonNetwork.GetRoomList().Length == 0)
-		        {
-		            GUILayout.Label("..no games available...");
-		        }
-		        else
-		        {
-		            if (GUILayout.Button("GO"))
-		            {
-						Playtomic.Log.Play();
-		                PhotonNetwork.JoinRandomRoom();
-		            }
-		        }
-	        GUILayout.EndHorizontal();
-	
-	        GUILayout.Space(30);
 	        GUILayout.Label("ROOM LISTING:");
 	        if (PhotonNetwork.GetRoomList().Length == 0)
 	        {
