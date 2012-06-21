@@ -18,16 +18,17 @@ public class NewLevelScript : MonoBehaviour {
 	void Start () 
 	{
 		
-		GameObject SpawnManager = GameObject.Find("Code");
+		//GameObject SpawnManager = GameObject.Find("Code");
 		
 		//move the code to the spawn manager's position
-		SpawnManager.transform.position = transform.position;
-		SpawnManager.transform.rotation = transform.rotation;
+		//SpawnManager.transform.position = transform.position;
+		//SpawnManager.transform.rotation = transform.rotation;
 		
-		manager = SpawnManager.GetComponent<GameManagerVik>();
+		//manager = SpawnManager.GetComponent<GameManagerVik>();
 
 		if(builderObj = GameObject.FindGameObjectWithTag("Builder"))
 		{
+			
 			builderObj.transform.position = BuilderSpawnPoint.transform.position;
 			ThirdPersonCameraNET cam = builderObj.GetComponent<ThirdPersonCameraNET>();
 			cam.LoadCameras();	
@@ -35,6 +36,7 @@ public class NewLevelScript : MonoBehaviour {
 		}	
 		if(moverObj = GameObject.FindGameObjectWithTag("Mover"))
 		{	
+		
 			moverObj.transform.position = MoverSpawnPoint.transform.position;
 			ThirdPersonCameraNET cam = moverObj.GetComponent<ThirdPersonCameraNET>();
 			cam.LoadCameras();	
@@ -42,6 +44,7 @@ public class NewLevelScript : MonoBehaviour {
 		}	
 		if(jumperObj = GameObject.FindGameObjectWithTag("Jumper"))
 		{
+			
 			jumperObj.transform.position = JumperSpawnPoint.transform.position;
 			ThirdPersonCameraNET cam = jumperObj.GetComponent<ThirdPersonCameraNET>();
 			cam.LoadCameras();	
