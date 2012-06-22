@@ -87,14 +87,4 @@ public class DoorScript : Photon.MonoBehaviour {
 	{
 		currDoorState = !currDoorState;		
 	}
-	
-	public void openDoor()
-	{
-		currDoorState = true;		
-	}
-	
-	public void closeDoor()
-	{
-		currDoorState = false;		
-	}
 }
