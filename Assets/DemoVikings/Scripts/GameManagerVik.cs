@@ -174,16 +174,42 @@ public class GameManagerVik : Photon.MonoBehaviour
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-			if (GUILayout.Button("Leave& QUIT"))
-	       	{
-					ChatVik.SP.AnnounceLeave();
+	        GUILayout.BeginHorizontal();
+				if (GUILayout.Button("Leave& QUIT", GUILayout.Width(100)))
+		       	{
+						ChatVik.SP.AnnounceLeave();
+					
+						PhotonNetwork.LeaveRoom();
+						selectedClass = "";
+						gameStarted = false;			
+	        	}					
+	        GUILayout.EndHorizontal();
+			
+	        GUILayout.BeginHorizontal();						
+				GUILayout.Label("You are now a " + selectedClass);
+	        GUILayout.EndHorizontal();						
+			
+			if(selectedClass == "Builder"){
+		        GUILayout.BeginHorizontal();
+					GUILayout.Space(500);
+			        GUILayout.Label("Block Ammo: " + ThirdPersonControllerNET.blockammo);			
+		        GUILayout.EndHorizontal();
 				
-					PhotonNetwork.LeaveRoom();
-					selectedClass = "";
-					gameStarted = false;			
-        	}
-	
-			GUILayout.Label("You are now a " + selectedClass);
+		        GUILayout.BeginHorizontal();
+					GUILayout.Space(500);
+			        GUILayout.Label("Plank Ammo: " + ThirdPersonControllerNET.plankammo);
+		        GUILayout.EndHorizontal();
+			}
+			
+			if(selectedClass == "Viewer"){
+		        GUILayout.BeginHorizontal();
+					GUILayout.Space(500);
+					string camIndex = ThirdPersonCameraNET.currCameraIndex.ToString();
+					if(camIndex == "0")
+						camIndex = "Main";
+			        GUILayout.Label("Camera: " + camIndex);			
+		        GUILayout.EndHorizontal();
+			}
 		}
     }
 
