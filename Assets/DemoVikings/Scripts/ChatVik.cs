@@ -67,7 +67,7 @@ public class ChatVik : Photon.MonoBehaviour
 		//GUI.DrawTexture(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight), texture);
 	  GUI.Box(new Rect(0, Screen.height - (chatHeight + 25.0f), 250 , chatHeight),"Chatbox");
       		
-        GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight));
+        GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight, 250, chatHeight));
         //Show scroll list of chat messages
         scrollPos = GUILayout.BeginScrollView(scrollPos);
         for (int i = messages.Count - 1; i >= 0; i--)
