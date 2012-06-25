@@ -59,14 +59,14 @@ public class EndingBoxScript : MonoBehaviour {
 	{
 		if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
 		{
-			nextLevel += 1;
-			GameManagerVik.nextLevel = nextLevel;
-			//Debug.Log("nextLevel updated = "+nextLevel);
-			alreadyLoading = true; 
-			
+			nextLevel += 1; 			
 			//last level check
 			if (nextLevel > (Application.levelCount - 1)) 
 				nextLevel = -1;
+			GameManagerVik.nextLevel = nextLevel;
+			Debug.Log("nextLevel updated = "+nextLevel);
+			
+			alreadyLoading = true;
 			
 			ThirdPersonControllerNET.blockammo = 1;
 			ThirdPersonControllerNET.plankammo = 5;
@@ -77,7 +77,9 @@ public class EndingBoxScript : MonoBehaviour {
 			if (nextLevel > -1)
 				Application.LoadLevel(nextLevel);
 			else
-				GUILayout.Label("FINAL LEVEL COMPLETE");
+			{
+				PhotonNetwork.LeaveRoom();
+			}
 		}
 	
 	}

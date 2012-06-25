@@ -15,7 +15,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	GameManagerVik MoverTest; 
 	
 	public int defaultCameraIndex; //for a fast reset.
-	public int currCameraIndex; //current game camera view.
+	public static int currCameraIndex; //current game camera view.
 		// The camera to control
 	public LayerMask obstacleLayers = -1, groundLayers = -1;
 		// Which layers should count as obstructing the view? And which are designated ground?

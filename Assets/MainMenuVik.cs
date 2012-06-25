@@ -149,8 +149,8 @@ public class MainMenuVik : Photon.MonoBehaviour
 		
 			//Player password input
 	        GUILayout.BeginHorizontal();
-		        GUILayout.Label("Password:", GUILayout.Width(150));
-		        pass1Input = GUILayout.TextField(pass1Input);
+		        GUILayout.Label("Password:", GUILayout.Width(150));		
+		        pass1Input = GUILayout.PasswordField(pass1Input, "*"[0], 15);
 	        GUILayout.EndHorizontal();
 		
 	        GUILayout.Space(20);
@@ -198,14 +198,14 @@ public class MainMenuVik : Photon.MonoBehaviour
 		
 	        GUILayout.BeginHorizontal();
 		        GUILayout.Label("Password:", GUILayout.Width(150));
-		        pass1Input = GUILayout.TextField(pass1Input);
+		        pass1Input = GUILayout.PasswordField(pass1Input, "*"[0], 15);
 	        GUILayout.EndHorizontal();
 		
 	        GUILayout.Space(15);
 		
 	        GUILayout.BeginHorizontal();
 		        GUILayout.Label("Confirm Password:", GUILayout.Width(150));
-		        pass2Input = GUILayout.TextField(pass2Input);
+		        pass2Input = GUILayout.PasswordField(pass2Input, "*"[0], 15);
 	        GUILayout.EndHorizontal();
 		
 	        GUILayout.Space(20);
@@ -286,14 +286,14 @@ public class MainMenuVik : Photon.MonoBehaviour
 					levelSelected--;
 					if(levelSelected < 1)
 						levelSelected = 1;
-			print(levelSelected);
+			//print(levelSelected);
 				}
 				GUILayout.Label("Level " + levelSelected.ToString(), GUILayout.Width(50));
 				if(GUILayout.Button(">>", GUILayout.Width(30))){
 					levelSelected++;
 					if(levelSelected > maxLevelData)
 						levelSelected = maxLevelData;
-			print(levelSelected);
+			//print(levelSelected);
 				}
 		
 		        if (GUILayout.Button("GO"))

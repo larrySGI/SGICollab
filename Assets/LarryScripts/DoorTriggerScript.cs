@@ -19,6 +19,8 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	private DoorScript ds2 = null;
 	private DoorScript ds3 = null;
 	private DoorScript ds4 = null;
+	
+	private bool triggered = false;
 			
 	public enum TriggerMode {
 	   All_At_Once,
@@ -109,7 +111,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 			if(MoverTest.selectedClass == "Viewer"){
 			//print(revealColours);
 				if(revealColours == true)
-				{			print("change!");	
+				{				
 					this.renderer.material.mainTexture = viewerTexture;
 					if(door1)
 						door1.renderer.material.mainTexture = viewerTexture;
@@ -192,43 +194,42 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	}
 		
 		void OnTriggerStay(){
-			if(triggerMode == TriggerMode.Hold_To_Open){				
+			if(triggerMode == TriggerMode.Hold_To_Open && !triggered){				
 				if (ds1 != null)	
-					ds1.openDoor();		
+					ds1.TriggerDoor();		
 				
 				if (ds2 != null)	
-					ds2.openDoor();	
+					ds2.TriggerDoor();	
 		
 				if (ds3 != null)	
-					ds3.openDoor();	
+					ds3.TriggerDoor();	
 		
 				if (ds4 != null)	
-					ds4.openDoor();	
-				}
+					ds4.TriggerDoor();	
+			
+				triggered = true;
+			}
 		}	
 	
 		void OnTriggerExit(){
-			if(triggerMode == TriggerMode.Hold_To_Open){				
+			if(triggerMode == TriggerMode.Hold_To_Open && triggered){				
 				if (ds1 != null)	
-					ds1.closeDoor();		
+					ds1.TriggerDoor();		
 				
 				if (ds2 != null)	
-					ds2.closeDoor();	
+					ds2.TriggerDoor();	
 		
 				if (ds3 != null)	
-					ds3.closeDoor();	
+					ds3.TriggerDoor();	
 		
 				if (ds4 != null)	
-					ds4.closeDoor();	
-				}
+					ds4.TriggerDoor();	
+			
+				triggered = false;
+			}
 		}
 	
 		public void toggleRevealColours(){
-		revealColours = !revealColours;
-//		print ("toggling");
-//			if(revealColours)
-//				revealColours = false;
-//			else
-//				revealColours = true;
+			revealColours = !revealColours;
 		}
 }
