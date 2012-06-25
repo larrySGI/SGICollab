@@ -4,7 +4,7 @@ using System.Collections;
 public class FPSFlyNET : MonoBehaviour {
 	private GameManagerVik MoverTest;
 	private Vector3 moveDirection = Vector3.zero;
-	private float speed = 6.0F;
+	public float speed = 6.0F;
 	// Use this for initialization
 	void Start () {
 	GameObject SpawnManager = GameObject.Find("Code");
