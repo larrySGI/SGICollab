@@ -15,6 +15,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public string jumperPrefabName = "Jumper";
 	public string moverPrefabName = "Mover";
 	public string viewerPrefabName = "Viewer";
+	public string spectatorPrefabName = "Spectator";
     public string selectedClass;
 	
 	public bool gameStarted = false;
@@ -86,13 +87,15 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
         // Spawn our local player
 		if(prefabName=="Mover")
-			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right,transform.rotation, 0, objs);		
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*5,transform.rotation, 0, objs);		
 		if(prefabName=="Jumper")
 			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*2, transform.rotation, 0, objs);
 		if(prefabName=="Builder")
 			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*3, transform.rotation, 0, objs);			
 		if(prefabName=="Viewer")
 			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*4, transform.rotation, 0, objs);	
+		if(prefabName=="Spectator")
+			PhotonNetwork.Instantiate(prefabName, transform.position, transform.rotation, 0, objs);	
 		
 		gameStarted = true;
 
@@ -158,6 +161,13 @@ public class GameManagerVik : Photon.MonoBehaviour
 				if (GUILayout.Button("Join as Jumper")){
 	      		    StartGame(this.jumperPrefabName);
 					selectedClass = this.jumperPrefabName;
+	        	}
+			}
+			if(!GameObject.FindWithTag("Spectator")){
+				if (GUILayout.Button("Join as Spectator")){
+					selectedClass = this.spectatorPrefabName;
+	      		    StartGame(this.spectatorPrefabName);
+					
 	        	}
 			}
 			 if (GUILayout.Button("Leave& QUIT")){

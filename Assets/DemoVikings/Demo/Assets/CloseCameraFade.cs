@@ -29,7 +29,7 @@ public class CloseCameraFade : MonoBehaviour
 		
 		if (camera == null)
 		{
-			camera = Camera.main;
+		//	camera = Camera.main;
 		}
 	}
 	

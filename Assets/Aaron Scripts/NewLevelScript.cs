@@ -6,12 +6,12 @@ public class NewLevelScript : MonoBehaviour {
 	public GameObject JumperSpawnPoint;
 	public GameObject MoverSpawnPoint;
 	public GameObject ViewerSpawnPoint;
-	
+	public GameObject SpectatorSpawnPoint;
 	private GameObject builderObj;
 	private GameObject moverObj;
 	private GameObject jumperObj;
 	private GameObject viewerObj;
-	
+	private GameObject spectatorObj;
 	private GameManagerVik manager;
 	
 	// Use this for initialization
@@ -59,7 +59,13 @@ public class NewLevelScript : MonoBehaviour {
 	
 		}
 		
-		
+		if(spectatorObj = GameObject.FindGameObjectWithTag("Spectator"))
+		{
+				print("moving spectator");
+			spectatorObj.transform.position = SpectatorSpawnPoint.transform.position;		
+			
+	
+		}
 					
 			
 		

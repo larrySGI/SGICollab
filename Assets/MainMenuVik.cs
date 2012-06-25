@@ -301,7 +301,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 					GameManagerVik.setNextLevel(levelSelected); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
 					Playtomic.Log.Play();
 					//set number of players to 4. - Larry
-		            PhotonNetwork.CreateRoom(roomName, true, true, 4);
+		            PhotonNetwork.CreateRoom(roomName, true, true, 10);
 		        }
 	        GUILayout.EndHorizontal();
 		
