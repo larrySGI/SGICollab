@@ -139,7 +139,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 		
 			//Player name input
 	        GUILayout.BeginHorizontal();
-		        GUILayout.Label("Nickname:", GUILayout.Width(150));
+		        GUILayout.Label("Username", GUILayout.Width(150));
 		        PhotonNetwork.playerName = GUILayout.TextField(PhotonNetwork.playerName);
 		        if (GUI.changed)
 		            PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
@@ -301,7 +301,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 					GameManagerVik.setNextLevel(levelSelected); //+1 because 0 is set aside for menu, tutorial is 1, and levels from 2 onwards
 					Playtomic.Log.Play();
 					//set number of players to 4. - Larry
-		            PhotonNetwork.CreateRoom(roomName, true, true, 10);
+		            PhotonNetwork.CreateRoom(roomName, true, true, 5);
 		        }
 	        GUILayout.EndHorizontal();
 		

@@ -57,6 +57,10 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	// Run setup on component attach, so it is visually more clear which references are used
 	{
 		Setup ();
+		//assuming that there's already a camera on the scene, this ensures that the camera index is the starting camera index. Should trigger when transitioning stages.
+		if (MoverTest != null)
+			if (MoverTest.selectedClass == "Viewer")
+					ResetCamera();
 	}
 	
 	
@@ -159,6 +163,17 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		return currCameraIndex;
 	}
 	
+	void ResetCamera()
+	{
+		currCameraIndex = defaultCameraIndex;
+		(cameras[defaultCameraIndex].GetComponent<Camera>() as Camera).enabled = true;
+		for (int i = 0; i < cameras.Length; ++i)
+		{
+			if (i != defaultCameraIndex)
+				(cameras[i].GetComponent<Camera>() as Camera).enabled = false;
+			
+		}
+	}
 
 	void Start ()
 	// Verify setup, initialise bookkeeping
