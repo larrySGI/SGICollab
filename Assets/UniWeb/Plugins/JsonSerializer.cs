@@ -11,9 +11,7 @@ using System.Linq;
  * MIT Licensed: http://www.opensource.org/licenses/mit-license.php
  */
 
-namespace HTTP
-{
-	public class JsonSerializer
+	public class JsonSerializer: MonoBehaviour
 	{
 		public const int TOKEN_NONE = 0;
 		public const int TOKEN_CURLY_OPEN = 1;
@@ -551,5 +549,3 @@ namespace HTTP
 
 	
 	}
-
-}

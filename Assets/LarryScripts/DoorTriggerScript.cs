@@ -101,7 +101,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 				
 				if (MoverTest.gameStarted)
 				{		
-					resetDoorTime(PhotonTargets.Others);
+					resetDoorTime(PhotonTargets.All);
 					started = true;	
 			
 				}	
