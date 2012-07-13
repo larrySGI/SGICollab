@@ -78,7 +78,7 @@ public class UserDatabase : MonoBehaviour {
 		print("Logging in...");
 		
 			string url = "http://fierce-wind-6489.herokuapp.com/users/sign_in?";
-			string urlconcat ="user[name]="+username+"&user[password]="+password;
+			string urlconcat ="user[name]="+username+"&user[password]="+password+"&user[maxStageReached]=1";
 			
 			var r = new HTTP.Request ("POST", url+urlconcat);
 			r.Send ();
