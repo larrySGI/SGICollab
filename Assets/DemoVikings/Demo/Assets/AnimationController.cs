@@ -116,7 +116,7 @@ public class AnimationController : MonoBehaviour
 		canLand = false;
 		state = CharacterState.Jumping;
 		
-		//Invoke ("Fall", target["Jump"].length);
+		Invoke ("Fall", target["Jump"].length);
 	}
 	
 	
