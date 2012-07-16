@@ -9,6 +9,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	private bool menuOn = false;
 	private bool slowDown = false;
 	private int slowdownmeter = 0;
+	private int jumpmeter = 0;
+	private bool didJump = false;
 	private int level_number=0;
 	public Rigidbody target;
 	public static int blockammo;
@@ -344,18 +346,32 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void FixedUpdate ()
 	// Handle movement here since physics will only be calculated in fixed frames anyway
 	{
-		grounded = isFourPointGrounded ();
+		
 		//print (grounded);
       	if (isRemotePlayer) return;
 		if (menuOn) return;	
 	
+		if(didJump){
+			grounded=false;
+			jumpmeter++;
+				if(jumpmeter == 20){ //insane high drag for 20 frames
+					grounded = isFourPointGrounded ();
+					jumpmeter=0;
+						didJump = false;
+				}
+				
+		}else{
+		grounded = isFourPointGrounded ();
+		}
+		
 		if (grounded)
 		{
+			
 			if(slowDown){ //if is slowing down
 			if(target.drag > groundDrag)
 			{
 				slowdownmeter++;
-				if(slowdownmeter == 20){ //insane high drag for 20 frames
+				if(slowdownmeter == 15){ //insane high drag for 20 frames
 					target.drag = groundDrag;
 					slowdownmeter=0;
 						slowDown = false;
@@ -369,10 +385,17 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			target.drag = groundDrag;
 			}
 					// Apply drag when we're grounded
-			if (Input.GetKeyUp("w")||Input.GetKeyUp("s")||Input.GetKeyUp("a")||Input.GetKeyUp("d")){
+			if (Input.GetKeyUp("w")||Input.GetKeyUp("s")){
 					target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
+			if (Input.GetKeyUp("a")||Input.GetKeyUp("d")){
+				if (Input.GetKeyDown("w")||Input.GetKeyDown("s")){
+					
+				}else{
+//				a
+				}
+			}
 			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
 			{	
@@ -389,15 +412,17 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						ForceMode.VelocityChange
 					);
 					grounded=false;
+					didJump = true;
+					if (onJump != null)
+				{
+					onJump ();
+				}
 					// When jumping, we set the velocity upward with our jump speed
 					// plus some application of directional movement
 				}
 								
-				if (onJump != null)
-				{
-					onJump ();
-				}
 				
+//				
 			}
 			else
 			// Only allow movement controls if we did not just jump
