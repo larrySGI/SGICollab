@@ -351,18 +351,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
       	if (isRemotePlayer) return;
 		if (menuOn) return;	
 	
-		if(didJump){
-			grounded=false;
-			jumpmeter++;
-				if(jumpmeter == 20){ //insane high drag for 20 frames
-					grounded = isFourPointGrounded ();
-					jumpmeter=0;
-						didJump = false;
-				}
-				
-		}else{
+		
 		grounded = isFourPointGrounded ();
-		}
+		
 		
 		if (grounded)
 		{
@@ -389,13 +380,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
-			if (Input.GetKeyUp("a")||Input.GetKeyUp("d")){
-				if (Input.GetKeyDown("w")||Input.GetKeyDown("s")){
-					
-				}else{
-//				a
-				}
-			}
+
+			
 			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
 			{	
@@ -412,8 +398,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						ForceMode.VelocityChange
 					);
 					grounded=false;
-					didJump = true;
-					if (onJump != null)
+				if (onJump != null)
 				{
 					onJump ();
 				}
@@ -421,7 +406,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					// plus some application of directional movement
 				}
 								
-				
+	
+	
 //				
 			}
 			else
