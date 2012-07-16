@@ -38,7 +38,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			// Turn this on if you want mouse lock controlled by this script
 	public JumpDelegate onJump = null;
 		// Assign to this delegate to respond to the controller jumping
-	public float groundDrag = 25000.0f;
+	public const float groundDrag =5.0f;
 	
 	private const float inputThreshold = 0.01f,
 		directionalJumpFactor = 0.7f;
@@ -360,12 +360,19 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					slowdownmeter=0;
 						slowDown = false;
 				}
-			}
+			}else{
+				target.drag = groundDrag;
+					slowdownmeter=0;
+						slowDown = false;
+				}
 			}else{
 			target.drag = groundDrag;
 			}
 					// Apply drag when we're grounded
-			
+			if (Input.GetKeyUp("w")||Input.GetKeyUp("s")||Input.GetKeyUp("a")||Input.GetKeyUp("d")){
+					target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
 			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
 			{	
@@ -374,13 +381,14 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 				if (target.rigidbody.velocity.y <= 0)
 				{
-					Vector3 jump = 	jumpSpeed * target.transform.up.normalized +
+					Vector3 jump = 	jumpSpeed * target.transform.up +
 						target.velocity.normalized * directionalJumpFactor;
 				
 					target.AddForce (
 						jump,
 						ForceMode.VelocityChange
 					);
+					grounded=false;
 					// When jumping, we set the velocity upward with our jump speed
 					// plus some application of directional movement
 				}
@@ -419,10 +427,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				// If we are grounded and don't have significant input, just stop horizontal movement
 				//{
 				
-				if (Input.GetKeyUp("w")||Input.GetKeyUp("s")){
-					target.drag = 1000000000000000.0f;
-				slowDown = true;
-				}
+				
 		//		if(Input.GetAxis("Vertical")==0)
 		//			target.velocity=new Vector3(0.0f,target.velocity.y,0.0f);
 		//			return;
