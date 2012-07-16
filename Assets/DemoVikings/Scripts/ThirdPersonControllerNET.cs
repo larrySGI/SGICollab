@@ -7,8 +7,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 {
 	
 	private bool menuOn = false;
-	
-	
+	private bool slowDown = false;
+	private int slowdownmeter = 0;
 	private int level_number=0;
 	public Rigidbody target;
 	public static int blockammo;
@@ -38,10 +38,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			// Turn this on if you want mouse lock controlled by this script
 	public JumpDelegate onJump = null;
 		// Assign to this delegate to respond to the controller jumping
-	
+	public float groundDrag = 25000.0f;
 	
 	private const float inputThreshold = 0.01f,
-		groundDrag = 5.0f,
 		directionalJumpFactor = 0.7f;
 		// Tweak these to adjust behaviour relative to speed
 	private const float groundedDistance = 0.2f;
@@ -352,10 +351,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	
 		if (grounded)
 		{
-			
-			
+			if(slowDown){ //if is slowing down
+			if(target.drag > groundDrag)
+			{
+				slowdownmeter++;
+				if(slowdownmeter == 20){ //insane high drag for 20 frames
+					target.drag = groundDrag;
+					slowdownmeter=0;
+						slowDown = false;
+				}
+			}
+			}else{
 			target.drag = groundDrag;
-				// Apply drag when we're grounded
+			}
+					// Apply drag when we're grounded
 			
 			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
@@ -385,6 +394,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			else
 			// Only allow movement controls if we did not just jump
 			{
+				//target.drag = 5.0f;
 				Vector3 movement = Input.GetAxis ("Vertical") * target.transform.forward +
 					SidestepAxisInput * target.transform.right;
 				
@@ -403,16 +413,23 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				// Only apply movement if we have sufficient input
 				//{
 					target.AddForce (movement.normalized * appliedSpeed, ForceMode.VelocityChange);
+				
 				//}
 				//else
 				// If we are grounded and don't have significant input, just stop horizontal movement
 				//{
-			//		target.velocity = new Vector3 (0.0f, target.velocity.y, 0.0f);
+				
+				if (Input.GetKeyUp("w")||Input.GetKeyUp("s")){
+					target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
+		//		if(Input.GetAxis("Vertical")==0)
+		//			target.velocity=new Vector3(0.0f,target.velocity.y,0.0f);
 		//			return;
 		//		}
 			}
 		}
-		else
+		else //flying
 		{		
 			    //clamping jump speed
 				if (rigidbody.velocity.y > jumpSpeed)
