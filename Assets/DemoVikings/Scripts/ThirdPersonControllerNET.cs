@@ -355,7 +355,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if(target.drag > groundDrag)
 			{
 				slowdownmeter++;
-				if(slowdownmeter == 15){ //insane high drag for 20 frames
+				if(slowdownmeter >= 5){ //insane high drag for 20 frames
 					target.drag = groundDrag;
 					slowdownmeter=0;
 						slowDown = false;
@@ -369,11 +369,52 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			target.drag = groundDrag;
 			}
 					// Apply drag when we're grounded
-			if (Input.GetKeyUp("w")||Input.GetKeyUp("s")){
-					target.drag = 1000000000000000.0f;
+			
+			if (Input.GetKeyUp("w")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (-target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("w")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with drag ");
+				target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
+			if (Input.GetKeyUp("s")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
+				print("stopping with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("s")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
+				print("stopping with drag");
+				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
 			
+			
+			//strafing stop
+			if (Input.GetKeyUp("a")&&(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("a")&&!(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with drag ");
+				target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
+			if (Input.GetKeyUp("d")&&(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
+				print("stopping with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (-target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("d")&&!(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
+				print("stopping with drag");
+				target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
+			
+					// Apply drag when we're grounded
 			
 			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
