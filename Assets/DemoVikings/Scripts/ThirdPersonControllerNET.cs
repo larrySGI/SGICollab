@@ -117,7 +117,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 			if(target.name.Contains("Builder"))
 			{
-				if (Input.GetMouseButton(0)){
+				if (Input.GetMouseButtonUp(0)){
 					if(blockammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
@@ -126,7 +126,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						blockammo--;
 					}
 				}
-				if (Input.GetMouseButton(1)){
+				if (Input.GetMouseButtonUp(1)){
 					
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
@@ -143,7 +143,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 				if(gravityGunState == GravityGunState.Free) 
 				{
-					    if(Input.GetMouseButton(0)) 
+					    if(Input.GetMouseButtonUp(0)) 
 						{
 									float range = target.transform.localScale.z * triggerHoldRange;
 									//float rad = target.collider.radius;
@@ -183,7 +183,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetMouseButton(0))
+					    if(!Input.GetMouseButtonUp(0))
 					           gravityGunState = GravityGunState.Occupied;     
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
@@ -196,7 +196,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(Input.GetMouseButton(0))
+					    if(Input.GetMouseButtonUp(0))
 							gravityGunState = GravityGunState.Charge;
 				}
 			
@@ -204,7 +204,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetMouseButton(0))
+					    if(!Input.GetMouseButtonUp(0))
 					    {
 							if(rigid.name.Contains("pPlatform"))
 								rigid.isKinematic = true;
