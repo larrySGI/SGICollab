@@ -32,7 +32,7 @@ internal class Playtomic_Request
 		var www = new WWW(turl, post);
 		yield return www;
 		
-		Debug.Log(www.text);
+//		Debug.Log(www.text);
 	}
 	
 	public static void Prepare(string section, string action, Dictionary<String, String> postdata, out string url, out WWWForm post)
