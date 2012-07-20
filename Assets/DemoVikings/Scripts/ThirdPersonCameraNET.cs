@@ -27,12 +27,8 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		distanceUpdateSpeed = 10.0f,
 		followUpdateSpeed = 10.0f;
 		// Tweak these to adjust camera responsiveness
-	public float maxForwardAngle = 80.0f;
+	public float maxForwardAngle = 40.0f;
 		// Tweak to adjust camera clamping angle - specifies the maximum angle between target and clamped camera forward
-	public float minDistance = 0.1f,
-		maxDistance = 0.5f,
-		zoomSpeed = 1.0f;
-		// Tweak to adjust scrollwheel zoom
 	public bool
 		showGizmos = true,
 			// Turn this off to reduce gizmo clutter if needed
@@ -40,7 +36,11 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			// Turn this off if the camera should be controllable even without cursor lock
 		controlLock = false;
 			// Turn this off if you want mouse lock controlled elsewhere
-		
+	
+	public float minDistance = 0.1f,
+		maxDistance = 3.0f,
+		zoomSpeed = 0.5f;
+		// Tweak to adjust scrollwheel zoom	
 		
 	private const float movementThreshold = 0.1f, rotationThreshold = 0.1f;
 		// Tweak these to adjust camera responsiveness
@@ -258,7 +258,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	// Update optimal distance based on scroll wheel input
 	{
 		optimalDistance = Mathf.Clamp (
-			optimalDistance + Input.GetAxis ("Mouse ScrollWheel") * -zoomSpeed * Time.deltaTime,
+			optimalDistance,// + Input.GetAxis ("Mouse ScrollWheel") * -zoomSpeed * Time.deltaTime,
 			minDistance,
 			maxDistance
 		);
@@ -405,22 +405,38 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		bool lookFromBelow = Vector3.Angle (camera.transform.forward, target.transform.up * -1) >
 			Vector3.Angle (camera.transform.forward, target.transform.up);
 			// Is the camera looking up at the target?
-		
+
+		//We don't actually need the grounded && lookfrombelow check. Surprise surprise. 
+		/*
 		if (grounded &&	lookFromBelow)
 		// If we're grounded and look up from this position - applying the vertical rotation to the camera pivot point
 		{
+		
 			camera.transform.RotateAround (camera.transform.position, camera.transform.right, rotationAmount);
+			//camera.transform.LookAt (target.transform.position);
+			
+			float forwardAngle = Vector3.Angle (target.transform.forward, SnappedCameraForward);
+				// Get the new rotation relative to the target forward vector
+			if (forwardAngle > 0)
+			// If the new rotation brought the camera over the clamp max, rotate it back by the difference
+			{
+				camera.transform.RotateAround (
+					target.transform.position,
+					camera.transform.right,
+					lookFromBelow ? forwardAngle - 0 : maxForwardAngle - 0
+				);
+			}
+			
 		}
 		else
 		// If we're not grounded, apply the vertical rotation to the target pivot point
-		{
+		{*/
 			camera.transform.RotateAround (target.transform.position, camera.transform.right, rotationAmount);
 			camera.transform.LookAt (target.transform.position);
 				// Apply rotation and keep looking at the target
 			
 			float forwardAngle = Vector3.Angle (target.transform.forward, SnappedCameraForward);
 				// Get the new rotation relative to the target forward vector
-			
 			if (forwardAngle > maxForwardAngle)
 			// If the new rotation brought the camera over the clamp max, rotate it back by the difference
 			{
@@ -430,7 +446,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 					lookFromBelow ? forwardAngle - maxForwardAngle : maxForwardAngle - forwardAngle
 				);
 			}
-		}
+		//}
 	}
 	
 	
