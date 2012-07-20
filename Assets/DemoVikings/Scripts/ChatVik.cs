@@ -15,10 +15,12 @@ public class ChatVik : Photon.MonoBehaviour
     public List<string> messages = new List<string>();
 	public List<Color> messageColor = new List<Color>();
 	
-    private int chatHeight = (int)140;
+    private int chatHeight = 150;
     private Vector2 scrollPos = Vector2.zero;
     private string chatInput = "";
     private float lastUnfocusTime = 0;
+	//float inputAreaAlpha = 100;
+	float inputAreaY = (float)-((Screen.height * 0.5) + 50);
 	
 	private GameManagerVik manager;
 	
@@ -62,29 +64,19 @@ public class ChatVik : Photon.MonoBehaviour
 		
 		if (!manager.gameStarted) return;
 		
-		GUI.SetNextControlName("");
 		
-		//GUI.DrawTexture(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight), texture);
-	  GUI.Box(new Rect(0, Screen.height - (chatHeight + 25.0f), 250 , chatHeight),"Chatbox");
-      		
-        GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight, 250, chatHeight));
-        //Show scroll list of chat messages
-        scrollPos = GUILayout.BeginScrollView(scrollPos);
-        for (int i = messages.Count - 1; i >= 0; i--)
-        {
-            GUI.color = messageColor[i];
-			GUILayout.Label(messages[i]);
-        }
-        GUILayout.EndScrollView();
-        GUI.color = Color.white;
-
         //Chat input
+		GUILayout.Space(inputAreaY);
         GUILayout.BeginHorizontal(); 
         GUI.SetNextControlName("ChatField");
+		GUILayout.Space(Screen.width * 0.5f - 100);
     	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(200));
        
         if (Event.current.type == EventType.keyDown && Event.current.character == '\n')
+		//if(Input.GetKeyDown(KeyCode.KeypadEnter))
 		{
+			inputAreaY *= -1;
+			
          	if (GUI.GetNameOfFocusedControl() == "ChatField")
             {                
                 SendChat(PhotonTargets.All);
@@ -99,18 +91,30 @@ public class ChatVik : Photon.MonoBehaviour
                     GUI.FocusControl("ChatField");
                 }
             }
-        }
-
-        //if (GUILayout.Button("SEND", GUILayout.Height(17)))
-         //   SendChat(PhotonTargets.All);
+        }		
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
+		
+		
+		//Chat log area
+		GUI.SetNextControlName("");		
+//		GUI.DrawTexture(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight), texture);
+	  	GUI.Box(new Rect(0, Screen.height - chatHeight, 250 , chatHeight),"Chatbox");
+      		
+        GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight, 250, chatHeight));
+        //Show scroll list of chat messages
+        scrollPos = GUILayout.BeginScrollView(scrollPos);
+        for (int i = messages.Count - 1; i >= 0; i--)
+        {
+            GUI.color = messageColor[i];
+			GUILayout.Label(messages[i]);
+        }
+        GUILayout.EndScrollView();
+        GUI.color = Color.white;
+
+
 
    		GUILayout.EndArea();
-		
-
-		
-		
     }
 
     public static void AddMessage(string text, string incomingchatterclass)
