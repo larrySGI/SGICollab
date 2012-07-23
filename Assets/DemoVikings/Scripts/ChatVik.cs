@@ -19,7 +19,6 @@ public class ChatVik : Photon.MonoBehaviour
     private Vector2 scrollPos = Vector2.zero;
     private string chatInput = "";
     private float lastUnfocusTime = 0;
-	//float inputAreaAlpha = 100;
 	float inputAreaY = (float)-((Screen.height * 0.5) + 50);
 	
 	private GameManagerVik manager;
@@ -30,11 +29,6 @@ public class ChatVik : Photon.MonoBehaviour
 	private string path; //path to save chat log to
 	private string fileName; //file name for the chat log
 
-	void Start()
-	{
-	
-	
-	}
 	
     void Awake()
     {
@@ -53,6 +47,10 @@ public class ChatVik : Photon.MonoBehaviour
 		SP = this;
     }
 	
+	void Start()
+	{
+	}
+	
 	public void Reset()
 	{
 		SP = this;
@@ -63,58 +61,60 @@ public class ChatVik : Photon.MonoBehaviour
       //  Debug.Log(SP == null);
 		
 		if (!manager.gameStarted) return;
-		
-		
-        //Chat input
-		GUILayout.Space(inputAreaY);
-        GUILayout.BeginHorizontal(); 
-        GUI.SetNextControlName("ChatField");
-		GUILayout.Space(Screen.width * 0.5f - 100);
-    	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(200));
-       
-        if (Event.current.type == EventType.keyDown && Event.current.character == '\n')
-		//if(Input.GetKeyDown(KeyCode.KeypadEnter))
-		{
-			inputAreaY *= -1;
-			
-         	if (GUI.GetNameOfFocusedControl() == "ChatField")
-            {                
-                SendChat(PhotonTargets.All);
-                lastUnfocusTime = Time.time;
-                GUI.FocusControl("");
-                GUI.UnfocusWindow();
-            }
-            else
-            {
-                if (lastUnfocusTime < Time.time - 0.1f)
-                {
-                    GUI.FocusControl("ChatField");
-                }
-            }
-        }		
-        GUILayout.FlexibleSpace();
-        GUILayout.EndHorizontal();
-		
+	
 		
 		//Chat log area
 		GUI.SetNextControlName("");		
 //		GUI.DrawTexture(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight), texture);
 	  	GUI.Box(new Rect(0, Screen.height - chatHeight, 250 , chatHeight),"Chatbox");
       		
-        GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight, 250, chatHeight));
-        //Show scroll list of chat messages
-        scrollPos = GUILayout.BeginScrollView(scrollPos);
-        for (int i = messages.Count - 1; i >= 0; i--)
-        {
-            GUI.color = messageColor[i];
-			GUILayout.Label(messages[i]);
-        }
-        GUILayout.EndScrollView();
-        GUI.color = Color.white;
+        GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight + 25, 250, chatHeight));
+		
+	        //Show scroll list of chat messages
+	        scrollPos = GUILayout.BeginScrollView(scrollPos);
+		
+	        for (int i = 0; i < messages.Count; i++)
+	        {
+	            GUI.color = messageColor[i];
+				GUILayout.Label(messages[i]);
+				Debug.Log ("test");
+	        }
+	        GUILayout.EndScrollView();
+	        GUI.color = Color.white;		
 
-
-
-   		GUILayout.EndArea();
+   		GUILayout.EndArea();			
+		
+		
+		//Chat input
+		GUILayout.Space(inputAreaY);
+        GUILayout.BeginHorizontal(); 
+	        GUI.SetNextControlName("ChatField");
+			GUILayout.Space(Screen.width * 0.5f - 75);
+	    	chatInput = GUILayout.TextField(chatInput, 20, GUILayout.MinWidth(150));
+	       
+	        if (Event.current.type == EventType.keyDown && Event.current.character == '\n')
+			//if(Input.GetKeyDown(KeyCode.KeypadEnter))
+			{
+				//My way of hiding the GUI
+				inputAreaY *= -1;
+				
+	         	if (GUI.GetNameOfFocusedControl() == "ChatField")
+	            {                
+	                SendChat(PhotonTargets.All);
+	                lastUnfocusTime = Time.time;
+	                GUI.FocusControl("");
+	               	GUI.UnfocusWindow();
+	            }
+	            else
+	            {
+	                if (lastUnfocusTime < Time.time - 0.1f)
+	                {
+	                    GUI.FocusControl("ChatField");
+	                }
+	            }
+	        }		
+	        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
     }
 
     public static void AddMessage(string text, string incomingchatterclass)
@@ -122,7 +122,8 @@ public class ChatVik : Photon.MonoBehaviour
         SP.messages.Add(text);
 		
 		if (incomingchatterclass == "Builder")
-			SP.messageColor.Add(Color.magenta);
+			SP.messageColor.Add(Color.white);
+		
 		if (incomingchatterclass == "Viewer")
 			SP.messageColor.Add(Color.green);
 
@@ -132,7 +133,7 @@ public class ChatVik : Photon.MonoBehaviour
 		if (incomingchatterclass == "Mover")
 			SP.messageColor.Add(Color.yellow);
 
-        if (SP.messages.Count > 15)
+        if (SP.messages.Count > 5)
 		{
             SP.messages.RemoveAt(0);
 			SP.messageColor.RemoveAt(0);
