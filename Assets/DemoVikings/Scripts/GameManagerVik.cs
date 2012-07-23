@@ -163,13 +163,13 @@ public class GameManagerVik : Photon.MonoBehaviour
 					selectedClass = this.jumperPrefabName;
 	        	}
 			}
-			if(!GameObject.FindWithTag("Spectator")){
-				if (GUILayout.Button("Join as Spectator")){
-					selectedClass = this.spectatorPrefabName;
-	      		    StartGame(this.spectatorPrefabName);
-					
-	        	}
-			}
+//			if(!GameObject.FindWithTag("Spectator")){
+//				if (GUILayout.Button("Join as Spectator")){
+//					selectedClass = this.spectatorPrefabName;
+//	      		    StartGame(this.spectatorPrefabName);
+//					
+//	        	}
+//			}
 			 if (GUILayout.Button("Leave& QUIT")){
         	    PhotonNetwork.LeaveRoom();
 				selectedClass = "";

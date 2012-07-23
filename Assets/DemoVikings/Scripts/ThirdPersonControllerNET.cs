@@ -119,7 +119,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 			if(target.name.Contains("Builder"))
 			{
-				if (Input.GetKeyUp("r")){
+				if (Input.GetMouseButtonUp(0)){
 					if(blockammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
@@ -128,7 +128,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						blockammo--;
 					}
 				}
-				if (Input.GetKeyUp("t")){
+				if (Input.GetMouseButtonUp(1)){
 					
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
@@ -145,7 +145,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 				if(gravityGunState == GravityGunState.Free) 
 				{
-					    if(Input.GetKeyDown("t")) 
+					    if(Input.GetMouseButtonUp(0)) 
 						{
 									float range = target.transform.localScale.z * triggerHoldRange;
 									//float rad = target.collider.radius;
@@ -185,7 +185,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetKey("t"))
+					    if(!Input.GetMouseButtonUp(0))
 					           gravityGunState = GravityGunState.Occupied;     
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
@@ -198,7 +198,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(Input.GetKey("t"))
+					    if(Input.GetMouseButtonUp(0))
 							gravityGunState = GravityGunState.Charge;
 				}
 			
@@ -206,7 +206,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetKey("t"))
+					    if(!Input.GetMouseButtonUp(0))
 					    {
 							if(rigid.name.Contains("pPlatform"))
 								rigid.isKinematic = true;
@@ -362,7 +362,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if(target.drag > groundDrag)
 			{
 				slowdownmeter++;
-				if(slowdownmeter == 15){ //insane high drag for 20 frames
+				if(slowdownmeter >= 5){ //insane high drag for 20 frames
 					target.drag = groundDrag;
 					slowdownmeter=0;
 						slowDown = false;
@@ -376,19 +376,60 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			target.drag = groundDrag;
 			}
 					// Apply drag when we're grounded
-			if (Input.GetKeyUp("w")||Input.GetKeyUp("s")){
-					target.drag = 1000000000000000.0f;
+			
+			if (Input.GetKeyUp("w")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (-target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("w")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with drag ");
+				target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
+			if (Input.GetKeyUp("s")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
+				print("stopping with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("s")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
+				print("stopping with drag");
+				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
 
 			
+			//strafing stop
+			if (Input.GetKeyUp("a")&&(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("a")&&!(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
+				print("stopping forward with drag ");
+				target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
+			if (Input.GetKeyUp("d")&&(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
+				print("stopping with force ");
+				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+					target.AddForce (-target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
+				}
+			if (Input.GetKeyUp("d")&&!(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
+				print("stopping with drag");
+				target.drag = 1000000000000000.0f;
+				slowDown = true;
+				}
+			
+					// Apply drag when we're grounded
+			
 			if (Input.GetButton ("Jump") || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
 			// Handle jumping
 			{	
-				Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
-				print("sending analytics");
-				
-				if (target.rigidbody.velocity.y <= 0)
+			//	Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
+			//	print("sending analytics");
+				print("got the jump button");
+				if (target.rigidbody.velocity.y < 0.5) //stopped or dropping (since we're grounded)
 				{
 					Vector3 jump = 	jumpSpeed * target.transform.up +
 						target.velocity.normalized * directionalJumpFactor;
@@ -397,9 +438,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						jump,
 						ForceMode.VelocityChange
 					);
+					print("applied jump force");
 					grounded=false;
 				if (onJump != null)
 				{
+						print("playing onjump");
 					onJump ();
 				}
 					// When jumping, we set the velocity upward with our jump speed
