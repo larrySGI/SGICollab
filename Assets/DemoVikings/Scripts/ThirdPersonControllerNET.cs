@@ -355,7 +355,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if(target.drag > groundDrag)
 			{
 				slowdownmeter++;
-				if(slowdownmeter >= 5){ //insane high drag for 20 frames
+				if(slowdownmeter >= 15){ //insane high drag for 20 frames
 					target.drag = groundDrag;
 					slowdownmeter=0;
 						slowDown = false;
