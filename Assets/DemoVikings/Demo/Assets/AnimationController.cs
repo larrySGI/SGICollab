@@ -153,7 +153,7 @@ public class AnimationController : MonoBehaviour
 			return;
 		}
 		state = CharacterState.Normal;
-	}
+	}  
 	
 	
 	void FixedUpdate ()

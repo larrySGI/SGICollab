@@ -77,7 +77,7 @@ public class ChatVik : Photon.MonoBehaviour
 	        {
 	            GUI.color = messageColor[i];
 				GUILayout.Label(messages[i]);
-				Debug.Log ("test");
+			
 	        }
 	        GUILayout.EndScrollView();
 	        GUI.color = Color.white;		
@@ -231,3 +231,4 @@ public class ChatVik : Photon.MonoBehaviour
         fs.Write(info, 0, info.Length);
     }
 }
+

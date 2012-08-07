@@ -232,4 +232,10 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		public void toggleRevealColours(){
 			revealColours = !revealColours;
 		}
+	public void showColours(){
+			revealColours = true;
+	}
+	public void hideColours(){
+			revealColours = false;
+	}
 }
