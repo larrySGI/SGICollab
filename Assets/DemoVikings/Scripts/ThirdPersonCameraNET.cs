@@ -148,13 +148,14 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	}
 	
 	
-	int SwitchCamera()
+	int SwitchCamera(int i)
 	{
 		(cameras[currCameraIndex].GetComponent<Camera>() as Camera).enabled = false;
-		currCameraIndex++;	
-		
-		if (currCameraIndex >= cameras.Length ) 
+			currCameraIndex = i-1;
+		if(currCameraIndex >= cameras.Length){
 			currCameraIndex = 0;
+		}
+		
 	
 		//print("currCameraIndex = " + currCameraIndex);
 		
@@ -285,21 +286,30 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	void LateUpdate ()
 	// Update camera position - specifics are delegated to camera mode functions
 	{		
+		
 		if (MoverTest)
 		{
-			if (Input.GetKeyUp("t")	 && MoverTest.selectedClass == "Viewer")
+			if ((Input.GetKeyDown("1")||Input.GetKeyDown("2")||Input.GetKeyDown("3")||Input.GetKeyDown("4")||Input.GetKeyDown("5")||Input.GetKeyDown("6")||Input.GetKeyDown("7")||Input.GetKeyDown("8"))	 && MoverTest.selectedClass == "Viewer")
 			{
-				int curCam = SwitchCamera();
+				int curCam = SwitchCamera(int.Parse(Input.inputString));
 				
-				if(curCam == 0 || curCam == 1){			
+				if(curCam > 0 ){			
 					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
 					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
-					thisScript.toggleRevealColours();
+					thisScript.showColours();
 					
 					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
 					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
-					thatScript.toggleRevealColours();
-				}				
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
 			}
 		}
 		
