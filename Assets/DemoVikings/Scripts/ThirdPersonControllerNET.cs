@@ -362,7 +362,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if(target.drag > groundDrag)
 			{
 				slowdownmeter++;
-				if(slowdownmeter >= 5){ //insane high drag for 20 frames
+				if(slowdownmeter >= 15){ //insane high drag for 20 frames
 					target.drag = groundDrag;
 					slowdownmeter=0;
 						slowDown = false;
@@ -440,16 +440,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					);
 					print("applied jump force");
 					grounded=false;
-				if (onJump != null)
-				{
-						print("playing onjump");
-					onJump ();
-				}
+				
 					// When jumping, we set the velocity upward with our jump speed
 					// plus some application of directional movement
 				}
 								
-	
+	if (onJump != null)
+				{
+					onJump ();
+				}
 	
 //				
 			}

@@ -164,12 +164,10 @@ public class AnimationController : MonoBehaviour
 			if (state == CharacterState.Falling || (state == CharacterState.Jumping && canLand))
 			{
 				OnLand ();
-				print("jumping and can land");
 			}
 		}
 		else if (state == CharacterState.Jumping)
 		{
-			print("jumping");
 			canLand = true;
 		}
 	}
