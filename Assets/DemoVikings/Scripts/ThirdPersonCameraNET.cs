@@ -258,6 +258,187 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	void Update ()
 	// Update optimal distance based on scroll wheel input
 	{
+		if (MoverTest)
+		{
+			if (Input.GetKeyDown("1") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(1);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+			if (Input.GetKeyDown("2") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(2);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+			if (Input.GetKeyDown("3") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(3);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+			if (Input.GetKeyDown("4") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(4);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+			if (Input.GetKeyDown("5") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(5);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+			if (Input.GetKeyDown("6") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(6);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+			if (Input.GetKeyDown("7") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(7);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+			if (Input.GetKeyDown("8") && MoverTest.selectedClass == "Viewer")
+			{
+				int curCam = SwitchCamera(8);
+				
+				if(curCam > 0 ){			
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.showColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.showColours();
+				}else{
+					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+					thisScript.hideColours();
+					
+					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+					thatScript.hideColours();
+				}
+			}
+		}
+		
+		
 		optimalDistance = Mathf.Clamp (
 			optimalDistance,// + Input.GetAxis ("Mouse ScrollWheel") * -zoomSpeed * Time.deltaTime,
 			minDistance,
@@ -287,31 +468,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	// Update camera position - specifics are delegated to camera mode functions
 	{		
 		
-		if (MoverTest)
-		{
-			if ((Input.GetKeyDown("1")||Input.GetKeyDown("2")||Input.GetKeyDown("3")||Input.GetKeyDown("4")||Input.GetKeyDown("5")||Input.GetKeyDown("6")||Input.GetKeyDown("7")||Input.GetKeyDown("8"))	 && MoverTest.selectedClass == "Viewer")
-			{
-				int curCam = SwitchCamera(int.Parse(Input.inputString));
-				
-				if(curCam > 0 ){			
-					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
-					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
-					thisScript.showColours();
-					
-					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
-					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
-					thatScript.showColours();
-				}else{
-					GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
-					DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
-					thisScript.hideColours();
-					
-					GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
-					triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
-					thatScript.hideColours();
-				}
-			}
-		}
+		
 		
 		//swapped
 		if (

@@ -78,6 +78,7 @@ public class AnimationController : MonoBehaviour
 		if (VerifySetup ())
 		{
 			controller = GetComponent<ThirdPersonControllerNET> ();
+			controller.animation["Run"].speed = 5.0f;
 			controller.onJump += OnJump;
 				// Have OnJump invoked when the ThirdPersonController starts a jump
 			currentRotation = 0.0f;
