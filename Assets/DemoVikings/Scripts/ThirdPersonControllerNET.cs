@@ -38,7 +38,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			// Turn this off if the camera should be controllable even without cursor lock
 		controlLock = true;
 			// Turn this on if you want mouse lock controlled by this script
-	public JumpDelegate onJump = null;
+	public JumpDelegate onJump;
 		// Assign to this delegate to respond to the controller jumping
 	public const float groundDrag =5.0f;
 	
@@ -49,7 +49,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		// Tweak if character lands too soon or gets stuck "in air" often
 		
 	
-	private bool grounded, walking;
+	private bool grounded=true;
+	private bool walking;
 
     private bool isRemotePlayer = true;
 	
@@ -428,7 +429,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			{	
 			//	Playtomic.Log.Heatmap("Movement2", "Level0", 1 , 1);
 			//	print("sending analytics");
-				print("got the jump button");
 				if (target.rigidbody.velocity.y < 0.5) //stopped or dropping (since we're grounded)
 				{
 					Vector3 jump = 	jumpSpeed * target.transform.up +
@@ -438,17 +438,14 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						jump,
 						ForceMode.VelocityChange
 					);
-					print("applied jump force");
 					grounded=false;
 				
 					// When jumping, we set the velocity upward with our jump speed
 					// plus some application of directional movement
 				}
-								
-	if (onJump != null)
-				{
-					onJump ();
-				}
+				if(onJump != null)
+					onJump();
+				
 	
 //				
 			}
