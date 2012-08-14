@@ -42,6 +42,8 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	private int objectsTriggeringSameButton = 0;
 	private float actualSpeed;
 	private bool liftShldMove = false;
+	
+	public bool button_deactivates_instead = false;
 		
 	
 	/*
@@ -133,6 +135,8 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//startMove = false;
+		if (button_deactivates_instead) liftShldMove = true;
+		
 		originPos = target.transform.position;
 		localLiftTime = -5.0f;	
 		thisFrameTime = (float)PhotonNetwork.time;
@@ -185,12 +189,16 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		
 	//Larry: This method is more useful than TriggerEnter and TriggerExit. It only runs if there's an object on top of the trigger, so will handle situations such as "player quits game while on top of button" or
 	//"object is deleted while on top of button". 
-	void OnTriggerStay(){		
-		liftShldMove = true;
+	void OnTriggerStay(){
+		if (button_deactivates_instead)	liftShldMove = false;
+		else
+			liftShldMove = true;
 	}	
 	
-	void OnTriggerExit(){	
-		liftShldMove = false;
+	void OnTriggerExit(){
+		if (button_deactivates_instead) liftShldMove = true;
+		else
+			liftShldMove = false;
 	}
 
 	public void toggleRevealColours(){
