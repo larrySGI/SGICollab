@@ -199,6 +199,12 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		else
 			revealColours = true;
 	}
+	public void showColours(){
+			revealColours = true;
+	}
+	public void hideColours(){
+			revealColours = false;
+	}
 	
 	void movingTheLift(){
 		localLiftTime += photonDelta; 

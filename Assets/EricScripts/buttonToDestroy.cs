@@ -14,6 +14,7 @@ public class buttonToDestroy : Photon.MonoBehaviour {
 	}
 		
 	void OnTriggerEnter(Collider other){
+		if (other.attachedRigidbody.name.Contains("Builder")){
 		print("Destroyed all built objects!");
 		//   print("Starting " + Time.time);
         StartCoroutine(destroyLater(1.0F));
@@ -34,7 +35,7 @@ public class buttonToDestroy : Photon.MonoBehaviour {
 		
 		ThirdPersonControllerNET.blockammo = 1;
 		ThirdPersonControllerNET.plankammo = 5;
-		
+		}
 	}
   IEnumerator destroyLater(float waitTime) {
         yield return new WaitForSeconds(waitTime);
