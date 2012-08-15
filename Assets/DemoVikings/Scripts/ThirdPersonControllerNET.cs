@@ -238,13 +238,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 		// If the right mouse button is held, rotation is locked to the mouse
 		{
+			
 			if (controlLock)
 			{
 				Screen.lockCursor = false;
 			}
 			
 			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;
-		
+			//rotationAmount = 0;	
+			//return;
 		}
 		else
 		{
@@ -257,7 +259,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			
 		}
 		
-		target.transform.RotateAround (target.transform.up, rotationAmount);
+		if (!menuOn)
+			target.transform.RotateAround (target.transform.up, rotationAmount);
 		
 		if (Input.GetKeyDown(KeyCode.Backslash) || Input.GetKeyDown(KeyCode.Plus))
 		{
