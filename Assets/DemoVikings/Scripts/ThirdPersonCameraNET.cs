@@ -554,19 +554,20 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			/*
 			rotationAmount = Input.GetAxis ("Mouse X") * rotationUpdateSpeed * Time.deltaTime;
 			camera.transform.RotateAround (target.transform.position, Vector3.up, rotationAmount);
-			 */return;
+			*/
+			rotationAmount = 0;
 		}
 		else
 		// If right mouse button is held, don't rotate horizontally - the character should do that
 		
 		{
 			FollowUpdate ();
-
+			rotationAmount = Input.GetAxis ("Mouse Y") * -1.0f * lookUpSpeed * Time.deltaTime;
 		}
 		
 		// Vertical rotation:
 		
-		rotationAmount = Input.GetAxis ("Mouse Y") * -1.0f * lookUpSpeed * Time.deltaTime;
+		
 			// Calculate vertical rotation
 		
 		bool lookFromBelow = Vector3.Angle (camera.transform.forward, target.transform.up * -1) >
