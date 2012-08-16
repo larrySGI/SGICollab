@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class triggerCsScript : Photon.MonoBehaviour {
-	public float height = 3.2f;
 	public string liftNameAnalytics;
 	
 	public bool move_x = false;
@@ -227,7 +226,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		
 			
 		if (move_y) 	
-			 offset_y = (1.0f + math)* height_y / 2.0f;
+			 offset_y = (1.0f + math)* height_y/ 2.0f;
 		else
 			 offset_y = 0.0f;
 			
@@ -242,7 +241,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 				
 		if(target.transform.position != FinalPos)
 		{
-				target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, Time.deltaTime);
+				target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, 1 ); //always interpolate to the final position, not anything in between. 
 		}
 	}
 }
