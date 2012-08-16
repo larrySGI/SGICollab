@@ -54,6 +54,9 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 
     private bool isRemotePlayer = true;
 	
+	public Vector3 lastRespawn;
+	
+	
 	public bool Grounded
 	// Make our grounded status available for other components
 	{
@@ -93,7 +96,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	}
 	void Start ()
 	// Verify setup, configure rigidbody
-	{
+	{		
 		Setup ();
 		
 		if (target == null)
@@ -106,6 +109,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		target.freezeRotation = true;
 			// We will be controlling the rotation of the target, so we tell the physics system to leave it be
 		walking = false;
+		
+//		lastRespawn = this.transform.position;
 	}
 	
 	
@@ -272,6 +277,10 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
 		{
 			menuOn = !menuOn;
+		}
+		
+		if(Input.GetKeyDown(KeyCode.R)){
+			this.transform.position = this.lastRespawn;
 		}
 	}
 	
