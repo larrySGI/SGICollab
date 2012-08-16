@@ -33,9 +33,10 @@ public class InstructionScript : Photon.MonoBehaviour {
 		
 	}
 	
-	void Update () {
+	void Update ()
+	{
+	   
 	}
-	
 	// Use this for initialization
 	void OnGUI () {
 		
