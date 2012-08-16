@@ -32,7 +32,6 @@ public class ThirdPersonNetworkVik : Photon.MonoBehaviour
 
         }
         controllerScript.SetIsRemotePlayer(!photonView.isMine);
-
         gameObject.name = gameObject.name + photonView.viewID.ID;
     }
 

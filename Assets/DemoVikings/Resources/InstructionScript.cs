@@ -1,26 +1,68 @@
 using UnityEngine;
 using System.Collections;
 
-public class InstructionScript : MonoBehaviour {
-	bool tutorialHidden=false;
-	bool level1Hidden=false;
-	bool level2Hidden=false;
+public class InstructionScript : Photon.MonoBehaviour {
+	public string InstructionText;
+	public GUISkin guiskin;
+	private bool showInstruction=false;
+	private int instructionScreenHeight;
 	
+	void OnTriggerEnter(Collider other) {
+		print("on trigger enter");
+		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
+		{
+			showInstruction=true;//show instruction
+			
+			instructionScreenHeight=0;
+		}
+		
+		
+	}
+	void OnTriggerExit(Collider other) {
+		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
+		{
+			showInstruction=false;//hide instruction
+		}
+		
+    }
+	void Awake()
+    {
+    }
+    void Start()
+    {
+		
+	}
+	
+	void Update () {
+	}
 	
 	// Use this for initialization
 	void OnGUI () {
-		if(Application.loadedLevelName == "Tutorial" && !tutorialHidden)
-		if (GUI.Button (new Rect (0,0,Screen.width,Screen.height), "Instructions for Tutorial")) {
-			tutorialHidden = true;
-		}
-		if(Application.loadedLevelName == "Level1" && !level1Hidden)
-		if (GUI.Button (new Rect (0,0,Screen.width,Screen.height), "Instructions for level 1")) {
-			level1Hidden = true;
-		}
-		if(Application.loadedLevelName == "Level2" && !level2Hidden)
-		if (GUI.Button (new Rect (0,0,Screen.width,Screen.height), "Instructions for level 2")) {
-			level2Hidden = true;
+		
+		if(showInstruction)
+		{
+			GUI.skin = guiskin;
+			if(instructionScreenHeight<Screen.height){
+				instructionScreenHeight=instructionScreenHeight+30;
+				
+			}
+			
+			var tButtonRect = new Rect(0, 0, Screen.width, instructionScreenHeight);
+			
+ 			 GUI.Button(tButtonRect, InstructionText);
+		}else{
+			GUI.skin = guiskin;
+			if(instructionScreenHeight>0){
+				instructionScreenHeight=instructionScreenHeight-30;
+				
+			}
+			
+			var tButtonRect = new Rect(0, 0, Screen.width, instructionScreenHeight);
+			 GUI.Button(tButtonRect, InstructionText);
 		}
 		
 	}
 }
+
+	
+
