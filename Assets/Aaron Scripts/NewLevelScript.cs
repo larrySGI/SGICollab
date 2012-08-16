@@ -39,7 +39,10 @@ public class NewLevelScript : MonoBehaviour {
 		
 			moverObj.transform.position = MoverSpawnPoint.transform.position;
 			ThirdPersonCameraNET cam = moverObj.GetComponent<ThirdPersonCameraNET>();
-			cam.LoadCameras();	
+			cam.LoadCameras();
+			
+			moverObj.GetComponent<ThirdPersonControllerNET>().lastRespawn = moverObj.transform.position;
+			Debug.Log("lastRespawn = " + moverObj.GetComponent<ThirdPersonControllerNET>().lastRespawn);
 	
 		}	
 		if(jumperObj = GameObject.FindGameObjectWithTag("Jumper"))
