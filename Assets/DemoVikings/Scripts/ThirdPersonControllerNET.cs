@@ -239,13 +239,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 		// If the right mouse button is held, rotation is locked to the mouse
 		{
+			
 			if (controlLock)
 			{
 				Screen.lockCursor = false;
 			}
 			
 			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;
-		
+			//rotationAmount = 0;	
+			//return;
 		}
 		else
 		{
@@ -258,7 +260,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			
 		}
 		
-		target.transform.RotateAround (target.transform.up, rotationAmount);
+		if (!menuOn)
+			target.transform.RotateAround (target.transform.up, rotationAmount);
 		
 		if (Input.GetKeyDown(KeyCode.Backslash) || Input.GetKeyDown(KeyCode.Plus))
 		{
@@ -379,22 +382,18 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					// Apply drag when we're grounded
 			
 			if (Input.GetKeyUp("w")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
-				print("stopping forward with force ");
 				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
 					target.AddForce (-target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
 				}
 			if (Input.GetKeyUp("w")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
-				print("stopping forward with drag ");
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
 			if (Input.GetKeyUp("s")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
-				print("stopping with force ");
 				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
 					target.AddForce (target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
 				}
 			if (Input.GetKeyUp("s")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
-				print("stopping with drag");
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
@@ -402,22 +401,18 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			
 			//strafing stop
 			if (Input.GetKeyUp("a")&&(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
-				print("stopping forward with force ");
 				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
 					target.AddForce (target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
 				}
 			if (Input.GetKeyUp("a")&&!(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
-				print("stopping forward with drag ");
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
 			if (Input.GetKeyUp("d")&&(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
-				print("stopping with force ");
 				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
 					target.AddForce (-target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
 				}
 			if (Input.GetKeyUp("d")&&!(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
-				print("stopping with drag");
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
