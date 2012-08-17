@@ -27,7 +27,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	public GameObject target;
 	
 	
-	public float clampAmplitude = 0.8f;
+	public float clampAmplitude = 1.0f;
 	
 	private Vector3 originPos;	
 	private Vector3 FinalPos;
