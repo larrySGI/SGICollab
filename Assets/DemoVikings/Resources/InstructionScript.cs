@@ -5,7 +5,7 @@ public class InstructionScript : Photon.MonoBehaviour {
 	public string InstructionText;
 	public GUISkin guiskin;
 	private bool showInstruction=false;
-	private int instructionScreenHeight;
+	private float instructionScreenHeight;
 	
 	void OnTriggerEnter(Collider other) {
 		print("on trigger enter");
@@ -33,9 +33,10 @@ public class InstructionScript : Photon.MonoBehaviour {
 		
 	}
 	
-	void Update () {
+	void Update ()
+	{
+	   
 	}
-	
 	// Use this for initialization
 	void OnGUI () {
 		
@@ -43,7 +44,7 @@ public class InstructionScript : Photon.MonoBehaviour {
 		{
 			GUI.skin = guiskin;
 			if(instructionScreenHeight<Screen.height){
-				instructionScreenHeight=instructionScreenHeight+30;
+				instructionScreenHeight=instructionScreenHeight+(0.1f*Screen.height);
 				
 			}
 			
@@ -53,7 +54,7 @@ public class InstructionScript : Photon.MonoBehaviour {
 		}else{
 			GUI.skin = guiskin;
 			if(instructionScreenHeight>0){
-				instructionScreenHeight=instructionScreenHeight-30;
+				instructionScreenHeight=instructionScreenHeight-(0.1f*Screen.height);
 				
 			}
 			
