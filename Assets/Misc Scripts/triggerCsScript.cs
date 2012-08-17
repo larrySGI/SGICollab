@@ -19,7 +19,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	public Texture viewerTexture;
 	private Texture originalTexture;
 	private Texture originalTargetTexture;
-	public static bool revealColours = false;
+	public static bool revealColours = false; 
 		
 	public float speed = 0.2f;
 	private float timingOffset = 0.0f;
