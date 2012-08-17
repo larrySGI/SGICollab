@@ -20,7 +20,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	private Texture originalTexture;
 	private Texture originalTargetTexture;
 	public static bool revealColours = false; 
-		
+	public	float smooth = 5.0f;
 	public float speed = 0.2f;
 	private float timingOffset = 0.0f;
 	//private bool startMove;
@@ -217,20 +217,18 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	
 	void movingTheLift(){
 		localLiftTime += photonDelta; 
-		//print("speed = " + actualSpeed);
-			
-		float math = Mathf.Clamp(Mathf.Sin(localLiftTime*speed), -clampAmplitude, 9999);
-		//Debug.Log(math);
+		float math;
 		float curvecalc = 0.0f;
-		if (math > 0)
-		{
-			curvecalc = 1.0f + math;
-		}
-		else
-		{
+		//print("speed = " + actualSpeed);
+		 math = Mathf.Clamp(Mathf.Sin(localLiftTime*speed), -clampAmplitude, 9999);
+	
 			curvecalc = clampAmplitude + math;	
-		}
 		
+		
+		//Debug.Log(math);
+		
+		
+//		curvecalc = clampAmplitude + math;	
 		if (move_x) 
 			offset_x = curvecalc * height_x/2.0f;
 		else
@@ -253,7 +251,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 				
 		if(target.transform.position != FinalPos)
 		{
-				target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, Time.deltaTime ); //always interpolate to the final position, not anything in between. 
+				target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, Time.deltaTime* smooth ); //always interpolate to the final position, not anything in between. 
 		}
 	}
 }
