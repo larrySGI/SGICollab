@@ -235,7 +235,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		if (move_z) 	
 			 offset_z = (clampAmplitude + math)* height_z / 2.0f;
 		else
-			 offset_z = 0.0f;
+			 offset_z = 0.0f; 
 		
 		
 			
