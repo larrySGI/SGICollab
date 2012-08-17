@@ -25,7 +25,9 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	private float timingOffset = 0.0f;
 	//private bool startMove;
 	public GameObject target;
-		
+	
+	
+	public float clampAmplitude = 1.0f;
 	
 	private Vector3 originPos;	
 	private Vector3 FinalPos;
@@ -217,23 +219,33 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		localLiftTime += photonDelta; 
 		//print("speed = " + actualSpeed);
 			
-		float math = Mathf.Sin(localLiftTime*speed+timingOffset);
+		float math = Mathf.Clamp(Mathf.Sin(localLiftTime*speed), -clampAmplitude, 9999);
 		//Debug.Log(math);
-		if (move_x) 	
-			 offset_x = (1.0f + math)* height_x / 2.0f;
+		float curvecalc = 0.0f;
+		if (math > 0)
+		{
+			curvecalc = 1.0f + math;
+		}
+		else
+		{
+			curvecalc = clampAmplitude + math;	
+		}
+		
+		if (move_x) 
+			offset_x = curvecalc * height_x/2.0f;
 		else
 			 offset_x = 0.0f;
 		
 			
-		if (move_y) 	
-			 offset_y = (1.0f + math)* height_y/ 2.0f;
+		if (move_y) 
+			 offset_y = curvecalc* height_y/ 2.0f;
 		else
 			 offset_y = 0.0f;
 			
 		if (move_z) 	
-			 offset_z = (1.0f + math)* height_z / 2.0f;
+			 offset_z = curvecalc* height_z / 2.0f;
 		else
-			 offset_z = 0.0f;
+			 offset_z = 0.0f; 
 		
 		
 			
@@ -241,7 +253,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 				
 		if(target.transform.position != FinalPos)
 		{
-				target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, 1 ); //always interpolate to the final position, not anything in between. 
+				target.transform.position = Vector3.Lerp(target.transform.position, FinalPos, Time.deltaTime ); //always interpolate to the final position, not anything in between. 
 		}
 	}
 }
