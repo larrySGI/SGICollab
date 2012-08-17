@@ -219,21 +219,31 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		localLiftTime += photonDelta; 
 		//print("speed = " + actualSpeed);
 			
-		float math = Mathf.Clamp(Mathf.Sin(localLiftTime*speed), -clampAmplitude, clampAmplitude);
+		float math = Mathf.Clamp(Mathf.Sin(localLiftTime*speed), -clampAmplitude, 9999);
 		//Debug.Log(math);
-		if (move_x) 	
-			 offset_x = (clampAmplitude + math)* height_x / 2.0f;
+		float curvecalc = 0.0f;
+		if (math > 0)
+		{
+			curvecalc = 1.0f + math;
+		}
+		else
+		{
+			curvecalc = clampAmplitude + math;	
+		}
+		
+		if (move_x) 
+			offset_x = curvecalc * height_x/2.0f;
 		else
 			 offset_x = 0.0f;
 		
 			
-		if (move_y) 	
-			 offset_y = (clampAmplitude + math)* height_y/ 2.0f;
+		if (move_y) 
+			 offset_y = curvecalc* height_y/ 2.0f;
 		else
 			 offset_y = 0.0f;
 			
 		if (move_z) 	
-			 offset_z = (clampAmplitude + math)* height_z / 2.0f;
+			 offset_z = curvecalc* height_z / 2.0f;
 		else
 			 offset_z = 0.0f; 
 		
