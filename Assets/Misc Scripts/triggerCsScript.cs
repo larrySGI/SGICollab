@@ -177,7 +177,7 @@ public class triggerCsScript : Photon.MonoBehaviour {
 			
 		if (MoverTest.gameStarted && !started)
 		{		
-			//localLiftTime = -5.0f;
+			localLiftTime = -5.0f;
 			sendLiftTime(PhotonTargets.Others);
 			started = true;		
 		}	
