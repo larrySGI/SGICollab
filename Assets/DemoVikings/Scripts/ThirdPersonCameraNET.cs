@@ -482,13 +482,13 @@ public class ThirdPersonCameraNET : MonoBehaviour
 				Screen.lockCursor = false;
 			}
 			return;
-			/* //do not move if menu is on!
+			 //do not move if menu is on!
 			Vector3 movement = target.transform.position - lastStationaryPosition;
 			if (new Vector2 (movement.x, movement.z).magnitude > movementThreshold)
 			// Only update follow camera if we moved sufficiently
 			{
 				FollowUpdate ();
-			}*/
+			}
 	
 		
 		}
