@@ -17,6 +17,8 @@ public class triggerFallingScript : MonoBehaviour {
 	
 	// var for falling objects
 	public GameObject target;
+	public Vector3 dropDistance;
+	public	int smooth = 5;
 	private Vector3 startPos;
 	private Vector3 endPos;
 		
@@ -25,7 +27,8 @@ public class triggerFallingScript : MonoBehaviour {
 
 		startTime = Time.time;
 		startPos = target.transform.position;
-		endPos = startPos - new Vector3(0,25,0);
+		dropDistance = new Vector3(0,25,0);
+		endPos = startPos - dropDistance;
 	}
 	
 	void OnTriggerEnter () {
@@ -66,8 +69,9 @@ public class triggerFallingScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (startFalling){
-			target.transform.position = Vector3.Lerp(startPos,endPos, Time.time-startTime);	
 			
+			target.transform.position = Vector3.Lerp(target.transform.position,endPos, Time.deltaTime / smooth);	//divide smooth to make it slower
+	
 			// after falling, set timer to return bridge to original position
 			stayTime = Time.time - startFallingTime;
 					
@@ -78,7 +82,7 @@ public class triggerFallingScript : MonoBehaviour {
 			if (displaySeconds <= 0){
 				startFalling = false;
 				target.transform.position = startPos;
-			}
+			}	
 		}
 	}
 }
