@@ -279,8 +279,17 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			menuOn = !menuOn;
 		}
 		
-		if(Input.GetKeyDown(KeyCode.R)){
-			this.transform.position = this.lastRespawn;
+		if(Input.GetKeyDown(KeyCode.R))
+		{
+			if (this.lastRespawn.magnitude > 0)
+				
+				this.transform.position = this.lastRespawn;
+			else
+			{
+		
+				GameObject SpawnManager = GameObject.Find("Code");
+				this.transform.position = SpawnManager.transform.position;
+			}
 		}
 	}
 	

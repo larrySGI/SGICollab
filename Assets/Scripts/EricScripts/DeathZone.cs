@@ -33,7 +33,19 @@ public class DeathZone : MonoBehaviour {
 					other.tag == "Jumper"){
 			
 			if(Time.time - timeDied > respawnTime)
-				other.transform.position = other.GetComponent<ThirdPersonControllerNET>().lastRespawn;
+			{
+				//respawn at the Code object if last respawn is not at origin /Larry
+				if (other.GetComponent<ThirdPersonControllerNET>().lastRespawn.magnitude > 0)
+					
+					other.transform.position = other.GetComponent<ThirdPersonControllerNET>().lastRespawn;
+				else
+				{
+					
+					GameObject SpawnManager = GameObject.Find("Code");
+					other.transform.position = SpawnManager.transform.position;
+						
+				}
+			}
 		}
 	}
 }
