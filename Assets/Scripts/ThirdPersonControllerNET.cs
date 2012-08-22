@@ -15,6 +15,10 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	public Rigidbody target;
 	public static int blockammo;
 	public static int plankammo;
+	public static int currentMaxPlanks;
+	public static int currentMaxBlocks;
+	public static int blocksToStart=1;
+	public static int planksToStart=2;
 	private GravityGunState gravityGunState =0;
 	
 	public float triggerHoldRange = 2.0f;
@@ -65,7 +69,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			return grounded;
 		}
 	}
-
+	
     public void SetIsRemotePlayer(bool val)
     {
         isRemotePlayer = val;
@@ -81,14 +85,35 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void Setup ()
 	// If target is not set, try using fallbacks
 	{
-		blockammo = 1;
-		plankammo = 5;
+		currentMaxBlocks = blocksToStart;
+		currentMaxPlanks = planksToStart;
+		blockammo = blocksToStart;
+		plankammo = planksToStart;
 		if (target == null)
 		{
 			target = GetComponent<Rigidbody> ();
 		}
 		
 		
+	}
+	void OnLevelWasLoaded(int level)  
+	{
+		
+		//when level loads destroy all objects and reset blocsk and planks to starting values
+		 GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+		foreach(GameObject creation in platformsCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+		foreach(GameObject creation in blocksCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+		currentMaxBlocks = blocksToStart;
+		currentMaxPlanks = planksToStart;
+		blockammo = blocksToStart;
+		plankammo = planksToStart;
 	}
 	
 	void Awake(){
