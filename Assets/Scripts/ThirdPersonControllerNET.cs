@@ -125,7 +125,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 			if(target.name.Contains("Builder"))
 			{
-				if (Input.GetMouseButtonUp(0)){
+				if (Input.GetKeyUp("1")){
 					if(blockammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
@@ -134,7 +134,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						blockammo--;
 					}
 				}
-				if (Input.GetMouseButtonUp(1)){
+				if (Input.GetKeyUp("2")){
 					
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
@@ -151,7 +151,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 				if(gravityGunState == GravityGunState.Free) 
 				{
-					    if(Input.GetMouseButtonUp(0)) 
+					    if(Input.GetKeyUp("t")) 
 						{
 									float range = target.transform.localScale.z * triggerHoldRange;
 									//float rad = target.collider.radius;
@@ -191,7 +191,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetMouseButtonUp(0))
+					    if(!Input.GetKeyUp("t"))
 					           gravityGunState = GravityGunState.Occupied;     
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
@@ -204,7 +204,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(Input.GetMouseButtonUp(0))
+					    if(Input.GetKeyUp("t"))
 							gravityGunState = GravityGunState.Charge;
 				}
 			
@@ -212,7 +212,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetMouseButtonUp(0))
+					    if(!Input.GetKeyUp("t"))
 					    {
 							if(rigid.name.Contains("pPlatform"))
 								rigid.isKinematic = true;
@@ -399,18 +399,18 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 					// Apply drag when we're grounded
 			
-			if (Input.GetKeyUp("w")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
-				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
-					target.AddForce (-target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
-				}
+//			if (Input.GetKeyUp("w")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
+//				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+//					target.AddForce (-target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
+//				}
 			if (Input.GetKeyUp("w")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("s"))){
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
-			if (Input.GetKeyUp("s")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
-				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
-					target.AddForce (target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
-				}
+//			if (Input.GetKeyUp("s")&&(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
+//				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+//					target.AddForce (target.transform.forward *appliedSpeed*6, ForceMode.VelocityChange);
+//				}
 			if (Input.GetKeyUp("s")&&!(Input.GetKey("a")||Input.GetKey("d")||Input.GetKey("w"))){
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
@@ -418,18 +418,18 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 
 			
 			//strafing stop
-			if (Input.GetKeyUp("a")&&(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
-				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
-					target.AddForce (target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
-				}
+//			if (Input.GetKeyUp("a")&&(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
+//				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+//					target.AddForce (target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
+//				}
 			if (Input.GetKeyUp("a")&&!(Input.GetKey("w")||Input.GetKey("d")||Input.GetKey("s"))){
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
 				}
-			if (Input.GetKeyUp("d")&&(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
-				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
-					target.AddForce (-target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
-				}
+//			if (Input.GetKeyUp("d")&&(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
+//				float appliedSpeed = walking ? speed / walkSpeedDownscale : speed;
+//					target.AddForce (-target.transform.right *appliedSpeed*6, ForceMode.VelocityChange);
+//				}
 			if (Input.GetKeyUp("d")&&!(Input.GetKey("a")||Input.GetKey("s")||Input.GetKey("w"))){
 				target.drag = 1000000000000000.0f;
 				slowDown = true;
