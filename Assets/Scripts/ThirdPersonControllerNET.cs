@@ -15,6 +15,10 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	public Rigidbody target;
 	public static int blockammo;
 	public static int plankammo;
+	public static int currentMaxPlanks;
+	public static int currentMaxBlocks;
+	public static int blocksToStart=1;
+	public static int planksToStart=2;
 	private GravityGunState gravityGunState =0;
 	
 	public float triggerHoldRange = 2.0f;
@@ -65,7 +69,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			return grounded;
 		}
 	}
-
+	
     public void SetIsRemotePlayer(bool val)
     {
         isRemotePlayer = val;
@@ -81,14 +85,35 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	void Setup ()
 	// If target is not set, try using fallbacks
 	{
-		blockammo = 1;
-		plankammo = 5;
+		currentMaxBlocks = blocksToStart;
+		currentMaxPlanks = planksToStart;
+		blockammo = blocksToStart;
+		plankammo = planksToStart;
 		if (target == null)
 		{
 			target = GetComponent<Rigidbody> ();
 		}
 		
 		
+	}
+	void OnLevelWasLoaded(int level)  
+	{
+		
+		//when level loads destroy all objects and reset blocsk and planks to starting values
+		 GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+		foreach(GameObject creation in platformsCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+		foreach(GameObject creation in blocksCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+		currentMaxBlocks = blocksToStart;
+		currentMaxPlanks = planksToStart;
+		blockammo = blocksToStart;
+		plankammo = planksToStart;
 	}
 	
 	void Awake(){
@@ -119,14 +144,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	{
         if (isRemotePlayer) return;
 		
-		
 		float rotationAmount;
 		
 		
 			if(target.name.Contains("Builder"))
 			{
-				if (Input.GetKeyUp("1")){
-					if(blockammo>0){
+				if (Input.GetKeyUp("1") && !menuOn){
+					if(blockammo>0 && !menuOn){
 						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
 						builtBlock.tag = "PlacedBlock";
@@ -134,7 +158,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						blockammo--;
 					}
 				}
-				if (Input.GetKeyUp("2")){
+				if (Input.GetKeyUp("2") && !menuOn){
 					
 					if(plankammo>0){
 						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
@@ -151,7 +175,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 				if(gravityGunState == GravityGunState.Free) 
 				{
-					    if(Input.GetKeyUp("t")) 
+					    if(Input.GetKeyUp("t") && !menuOn) 
 						{
 									float range = target.transform.localScale.z * triggerHoldRange;
 									//float rad = target.collider.radius;
@@ -191,7 +215,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetKeyUp("t"))
+					    if(!Input.GetKeyUp("t") && !menuOn)
 					           gravityGunState = GravityGunState.Occupied;     
 				}
 				else if(gravityGunState == GravityGunState.Occupied) 
@@ -204,7 +228,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(Input.GetKeyUp("t"))
+					    if(Input.GetKeyUp("t") && !menuOn)
 							gravityGunState = GravityGunState.Charge;
 				}
 			
@@ -212,7 +236,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 						rigid.transform.position = transform.position + transform.forward * holdDistance;
 						rigid.transform.rotation = transform.rotation;
-					    if(!Input.GetKeyUp("t"))
+					    if(!Input.GetKeyUp("t") && !menuOn)
 					    {
 							if(rigid.name.Contains("pPlatform"))
 								rigid.isKinematic = true;
@@ -279,7 +303,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			menuOn = !menuOn;
 		}
 		
-		if(Input.GetKeyDown(KeyCode.R))
+		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
 		{
 			if (this.lastRespawn.magnitude > 0)
 				
@@ -289,6 +313,42 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 				GameObject SpawnManager = GameObject.Find("Code");
 				this.transform.position = SpawnManager.transform.position;
+			}
+		}
+		if(Input.GetKeyDown(KeyCode.P) && !menuOn)
+		{
+			GameManagerVik manager = GameObject.Find("Code").GetComponent<GameManagerVik>();
+			if (manager.level_tester_mode)
+			{
+				if (manager.selectedClass == "Builder")
+				{
+					manager.selectedClass = "Mover";
+					target.name = "Mover";
+					jumpSpeed = 15.0f;
+
+				}
+				else if (manager.selectedClass == "Mover")
+				{
+					manager.selectedClass = "Jumper";
+					target.name = "Jumper";
+					jumpSpeed = 21.5f;
+					
+
+				}
+				else if (manager.selectedClass == "Jumper")
+				{
+					manager.selectedClass = "Viewer";			
+					target.name = "Viewer";
+					jumpSpeed = 15.0f;
+
+				}
+				else if (manager.selectedClass == "Viewer")
+				{
+					manager.selectedClass = "Builder";
+					target.name = "Builder";
+					jumpSpeed = 15.0f;
+
+				}
 			}
 		}
 	}

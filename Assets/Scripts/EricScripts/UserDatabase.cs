@@ -14,7 +14,7 @@ public class UserDatabase : MonoBehaviour {
 		
 		
 		
-		string url = "http://fierce-wind-6489.herokuapp.com/users?";
+		string url = "http://sgicollab.herokuapp.com/users?";
 		string urlconcat ="&user[name]="+username+"&user[email]="+email+"&user[password]="+password+"&user[password_confirmation]="+password+"&user[maxStageReached]=1";
 	
 			var r = new HTTP.Request ("POST", url+urlconcat);
@@ -77,7 +77,8 @@ public class UserDatabase : MonoBehaviour {
 	public static IEnumerator login(string username, string password){
 		print("Logging in...");
 		
-			string url = "http://fierce-wind-6489.herokuapp.com/users/sign_in?";
+			string url = "http://sgicollab.herokuapp.com/users/sign_in?";
+		
 			string urlconcat ="user[name]="+username+"&user[password]="+password;
 			
 			var r = new HTTP.Request ("POST", url+urlconcat);

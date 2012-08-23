@@ -33,8 +33,8 @@ public class buttonToDestroy : Photon.MonoBehaviour {
 			creation.renderer.enabled = false;
 		}
 		
-		ThirdPersonControllerNET.blockammo = 1;
-		ThirdPersonControllerNET.plankammo = 5;
+		ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.currentMaxBlocks;
+		ThirdPersonControllerNET.plankammo = ThirdPersonControllerNET.currentMaxPlanks;
 		}
 	}
   IEnumerator destroyLater(float waitTime) {
