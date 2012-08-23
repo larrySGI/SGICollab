@@ -24,6 +24,9 @@ public class DeathZone : MonoBehaviour {
 			Debug.Log("Died, waiting for respawn");
 			timeDied = Time.time;
 		}
+		else{
+			other.transform.position = other.GetComponent<Checkpoint>().originalPosition;
+		}
 	}
 	
 	void OnTriggerStay(Collider other){

@@ -10,12 +10,12 @@ using System;
 /// </summary>
 public class ChatVik : Photon.MonoBehaviour
 {
-
+	public GUISkin chatSkin;
     public static ChatVik SP;
     public List<string> messages = new List<string>();
 	public List<Color> messageColor = new List<Color>();
 	
-    private int chatHeight = 150;
+    private int chatHeight = 160;
     private Vector2 scrollPos = Vector2.zero;
     private string chatInput = "";
     private float lastUnfocusTime = 0;
@@ -28,7 +28,8 @@ public class ChatVik : Photon.MonoBehaviour
 	
 	private string path; //path to save chat log to
 	private string fileName; //file name for the chat log
-
+	
+	public Texture2D chatBG;
 	
     void Awake()
     {
@@ -59,18 +60,18 @@ public class ChatVik : Photon.MonoBehaviour
     void OnGUI()
     {        
       //  Debug.Log(SP == null);
-		
+		GUI.skin = chatSkin;
 		if (!manager.gameStarted) return;
 	
 		
 		//Chat log area
 		GUI.SetNextControlName("");		
-//		GUI.DrawTexture(new Rect(0, Screen.height - chatHeight, Screen.width, chatHeight), texture);
-	  	GUI.Box(new Rect(0, Screen.height - chatHeight, 250 , chatHeight),"Chatbox");
+		GUI.DrawTexture(new Rect(10, Screen.height - chatHeight - 10, 300 , chatHeight), chatBG);
+	  	GUI.Box(new Rect(10, Screen.height - chatHeight - 10, 300 , chatHeight), "");
       		
-        GUILayout.BeginArea(new Rect(0, Screen.height - chatHeight + 25, 300, chatHeight));
-		
+        GUILayout.BeginArea(new Rect(10, Screen.height - chatHeight - 10, 300, chatHeight));
 	        //Show scroll list of chat messages
+			scrollPos = new Vector2(0, chatHeight);
 	        scrollPos = GUILayout.BeginScrollView(scrollPos);
 		
 	        for (int i = 0; i < messages.Count; i++)
@@ -90,12 +91,12 @@ public class ChatVik : Photon.MonoBehaviour
         GUILayout.BeginHorizontal(); 
 	        GUI.SetNextControlName("ChatField");
 			GUILayout.Space(Screen.width * 0.5f - 75);
-	    	chatInput = GUILayout.TextField(chatInput, 20, GUILayout.MinWidth(150));
-	       
-	        if (Event.current.type == EventType.keyDown && Event.current.character == '\n')
-			//if(Input.GetKeyDown(KeyCode.KeypadEnter))
+	    	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(150));
+		
+	        if (Event.current.type == EventType.KeyDown && Event.current.character == '\n')
 			{
 				//My way of hiding the GUI
+				Input.ResetInputAxes();
 				inputAreaY *= -1;
 				
 	         	if (GUI.GetNameOfFocusedControl() == "ChatField")
@@ -118,7 +119,7 @@ public class ChatVik : Photon.MonoBehaviour
     }
 
     public static void AddMessage(string text, string incomingchatterclass)
-    {
+	{
         SP.messages.Add(text);
 		
 		if (incomingchatterclass == "Builder")
@@ -143,8 +144,8 @@ public class ChatVik : Photon.MonoBehaviour
 
     [RPC]
     void SendChatMessage(string text, string incomingchatter, PhotonMessageInfo info)
-    {
-        string communication = "[" + info.sender + "] " + text;
+    {		
+        string communication = "[" + info.sender + "]" + text;
 		
 		AddMessage(communication, incomingchatter);
 				
@@ -159,14 +160,14 @@ public class ChatVik : Photon.MonoBehaviour
 
 	public void AnnounceJoin()
 	{
-		string communication =  "("+chatterClass +") has joined the game.";
+		string communication =  "<"+chatterClass +"> has joined the game.";
 		if (photonView)
 		photonView.RPC("SendChatMessage", PhotonTargets.All, communication, chatterClass);
 	}
 	
 	public void AnnounceLeave()
 	{
-		string communication =  "("+chatterClass +") has left the game.";
+		string communication =  "<"+chatterClass +"> has left the game.";
 		if (photonView)
 		photonView.RPC("SendChatMessage", PhotonTargets.All, communication, chatterClass);
 	
@@ -177,17 +178,40 @@ public class ChatVik : Photon.MonoBehaviour
     {
         if (chatInput != "")
         {
-            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput, chatterClass);
+			//Send to other players
+            photonView.RPC("SendChatMessage", target, "<"+chatterClass+">: " +chatInput, chatterClass);
+			
+			//Send to online database
+			StartCoroutine(saveChatToOnlineDatabase());
+			
+			//Empty input
             chatInput = "";
         }
     }
-
+	
+	IEnumerator saveChatToOnlineDatabase(){
+		string token = UserDatabase.token;
+		string level = GameManagerVik.nextLevel.ToString();
+		
+		string url = "http://sgicollab.herokuapp.com/chat" +
+						"?auth_token=" + token +
+						"&chat[message]=" + chatInput +
+						"&chat[level]=" + level +
+						"&chat[userclass]=" + chatterClass;
+		
+		var r = new HTTP.Request ("POST", url);
+		r.Send ();		
+		Debug.Log("Chat saved online.");
+		
+		yield return null;	
+	}
+	
     void SendChat(PhotonPlayer target)
     {
         if (chatInput != "")
         {
             chatInput = "[PM] " + chatInput;
-            photonView.RPC("SendChatMessage", target, "("+chatterClass+") " +chatInput, chatterClass);
+            photonView.RPC("SendChatMessage", target, "<"+chatterClass+">: " +chatInput, chatterClass);
             chatInput = "";
         }
     }
@@ -222,9 +246,7 @@ public class ChatVik : Photon.MonoBehaviour
 			}		
 		}
 	}
-	
-	
-	
+		
 	private static void AddToChatLog(FileStream fs, string value)
     {
         byte[] info = new UTF8Encoding(true).GetBytes(value);

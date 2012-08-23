@@ -522,7 +522,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	
 //				
 			}
-			else
+			else 
 			// Only allow movement controls if we did not just jump
 			{
 				//target.drag = 5.0f;
@@ -550,12 +550,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				// If we are grounded and don't have significant input, just stop horizontal movement
 				//{
 				
-				
+				}
 		//		if(Input.GetAxis("Vertical")==0)
 		//			target.velocity=new Vector3(0.0f,target.velocity.y,0.0f);
 		//			return;
 		//		}
-			}
+			
 		}
 		else //flying
 		{		
