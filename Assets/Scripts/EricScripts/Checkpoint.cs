@@ -3,9 +3,11 @@ using System.Collections;
 
 public class Checkpoint : MonoBehaviour {
 		
+	public Vector3 originalPosition;
+	
 	// Use this for initialization
 	void Start () {
-	
+		originalPosition = this.transform.position;
 	}
 	
 	// Update is called once per frame
