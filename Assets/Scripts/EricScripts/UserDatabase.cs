@@ -78,6 +78,7 @@ public class UserDatabase : MonoBehaviour {
 		print("Logging in...");
 		
 			string url = "http://sgicollab.herokuapp.com/users/sign_in?";
+		
 			string urlconcat ="user[name]="+username+"&user[password]="+password;
 			
 			var r = new HTTP.Request ("POST", url+urlconcat);
