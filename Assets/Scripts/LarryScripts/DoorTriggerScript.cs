@@ -34,6 +34,8 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	private bool started = false;
 	
 	public static bool revealColours = false;	
+	
+	private Transform target = null;
 		
 	[RPC]
 	void resetDoors(bool doors)
@@ -62,13 +64,19 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		photonView.RPC("resetDoors",ptarget, false);		
 	}
 	
-	
+	void Awake()
+	{
+		target = this.transform.FindChild("Lever");	
+	}
 	// Use this for initialization
 	void Start () 
 	{
 		started = false;
 		
-		originalTexture = this.renderer.material.mainTexture;
+		if (target == null)
+			originalTexture = this.renderer.material.mainTexture;
+		else
+			originalTexture = target.renderer.material.mainTexture;
 		
 		if (door1){
 			ds1 = door1.GetComponent<DoorScript>();
@@ -112,7 +120,12 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 			//print(revealColours);
 				if(revealColours == true)
 				{				
-					this.renderer.material.mainTexture = viewerTexture;
+					
+					if (target == null)
+						this.renderer.material.mainTexture = viewerTexture;
+					else
+						target.renderer.material.mainTexture = viewerTexture;
+					
 					if(door1)
 						door1.renderer.material.mainTexture = viewerTexture;
 					if(door2)
@@ -123,7 +136,12 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 						door4.renderer.material.mainTexture = viewerTexture;
 				}
 				else{
-					this.renderer.material.mainTexture = originalTexture;
+				
+					if (target == null)
+						this.renderer.material.mainTexture = originalTexture;
+					else
+						target.renderer.material.mainTexture = originalTexture;
+					
 					if(door1)
 						door1.renderer.material.mainTexture = originalDoor1Texture;
 					if(door2)
