@@ -29,9 +29,12 @@ public class LeverAnimate : MonoBehaviour {
 			shouldHold = true;
 	}
 	
-	public void OnTriggerEnter()
+	public void OnTriggerEnter(Collider other)
 	{
 		switchTriggered = true;
+		
+		//Send analytics
+		collabAnalytics.sendAnalytics(other.transform, "buttonpress");	
 	}
 	public void OnTriggerExit()
 	{
