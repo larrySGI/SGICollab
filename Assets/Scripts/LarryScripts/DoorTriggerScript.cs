@@ -67,6 +67,8 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	void Awake()
 	{
 		target = this.transform.FindChild("Lever");	
+		if (target == null)
+			target = this.transform.FindChild("PressurePlate");
 	}
 	// Use this for initialization
 	void Start () 

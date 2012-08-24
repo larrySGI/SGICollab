@@ -70,6 +70,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 	}
 	
+	public void activateMenu()
+	{
+		menuOn = true;	
+	}
+	public void deactivateMenu()
+	{
+		menuOn = false;	
+	}
+	
     public void SetIsRemotePlayer(bool val)
     {
         isRemotePlayer = val;
