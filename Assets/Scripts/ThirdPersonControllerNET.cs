@@ -107,6 +107,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	}
 	void OnLevelWasLoaded(int level)  
 	{
+					//Send analytics
+					collabAnalytics.sendAnalytics(this.transform, "blockmake");
 		
 		//when level loads destroy all objects and reset blocsk and planks to starting values
 		 GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
