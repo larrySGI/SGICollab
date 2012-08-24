@@ -92,13 +92,14 @@ public class UserDatabase : MonoBehaviour {
 	}
 	
 	//Just retrieving some data
-	public static IEnumerator getData(string username, string password, string data){
-		print("Retrieving data...");
-		
-		var user = ParseClass.Authenticate(username, password);
-		while(!user.isDone) yield return null;
-		Debug.Log(user.Get<string>(data));		
-	}
+//	public static IEnumerator getData(string username, string password, string data){
+//		print("Retrieving data...");
+//		
+//		var user = ParseClass.Authenticate(username, password);
+//		while(!user.isDone) yield return null;
+//		Debug.Log(user.Get<string>(data));		
+//	}
+	
 	
 	IEnumerator verifyUser(){
 		print("Verifying...");
@@ -119,10 +120,63 @@ public class UserDatabase : MonoBehaviour {
 		} else {
 			Debug.Log(r.response.Text);	
 			
-			if(r.response.Text == "not signed in")
-				Application.Quit();
+			if(r.response.Text == "user not signed in")
+				Application.LoadLevel(0);
 		}
 		
 		yield return null;
+	}
+	
+	
+	public static string getGameID(){
+		print("Getting game ID...");
+				
+		string level = GameManagerVik.nextLevel.ToString();
+		Debug.Log("level = " + level);
+		string urlconcat ="http://sgicollab.herokuapp.com/game" +
+							"?auth_token=" + token +
+							"&game[level]=" + level;
+		
+		var r = new HTTP.Request ("POST", urlconcat);
+		r.Send ();
+		while (!r.isDone) {
+				if (r.exception != null) {
+					Debug.Log (r.exception.ToString ());
+			}
+		}
+		
+		if (r.exception != null) {
+			Debug.Log (r.exception.ToString ());
+		} else {
+			Debug.Log(r.response.Text);	
+			return r.response.Text;
+		}
+		
+		return null;
+	}
+	
+	public static void verifyGameID(string gameID){
+		print("Setting game ID...");
+		
+		string urlconcat ="http://sgicollab.herokuapp.com/add_user_to_game" +
+							"?game_id=" + gameID +
+							"&auth_token=" + token;
+		
+		var r = new HTTP.Request ("GET", urlconcat);
+		r.Send ();
+		while (!r.isDone) {
+				if (r.exception != null) {
+					Debug.Log (r.exception.ToString ());
+			}
+		}
+		
+		if (r.exception != null) {
+			Debug.Log (r.exception.ToString ());
+		} else {
+			Debug.Log(r.response.Text);
+			
+			if(r.response.Text == "user not signed in")
+				Application.LoadLevel(0);
+		}
 	}
 }

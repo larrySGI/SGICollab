@@ -27,6 +27,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public Texture aTexture;	
 		
 	public static int nextLevel = -1;	
+	public static string gameID;
+	bool syncedGameID;
 	
 	void Awake(){
 
@@ -35,10 +37,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	}
 	void OnJoinedRoom()
     {
-		if(!PhotonNetwork.isMasterClient)
-			{
-			photonView.RPC("SyncLevelWithMasterClient", PhotonTargets.MasterClient);	
-			}
+		if(!PhotonNetwork.isMasterClient){
+			photonView.RPC("retrieveLevelFromMaster", PhotonTargets.MasterClient);
+		}
     }
     
     IEnumerator OnLeftRoom()
@@ -63,14 +64,21 @@ public class GameManagerVik : Photon.MonoBehaviour
     }
 		
 	[RPC]
-	void SyncLevelWithMasterClient( PhotonMessageInfo info){
-	photonView.RPC("syncLevel", PhotonTargets.All, nextLevel);	
+	void retrieveLevelFromMaster( PhotonMessageInfo info){
+		photonView.RPC("syncLevelLocally", PhotonTargets.Others, nextLevel);	
 	}
 	
 	[RPC]
-	void syncLevel(int levelIndex, PhotonMessageInfo info){
+	void syncLevelLocally(int levelIndex, PhotonMessageInfo info){
 		nextLevel = levelIndex;
-		print("Synced level = " + nextLevel);
+		print("Synced level = " + nextLevel);		
+	}
+	
+	[RPC]
+	void syncGameIDLocally(string serverID, PhotonMessageInfo info){	
+		gameID = serverID;
+		UserDatabase.verifyGameID(gameID);
+		print("Synced gameID = " + gameID);	
 	}
 	
     void StartGame(string prefabName)
@@ -114,6 +122,16 @@ public class GameManagerVik : Photon.MonoBehaviour
 			GameObject.FindWithTag("Builder") &&
 			GameObject.FindWithTag("Jumper")){
 			
+			//Sync game ID
+			if(!syncedGameID){
+				if(PhotonNetwork.isMasterClient){
+					gameID = UserDatabase.getGameID();
+					photonView.RPC("syncGameIDLocally", PhotonTargets.Others, gameID);	
+				}
+				syncedGameID = true;
+			}
+						
+			//Begin load level
 			if(Application.loadedLevel == 0){
 				if(nextLevel > 0){
 					print("loading server level = " +nextLevel);
