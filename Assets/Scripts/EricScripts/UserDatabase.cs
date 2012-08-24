@@ -1,135 +1,94 @@
 using UnityEngine;
 using System.Collections;
-using System.Text;
-using System.Net;
-using System.IO;
+//using System.Text;
+//using System.Net;
+//using System.IO;
 using System.Collections.Generic;
 
 public class UserDatabase : MonoBehaviour {
-		
-    void Start() {	
-    }
-		
-	public static IEnumerator signUp(string email, string username, string password){
-		
-		
-		
-		string url = "http://sgicollab.herokuapp.com/users?";
-		string urlconcat ="&user[name]="+username+"&user[email]="+email+"&user[password]="+password+"&user[password_confirmation]="+password+"&user[maxStageReached]=1";
 	
-			var r = new HTTP.Request ("POST", url+urlconcat);
-			r.Send ();
+	static string url = "http://sgicollab.herokuapp.com/users";
+	public static string token;
+	
+	float lastTime;
+	float intervalForUserCheck = 300;
+	
+    void Start() {
+		lastTime = Time.time;
+    }
+	
+	void Update(){
+		if(Time.time - lastTime > intervalForUserCheck){
+			StartCoroutine(verifyUser());
+			lastTime = Time.time;
+		}
+	}
+	
+	public static IEnumerator signUp(string email, string username, string password){
+		print("Signing up...");
+		
+		string urlconcat ="?user[name]=" + username + 
+							"&user[email]=" + email + 
+							"&user[password]=" + password + 
+							"&user[password_confirmation]=" + password + 
+							"&user[maxStageReached]=1";
+	
+		var r = new HTTP.Request ("POST", url + urlconcat);
+		r.Send ();
 		while (!r.isDone) {
 				if (r.exception != null) {
 					Debug.Log (r.exception.ToString ());
 			}
 		}
 		
-			if (r.exception != null) {
-				Debug.Log (r.exception.ToString ());
-			} else {
-				Debug.Log(r.response.Text);	
-				Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
-				 if (json.ContainsKey ("auth_token")) {
-					MainMenuVik.userTally = true;
-				}else{
+		if (r.exception != null) {
+			Debug.Log (r.exception.ToString ());
+		} else {
+			Debug.Log(r.response.Text);	
+			Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
+			if (json.ContainsKey ("auth_token")) {
+			 	token = json["auth_token"].ToString();
+				MainMenuVik.userTally = true;
+			}else{
 				MainMenuVik.userTally = false;
-				}
 			}
+		}
 		
-		
-		
-			yield return null;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		//Register a new user
-//		var user = ParseClass.users.New();
-//		user.Set("username", username);
-//		user.Set("password", password);
-//		user.Set("email", email);
-//		user.Set("maxStageReached", 0);
-//		user.Create();		
-//		Debug.Log("Creating user...");
-//		while(!user.isDone) yield return null;
-//		//check for error
-//		if(user.error != null) {
-//			//A message is printed automatically. We can diagnose the issue by examing the HTTP code.
-//			Debug.Log(user.code);
-//			print("Username " + username + " already taken!");	
-//			MainMenuVik.userTally = false;
-//		}
-//		else{
-//			print("User created successfully!");
-//			MainMenuVik.userTally = true;
-//		}
+		yield return null;		
 	}
 	
 	//User log in
 	public static IEnumerator login(string username, string password){
 		print("Logging in...");
+				
+		string urlconcat ="/sign_in" + 
+							"?user[name]=" + username + 
+							"&user[password]=" + password;
 		
-			string url = "http://sgicollab.herokuapp.com/users/sign_in?";
-		
-			string urlconcat ="user[name]="+username+"&user[password]="+password;
-			
-			var r = new HTTP.Request ("POST", url+urlconcat);
-			r.Send ();
-			
-		
+		var r = new HTTP.Request ("POST", url + urlconcat);
+		r.Send ();
 		while (!r.isDone) {
 				if (r.exception != null) {
 					Debug.Log (r.exception.ToString ());
 			}
 		}
 		
-			if (r.exception != null) {
-				Debug.Log (r.exception.ToString ());
-			} else {
-				Debug.Log(r.response.Text);	
-				Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
-				 if (json.ContainsKey ("auth_token")) {
-				 MainMenuVik.maxLevelData = (int)json["maxStageReached"];
-					MainMenuVik.userTally = true;
-				}else{
+		if (r.exception != null) {
+			Debug.Log (r.exception.ToString ());
+		} else {
+			Debug.Log(r.response.Text);	
+			
+			Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
+			 if (json.ContainsKey ("auth_token")) {
+			 	token = json["auth_token"].ToString();
+			 	MainMenuVik.maxLevelData = (int)json["maxStageReached"];
+				MainMenuVik.userTally = true;
+			 }else{
 				MainMenuVik.userTally = false;
-				}
-			}
+			 }
+		}
 		
-		
-		
-			yield return null;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		var user = ParseClass.Authenticate(username, password);
-//		while(!user.isDone) yield return null;
-//		//check for error
-//		if(user.error != null) {
-//			Debug.Log("Either user does not exists, or wrong password!");
-//			MainMenuVik.userTally = false;
-//		}
-//		else{
-//			//Debug.Log("Max level reached = " + user.Get<int>("maxStageReached"));
-//			MainMenuVik.maxLevelData = user.Get<int>("maxStageReached");
-//			MainMenuVik.userTally = true;
-//		}		
+		yield return null;	
 	}
 	
 	//Just retrieving some data
@@ -139,5 +98,31 @@ public class UserDatabase : MonoBehaviour {
 		var user = ParseClass.Authenticate(username, password);
 		while(!user.isDone) yield return null;
 		Debug.Log(user.Get<string>(data));		
+	}
+	
+	IEnumerator verifyUser(){
+		print("Verifying...");
+				
+		string urlconcat ="/signedin" +
+							"?auth_token=" + token;
+		
+		var r = new HTTP.Request ("POST", url + urlconcat);
+		r.Send ();
+		while (!r.isDone) {
+				if (r.exception != null) {
+					Debug.Log (r.exception.ToString ());
+			}
+		}
+		
+		if (r.exception != null) {
+			Debug.Log (r.exception.ToString ());
+		} else {
+			Debug.Log(r.response.Text);	
+			
+			if(r.response.Text == "not signed in")
+				Application.Quit();
+		}
+		
+		yield return null;
 	}
 }

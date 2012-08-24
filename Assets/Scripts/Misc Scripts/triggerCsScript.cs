@@ -47,6 +47,14 @@ public class triggerCsScript : Photon.MonoBehaviour {
 	public bool button_deactivates_instead = false;
 		
 	
+	private Transform buttonRep = null;
+	
+	void Awake()
+	{
+		buttonRep = transform.FindChild("PressurePlate");	
+	
+	}
+	
 	/*
 	// Update is called once per frame
 	void Update () 
@@ -141,8 +149,10 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		originPos = target.transform.position;
 		localLiftTime = -5.0f;	
 		thisFrameTime = (float)PhotonNetwork.time;
-		
-		originalTexture = this.renderer.material.mainTexture;
+		if (buttonRep)
+			originalTexture = buttonRep.renderer.material.mainTexture;
+		else
+			originalTexture = this.renderer.material.mainTexture;
 		originalTargetTexture = target.renderer.material.mainTexture;
 			
 	}	
@@ -161,12 +171,20 @@ public class triggerCsScript : Photon.MonoBehaviour {
 		if(MoverTest.selectedClass == "Viewer"){
 			if(revealColours == true)
 			{				
-				this.renderer.material.mainTexture = viewerTexture;
+				if (buttonRep == null)
+					this.renderer.material.mainTexture = viewerTexture;
+				else
+					buttonRep.renderer.material.mainTexture = viewerTexture;
+				
 				if(target)
 					target.renderer.material.mainTexture = viewerTexture;
 			}
 			else{
-				this.renderer.material.mainTexture = originalTexture;
+				if (buttonRep == null)
+					this.renderer.material.mainTexture = originalTexture;
+				else
+					buttonRep.renderer.material.mainTexture = originalTexture;
+				
 				if(target)
 					target.renderer.material.mainTexture = originalTargetTexture;
 			}
