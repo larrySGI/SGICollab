@@ -131,55 +131,57 @@ public class EndingBoxScript : MonoBehaviour {
 			}
 			else
 			{
-				
-				
-			if (GUI.Button(new Rect (Screen.width *0.25f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
-			{
-				if (currGameManager.level_tester_mode)
-				{
-					nextLevel += 1; 			
-					//last level check
-					if (nextLevel > (Application.levelCount - 1)) 
-						nextLevel = -1;
+			
 		
-					GameManagerVik.nextLevel = nextLevel;
-		
-					alreadyLoading = true;
-					ThirdPersonControllerNET.blockammo = 1;
-					ThirdPersonControllerNET.plankammo = 5;
-					
-				}
-				else
+				
+				if (GUI.Button(new Rect (Screen.width *0.25f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
 				{
-					if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
+					if (currGameManager.level_tester_mode)
 					{
 						nextLevel += 1; 			
 						//last level check
 						if (nextLevel > (Application.levelCount - 1)) 
 							nextLevel = -1;
-						GameManagerVik.nextLevel = nextLevel;
-					//		Debug.Log("nextLevel updated = "+nextLevel);
-					
-						alreadyLoading = true;
-						
-						ThirdPersonControllerNET.blockammo = 1; 
-						ThirdPersonControllerNET.plankammo = 5;
-				
-			//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 			
-				
-				
-						if (nextLevel > -1)
-							Application.LoadLevel(nextLevel);
-						else
-						{
-							PhotonNetwork.LeaveRoom();
-						}
-				
+						GameManagerVik.nextLevel = nextLevel;
+			
+						alreadyLoading = true;
+						ThirdPersonControllerNET.blockammo = 1;
+						ThirdPersonControllerNET.plankammo = 5;
+					
 					}
 					else
 					{
-						statusText = "You must gather your party before venturing forth.";
+						if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
+						{
+							nextLevel += 1; 			
+							//last level check
+							if (nextLevel > (Application.levelCount - 1)) 
+								nextLevel = -1;
+							GameManagerVik.nextLevel = nextLevel;
+						//		Debug.Log("nextLevel updated = "+nextLevel);
+					
+							alreadyLoading = true;
+							
+							ThirdPersonControllerNET.blockammo = 1; 
+							ThirdPersonControllerNET.plankammo = 5;
+					
+				//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
+				
+				
+					
+							if (nextLevel > -1)
+								Application.LoadLevel(nextLevel);
+							else
+							{
+								PhotonNetwork.LeaveRoom();
+							}
+					
+						}
+						else
+						{
+							statusText = "You must gather your party before venturing forth.";
+						}
 					}
 				}
 			}
