@@ -2,8 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class BuilderPickup : Photon.MonoBehaviour {
+	public int pickupAmount;
 	 public enum powerUpType {block, plank};
 	public powerUpType type;
+	
 	[RPC] 
 	void DestroyObject ()
 	{
@@ -25,15 +27,16 @@ public class BuilderPickup : Photon.MonoBehaviour {
 			if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
 			{
 				if(type==powerUpType.block){
-				ThirdPersonControllerNET.currentMaxBlocks++;
-				ThirdPersonControllerNET.blockammo++;
-					photonView.RPC("DestroyObject", PhotonTargets.All);
+				ThirdPersonControllerNET.currentMaxBlocks = ThirdPersonControllerNET.currentMaxBlocks+pickupAmount;
+				ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.blockammo+pickupAmount;
+				
 				}
 				if(type==powerUpType.plank){
-				ThirdPersonControllerNET.currentMaxPlanks++;
-				ThirdPersonControllerNET.plankammo++;
-				photonView.RPC("DestroyObject", PhotonTargets.All);
+				ThirdPersonControllerNET.currentMaxPlanks = ThirdPersonControllerNET.currentMaxPlanks+pickupAmount;
+				ThirdPersonControllerNET.plankammo = ThirdPersonControllerNET.plankammo+pickupAmount;
 				}
+				photonView.RPC("DestroyObject", PhotonTargets.AllBuffered);
+				
 				//photonView.RPC("DestroyBlock",PhotonTargets.All);
 			}
 		
