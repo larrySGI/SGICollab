@@ -24,7 +24,11 @@ public class PressurePlateAnimate : MonoBehaviour {
 		}
 	}
 	
-	//no OnTriggerEnter needed
+	void OnTriggerEnter(Collider other){
+		//Send analytics
+		collabAnalytics.sendAnalytics(other.transform, "buttonpress");		
+	}
+	
 	public void OnTriggerStay()
 	{
 		plateDown = true;
