@@ -70,6 +70,15 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 	}
 	
+	public void activateMenu()
+	{
+		menuOn = true;	
+	}
+	public void deactivateMenu()
+	{
+		menuOn = false;	
+	}
+	
     public void SetIsRemotePlayer(bool val)
     {
         isRemotePlayer = val;
@@ -98,6 +107,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	}
 	void OnLevelWasLoaded(int level)  
 	{
+					//Send analytics
+					collabAnalytics.sendAnalytics(this.transform, "blockmake");
 		
 		//when level loads destroy all objects and reset blocsk and planks to starting values
 		 GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
@@ -144,32 +155,36 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	{
         if (isRemotePlayer) return;
 		
-		float rotationAmount;
+		float rotationAmount;		
 		
-		
-			if(target.name.Contains("Builder"))
-			{
-				if (Input.GetKeyUp("1") && !menuOn){
-					if(blockammo>0 && !menuOn){
-						Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
-						var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
-						builtBlock.tag = "PlacedBlock";
-					
-						blockammo--;
-					}
+		if(target.name.Contains("Builder"))
+		{
+			if (Input.GetKeyUp("1") && !menuOn){				
+				if(blockammo>0 && !menuOn){
+					//Creating object
+					Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
+					var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
+					builtBlock.tag = "PlacedBlock";
+				
+					blockammo--;
+				
+					//Send analytics
+					collabAnalytics.sendAnalytics(this.transform, "blockmake");
 				}
-				if (Input.GetKeyUp("2") && !menuOn){
-					
-					if(plankammo>0){
-						Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
-						var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z * 2, transform.rotation, 0);
-						builtPlatform.tag = "PlacedPlatform";
-					
-						plankammo--;
-						}
-					}				
 			}
-			
+			if (Input.GetKeyUp("2") && !menuOn){				
+				if(plankammo>0){
+					Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
+					var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z * 2, transform.rotation, 0);
+					builtPlatform.tag = "PlacedPlatform";
+				
+					plankammo--;
+					
+					//Send analytics
+					collabAnalytics.sendAnalytics(this.transform, "plankmake");
+				}
+			}				
+		}
 			
 		if(target.name.Contains("Mover"))
 		{
@@ -305,15 +320,16 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
 		{
-			if (this.lastRespawn.magnitude > 0)
-				
+			if (this.lastRespawn.magnitude > 0)				
 				this.transform.position = this.lastRespawn;
 			else
-			{
-		
+			{		
 				GameObject SpawnManager = GameObject.Find("Code");
 				this.transform.position = SpawnManager.transform.position;
 			}
+			
+			//Send analytics
+			collabAnalytics.sendAnalytics(this.transform, "death");
 		}
 		if(Input.GetKeyDown(KeyCode.P) && !menuOn)
 		{
