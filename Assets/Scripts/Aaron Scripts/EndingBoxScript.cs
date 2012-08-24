@@ -13,7 +13,7 @@ public class EndingBoxScript : MonoBehaviour {
 	public Texture aTexture;
 	
 	
-	private String statusText = "";
+	private string statusText = "";
 	
 	//This boolean tracks whether a player has reached the end.
 	[HideInInspector]	
@@ -49,7 +49,7 @@ public class EndingBoxScript : MonoBehaviour {
 	
 	 void OnTriggerEnter(Collider other) {
 			
-			String currClass = "";
+			string currClass = "";
 			if (currGameManager)
 				currClass = currGameManager.selectedClass;	
 		
