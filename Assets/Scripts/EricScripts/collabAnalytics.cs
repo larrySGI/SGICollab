@@ -3,8 +3,8 @@ using System.Collections;
 
 public class collabAnalytics : MonoBehaviour {
 	
-	string url = "http://sgicollab.herokuapp.com";
-	string token, level, gameID, xPos, yPos, zPos;
+	static string url = "http://sgicollab.herokuapp.com";
+	static string token, level, gameID, xPos, yPos, zPos;
 	
 	// Use this for initialization
 	void Start () {
@@ -14,12 +14,8 @@ public class collabAnalytics : MonoBehaviour {
 	void Update () {
 	
 	}
-	
+			
 	public static void sendAnalytics(Transform player, string dataToAnalyse){
-		StartCoroutine(saveToOnlineDatabase(player, dataToAnalyse));
-	} 
-		
-	IEnumerator saveToOnlineDatabase(Transform player, string dataToAnalyse){
 		
 		//blockmake
 		//plankmake
@@ -49,6 +45,5 @@ public class collabAnalytics : MonoBehaviour {
 		r.Send ();		
 		Debug.Log("Analytics sent online.");
 		
-		yield return null;	
 	}
 }
