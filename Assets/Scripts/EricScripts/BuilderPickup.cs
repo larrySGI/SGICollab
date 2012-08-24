@@ -5,6 +5,7 @@ public class BuilderPickup : Photon.MonoBehaviour {
 	public int pickupAmount;
 	 public enum powerUpType {block, plank};
 	public powerUpType type;
+	
 	[RPC] 
 	void DestroyObject ()
 	{
@@ -28,13 +29,14 @@ public class BuilderPickup : Photon.MonoBehaviour {
 				if(type==powerUpType.block){
 				ThirdPersonControllerNET.currentMaxBlocks = ThirdPersonControllerNET.currentMaxBlocks+pickupAmount;
 				ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.blockammo+pickupAmount;
-					photonView.RPC("DestroyObject", PhotonTargets.All);
+				
 				}
 				if(type==powerUpType.plank){
 				ThirdPersonControllerNET.currentMaxPlanks = ThirdPersonControllerNET.currentMaxPlanks+pickupAmount;
 				ThirdPersonControllerNET.plankammo = ThirdPersonControllerNET.plankammo+pickupAmount;
-				photonView.RPC("DestroyObject", PhotonTargets.All);
 				}
+				photonView.RPC("DestroyObject", PhotonTargets.AllBuffered);
+				
 				//photonView.RPC("DestroyBlock",PhotonTargets.All);
 			}
 		
