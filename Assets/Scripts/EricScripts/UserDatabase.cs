@@ -11,7 +11,7 @@ public class UserDatabase : MonoBehaviour {
 	public static string token;
 	
 	float lastTime;
-	float intervalForUserCheck = 10;
+	float intervalForUserCheck = 300;
 	static bool loggedIn = false;
 	
     void Start() {
