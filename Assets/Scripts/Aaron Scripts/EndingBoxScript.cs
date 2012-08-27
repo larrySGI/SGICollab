@@ -147,7 +147,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
 			
 			
-			if (nextLevel > -1)
+			if (nextLevel == -1)
 			{
 				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Complete!"))
 				{
