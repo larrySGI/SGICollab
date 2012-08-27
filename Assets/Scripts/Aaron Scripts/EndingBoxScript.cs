@@ -91,40 +91,49 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	
 	 void OnTriggerEnter(Collider other) 
-	{
-			
-			if (currGameManager.level_tester_mode)
+	{			
+		if (currGameManager.level_tester_mode)
+		{
+			PlayersHaveReachedEnd = true;
+		}
+		
+		else
+		{
+ 	   	 if(other.attachedRigidbody.name.Contains("Builder"))
 			{
+				isBuilderAtEnd =true;	
+				int objbuilt = GameManagerVik.objectsBuilt;
+				photonView.RPC("updateObjectsBuilt", PhotonTargets.AllBuffered, objbuilt);
+			}
+		
+			if(other.attachedRigidbody.name.Contains("Jumper"))
+			{
+				isJumperAtEnd =true;
+			}	
+	
+			if(other.attachedRigidbody.name.Contains("Viewer"))
+			{
+				isViewerAtEnd =true;		
+			}
+		
+			if(other.attachedRigidbody.name.Contains("Mover"))
+			{
+				isMoverAtEnd =true;
+			}
+	
+			if (isMoverAtEnd && isViewerAtEnd && isJumperAtEnd && isBuilderAtEnd){
 				PlayersHaveReachedEnd = true;
+				GameManagerVik.playTime = (float)PhotonNetwork.time - GameManagerVik.playTime;
 			}
-			
-			else
-			{
-  	 	   	 if(other.attachedRigidbody.name.Contains("Builder"))
-				{
-					isBuilderAtEnd =true;
-				}
-			
-				if(other.attachedRigidbody.name.Contains("Jumper"))
-				{
-					isJumperAtEnd =true;
-				}	
-		
-				if(other.attachedRigidbody.name.Contains("Viewer"))
-				{
-					isViewerAtEnd =true;		
-				}
-			
-				if(other.attachedRigidbody.name.Contains("Mover"))
-				{
-					isMoverAtEnd =true;
-				}
-		
-				if (isMoverAtEnd && isViewerAtEnd && isJumperAtEnd && isBuilderAtEnd)
-					PlayersHaveReachedEnd = true;
-			}
+		}
 	}
 		
+	[RPC]
+	void updateObjectsBuilt(int objBuilt){
+		GameManagerVik.objectsBuilt = objBuilt;
+			
+	}
+	
 	void OnTriggerExit(Collider other) 
 	{	
        	//we do not disable localPlayerAtEnd here. 
@@ -145,6 +154,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), aTexture, ScaleMode.StretchToFill);
 		
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
+			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.25f));			
+	        	GUILayout.Label("Clear Time: " + GameManagerVik.playTime);			
+	        	GUILayout.Label("Deaths: " + GameManagerVik.deathCount);			
+	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
+			GUILayout.EndArea();
 			
 			
 			if (nextLevel ==  -1)
@@ -157,12 +171,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			}
 			else
 			{
-			
-		
-				
 				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
-				{
-					
+				{					
 					if (currGameManager.level_tester_mode)
 					{
 						nextLevel += 1; 			
@@ -175,8 +185,6 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 						ThirdPersonControllerNET.blockammo = 1;
 						ThirdPersonControllerNET.plankammo = 5;
 						
-						
-						
 						if (nextLevel > -1)
 							Application.LoadLevel(nextLevel);
 						else
@@ -185,8 +193,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 						}
 					}
 					else
-					{
-						
+					{						
 						photonView.RPC("callReady",PhotonTargets.All);	
 						
 						/*

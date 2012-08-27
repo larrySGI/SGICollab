@@ -48,6 +48,9 @@ public class DeathZone : MonoBehaviour {
 				
 				//Send analytics
 				collabAnalytics.sendAnalytics(this.transform, "death");
+				
+				//Keep track of death count
+				GameManagerVik.deathCount++;
 			}
 		}
 	}

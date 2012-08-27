@@ -18,8 +18,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public string spectatorPrefabName = "Spectator";
     public string selectedClass;
 	
-	public bool gameStarted = false;
-	
+	public bool gameStarted = false;	
 	public bool level_tester_mode = false;
 	
 	public int playerCount = 0;
@@ -29,6 +28,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public static int nextLevel = -1;	
 	public static string gameID;
 	bool syncedGameID;
+	
+	public static float playTime;
+	public static int deathCount, objectsBuilt;
 	
 	void Awake(){
 
@@ -135,7 +137,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 			if(Application.loadedLevel == 0){
 				if(nextLevel > 0){
 					print("loading server level = " +nextLevel);
-					Application.LoadLevel(nextLevel);		
+					Application.LoadLevel(nextLevel);	
+					playTime = (float)PhotonNetwork.time;
 				}
 			}
 			else
