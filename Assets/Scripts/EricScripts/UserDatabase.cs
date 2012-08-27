@@ -184,7 +184,10 @@ public class UserDatabase : MonoBehaviour {
 			Debug.Log(r.response.Text);
 			
 			if(r.response.Text == "user not signed in")
+			{
+				Destroy(GameObject.Find("Code"));
 				Application.LoadLevel(0);
+			}
 		}
 	}
 }
