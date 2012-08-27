@@ -29,7 +29,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	void callReady()
 	{	
 		++ReadyCount;
-		Debug.Log(ReadyCount);
+//		Debug.Log(ReadyCount);
 	}
 	
 	
@@ -171,6 +171,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			}
 			else
 			{
+				if (!isWaitingForNextStage)
+				{
 				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
 				{					
 					if (currGameManager.level_tester_mode)
@@ -193,7 +195,10 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 						}
 					}
 					else
-					{						
+					{
+						isWaitingForNextStage = true;
+						statusText = "waiting for next stage";
+
 						photonView.RPC("callReady",PhotonTargets.All);	
 						
 						/*
@@ -227,6 +232,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 						{
 							statusText = "You must gather your party before venturing forth.";
 						}*/
+					}
 					}
 				}
 			}

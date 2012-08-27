@@ -124,7 +124,12 @@ public class UserDatabase : MonoBehaviour {
 			Debug.Log(r.response.Text);	
 			
 			if(r.response.Text == "user not signed in")
+			{
+				//destroy the code object here! Otherwise when we go back to main we'll actually *duplicate* it, which is what we don't want because
+				//it messes up the main menu.
+				Destroy(GameObject.Find("Code"));
 				Application.LoadLevel(0);
+			}
 		}
 		
 		yield return null;
