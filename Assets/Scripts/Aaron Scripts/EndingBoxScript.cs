@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class EndingBoxScript : MonoBehaviour {
+public class EndingBoxScript : Photon.MonoBehaviour {
 	private bool isBuilderAtEnd;
 	private bool isMoverAtEnd;
 	private bool isJumperAtEnd;
@@ -17,14 +17,26 @@ public class EndingBoxScript : MonoBehaviour {
 	
 	//This boolean tracks whether a player has reached the end.
 	[HideInInspector]	
-	public bool localPlayerHasReachedEnd = false;
+	public bool PlayersHaveReachedEnd = false;
+	public bool isWaitingForNextStage = false;
 	
 	private GameManagerVik currGameManager = null;
 	private ThirdPersonControllerNET currController = null;
 	
+	private int ReadyCount = 0;
+	
+	[RPC]
+	void callReady()
+	{	
+		++ReadyCount;
+//		Debug.Log(ReadyCount);
+	}
+	
+	
 	// Use this for initialization
 	void Start () {
-		
+		ReadyCount = 0;
+		isWaitingForNextStage = PlayersHaveReachedEnd = false;
 		
 		isBuilderAtEnd = false;
 		isMoverAtEnd = false;
@@ -43,60 +55,74 @@ public class EndingBoxScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
+		if (currGameManager.level_tester_mode) return;
+		if (alreadyLoading) return;
+		if (PlayersHaveReachedEnd && ReadyCount >=4)
+		{
+			
+					nextLevel += 1; 			
+							//last level check
+							if (nextLevel > (Application.levelCount - 1)) 
+								nextLevel = -1;
+							GameManagerVik.nextLevel = nextLevel;
+						//		Debug.Log("nextLevel updated = "+nextLevel);
+					
+							alreadyLoading = true;
+							
+							ThirdPersonControllerNET.blockammo = 1; 
+							ThirdPersonControllerNET.plankammo = 5;
+					
+				//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
+				
+				
+					
+							if (nextLevel > -1)
+								Application.LoadLevel(nextLevel);
+							else
+							{
+								PhotonNetwork.LeaveRoom();
+							}
+		}
+	
+	
 	}
 	
 	
-	 void OnTriggerEnter(Collider other) {
+	 void OnTriggerEnter(Collider other) 
+	{
 			
-			string currClass = "";
-			if (currGameManager)
-				currClass = currGameManager.selectedClass;	
-		
-		
-  	 	    if(other.attachedRigidbody.name.Contains("Builder"))
+			if (currGameManager.level_tester_mode)
 			{
-				isBuilderAtEnd =true;
-				if (currClass == "Builder")
-				{
-					localPlayerHasReachedEnd = true;
-					currController.activateMenu();
-				}
+				PlayersHaveReachedEnd = true;
 			}
 			
-			if(other.attachedRigidbody.name.Contains("Jumper"))
+			else
 			{
-				isJumperAtEnd =true;
-				if (currClass == "Jumper")
+  	 	   	 if(other.attachedRigidbody.name.Contains("Builder"))
 				{
-					localPlayerHasReachedEnd = true;
-					currController.activateMenu();
+					isBuilderAtEnd =true;
 				}
-			}	
-		
-			if(other.attachedRigidbody.name.Contains("Viewer"))
-			{
 			
-				isViewerAtEnd =true;
-				if (currClass == "Viewer")
+				if(other.attachedRigidbody.name.Contains("Jumper"))
 				{
-					localPlayerHasReachedEnd = true;
-					currController.activateMenu();
-				}
-	
-			}
+					isJumperAtEnd =true;
+				}	
 		
-			if(other.attachedRigidbody.name.Contains("Mover"))
-			{
-				isMoverAtEnd =true;
-				if (currClass == "Mover")
+				if(other.attachedRigidbody.name.Contains("Viewer"))
 				{
-					localPlayerHasReachedEnd = true;
-					currController.activateMenu();
+					isViewerAtEnd =true;		
 				}
-	
-			}
+			
+				if(other.attachedRigidbody.name.Contains("Mover"))
+				{
+					isMoverAtEnd =true;
+				}
 		
+				if (isMoverAtEnd && isViewerAtEnd && isJumperAtEnd && isBuilderAtEnd)
+					PlayersHaveReachedEnd = true;
+			}
 	}
 		
 	void OnTriggerExit(Collider other) 
@@ -114,16 +140,16 @@ public class EndingBoxScript : MonoBehaviour {
 	
 	void OnGUI()
 	{
-		if (localPlayerHasReachedEnd)
+		if (PlayersHaveReachedEnd)
 		{	
 			GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), aTexture, ScaleMode.StretchToFill);
 		
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
 			
 			
-			if (nextLevel > -1)
+			if (nextLevel ==  -1)
 			{
-				if (GUI.Button(new Rect (Screen.width *0.25f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Complete!"))
+				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Complete!"))
 				{
 					PhotonNetwork.LeaveRoom();
 				}
@@ -133,9 +159,11 @@ public class EndingBoxScript : MonoBehaviour {
 			{
 			
 		
-				
-				if (GUI.Button(new Rect (Screen.width *0.25f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
+				if (!isWaitingForNextStage)
 				{
+				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
+				{
+					
 					if (currGameManager.level_tester_mode)
 					{
 						nextLevel += 1; 			
@@ -145,13 +173,26 @@ public class EndingBoxScript : MonoBehaviour {
 			
 						GameManagerVik.nextLevel = nextLevel;
 			
-						alreadyLoading = true;
 						ThirdPersonControllerNET.blockammo = 1;
 						ThirdPersonControllerNET.plankammo = 5;
-					
+						
+						
+						
+						if (nextLevel > -1)
+							Application.LoadLevel(nextLevel);
+						else
+						{
+							PhotonNetwork.LeaveRoom();
+						}
 					}
 					else
 					{
+						isWaitingForNextStage = true;
+						statusText = "waiting for next stage";
+
+						photonView.RPC("callReady",PhotonTargets.All);	
+						
+						/*
 						if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
 						{
 							nextLevel += 1; 			
@@ -181,17 +222,18 @@ public class EndingBoxScript : MonoBehaviour {
 						else
 						{
 							statusText = "You must gather your party before venturing forth.";
-						}
+						}*/
+					}
 					}
 				}
 			}
-			
+			/*
 			if (GUI.Button(new Rect (Screen.width *0.75f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Forgot something..."))
 			{
 				//shuts off the menu so player can move again. Player must step outside and reenter the exit zone. 
 				localPlayerHasReachedEnd = false;
 				currController.deactivateMenu();
-			}
+			}*/
 			
 			GUI.Label(	new Rect (Screen.width *0.125f, Screen.height *0.9f, Screen.width * 0.75f, Screen.height * 0.1f), statusText);
 				
