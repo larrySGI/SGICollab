@@ -11,7 +11,8 @@ public class UserDatabase : MonoBehaviour {
 	public static string token;
 	
 	float lastTime;
-	float intervalForUserCheck = 300;
+	float intervalForUserCheck = 10;
+	static bool loggedIn = false;
 	
     void Start() {
 		lastTime = Time.time;
@@ -49,6 +50,7 @@ public class UserDatabase : MonoBehaviour {
 			if (json.ContainsKey ("auth_token")) {
 			 	token = json["auth_token"].ToString();
 				MainMenuVik.userTally = true;
+				loggedIn = true;
 			}else{
 				MainMenuVik.userTally = false;
 			}
@@ -83,6 +85,7 @@ public class UserDatabase : MonoBehaviour {
 			 	token = json["auth_token"].ToString();
 			 	MainMenuVik.maxLevelData = (int)json["maxStageReached"];
 				MainMenuVik.userTally = true;
+				loggedIn = true;
 			 }else{
 				MainMenuVik.userTally = false;
 			 }
