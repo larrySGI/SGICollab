@@ -122,7 +122,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 			if (isMoverAtEnd && isViewerAtEnd && isJumperAtEnd && isBuilderAtEnd){
 				PlayersHaveReachedEnd = true;
-				GameManagerVik.playTime = (float)PhotonNetwork.time - GameManagerVik.playTime;
+				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
+				
+				//Send time analytic
+				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
+					collabAnalytics.sendClearTime((int)GameManagerVik.startTime);
 			}
 		}
 	}
@@ -137,13 +141,13 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	{	
        	//we do not disable localPlayerAtEnd here. 
 		if(other.attachedRigidbody.name.Contains("Builder"))
-		isBuilderAtEnd =false;
+			isBuilderAtEnd =false;
 	   	if(other.attachedRigidbody.name.Contains("Jumper"))
-		isJumperAtEnd =false;
+			isJumperAtEnd =false;
 		if(other.attachedRigidbody.name.Contains("Viewer"))
-		isViewerAtEnd =false;
+			isViewerAtEnd =false;
 		if(other.attachedRigidbody.name.Contains("Mover"))
-		isMoverAtEnd =false;
+			isMoverAtEnd =false;
     }
 	
 	void OnGUI()
@@ -154,7 +158,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
 			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.25f));			
-	        	GUILayout.Label("Clear Time: " + GameManagerVik.playTime);			
+	        	GUILayout.Label("Clear Time: " + GameManagerVik.startTime);			
 	        	GUILayout.Label("Deaths: " + GameManagerVik.deathCount);			
 	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
 			GUILayout.EndArea();
@@ -165,13 +169,13 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Complete!"))
 				{
 					PhotonNetwork.LeaveRoom();
-				}
-			
+				}			
 			}
 			else
 			{
 				if (!isWaitingForNextStage)
 				{
+
 				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
 				{					
 					if (currGameManager.level_tester_mode)
@@ -200,48 +204,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 
 						photonView.RPC("callReady",PhotonTargets.AllBuffered);	
 						
-						/*
-						if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
-						{
-							nextLevel += 1; 			
-							//last level check
-							if (nextLevel > (Application.levelCount - 1)) 
-								nextLevel = -1;
-							GameManagerVik.nextLevel = nextLevel;
-						//		Debug.Log("nextLevel updated = "+nextLevel);
-					
-							alreadyLoading = true;
-							
-							ThirdPersonControllerNET.blockammo = 1; 
-							ThirdPersonControllerNET.plankammo = 5;
-					
-				//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
-				
-				
-					
-							if (nextLevel > -1)
-								Application.LoadLevel(nextLevel);
-							else
-							{
-								PhotonNetwork.LeaveRoom();
-							}
-					
+
 						}
-						else
-						{
-							statusText = "You must gather your party before venturing forth.";
-						}*/
-					}
 					}
 				}
 			}
-			/*
-			if (GUI.Button(new Rect (Screen.width *0.75f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Forgot something..."))
-			{
-				//shuts off the menu so player can move again. Player must step outside and reenter the exit zone. 
-				localPlayerHasReachedEnd = false;
-				currController.deactivateMenu();
-			}*/
+			
 			
 			GUI.Label(	new Rect (Screen.width *0.125f, Screen.height *0.9f, Screen.width * 0.75f, Screen.height * 0.1f), statusText);
 				

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class DeathZone : MonoBehaviour {
+public class DeathZone : Photon.MonoBehaviour {
 	
 	float timeDied;
 	float respawnTime = 0.5f;
@@ -33,7 +33,7 @@ public class DeathZone : MonoBehaviour {
 		if(other.tag == "Builder" ||
 			other.tag == "Mover" ||
 				other.tag == "Viewer" ||
-					other.tag == "Jumper"){
+					other.tag == "Jumper" ){
 			
 			if(Time.time - timeDied > respawnTime)
 			{
@@ -45,12 +45,13 @@ public class DeathZone : MonoBehaviour {
 					GameObject SpawnManager = GameObject.Find("Code");
 					other.transform.position = SpawnManager.transform.position;						
 				}
-				
-				//Send analytics
-				collabAnalytics.sendAnalytics(this.transform, "death");
+				//Send analytics of death info
+				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine){
+					collabAnalytics.sendAnalytics(this.transform, "death");
 				
 				//Keep track of death count
 				GameManagerVik.deathCount++;
+				}
 			}
 		}
 	}
