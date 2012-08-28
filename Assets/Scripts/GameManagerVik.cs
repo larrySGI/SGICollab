@@ -30,7 +30,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public static string gameID;
 	bool syncedGameID;
 	
-	public static float playTime;
+	public static double startTime;
 	public static int deathCount, objectsBuilt;
 	
 	void Awake(){
@@ -84,6 +84,13 @@ public class GameManagerVik : Photon.MonoBehaviour
 		print("Synced gameID = " + gameID);	
 	}
 	
+	void OnLevelWasLoaded(int level)  
+	{		
+		//Set tracked variables to default
+		GameManagerVik.deathCount = 0;
+		GameManagerVik.objectsBuilt = 0;
+		GameManagerVik.startTime = PhotonNetwork.time;
+	}
     void StartGame(string prefabName)
     {    		
 		Camera.main.farClipPlane = 1000; //Main menu set this to 0.4 for a nicer BG    
@@ -139,7 +146,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				if(nextLevel > 0){
 					print("loading server level = " +nextLevel);
 					Application.LoadLevel(nextLevel);	
-					playTime = (float)PhotonNetwork.time;
+					startTime = (float)PhotonNetwork.time;
 				}
 			}
 			else

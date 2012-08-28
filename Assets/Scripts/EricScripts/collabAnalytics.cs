@@ -49,4 +49,20 @@ public class collabAnalytics : MonoBehaviour {
 			Debug.Log("Analytics sent online.");
 		}
 	}
+	
+	public static void sendClearTime(int clearTime){
+		if(sendEnabled){
+			token = UserDatabase.token;
+			gameID = GameManagerVik.gameID;
+			
+			string urlconcat = "/game" + 
+								"/" + gameID +
+								"?auth_token=" + token +
+								"&game_duration=" + clearTime;
+			
+			var r = new HTTP.Request ("PUT", url + urlconcat);
+			r.Send ();		
+			Debug.Log("Clear time analytics sent online.");
+		}
+	}
 }
