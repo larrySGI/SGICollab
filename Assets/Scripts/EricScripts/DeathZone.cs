@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class DeathZone : MonoBehaviour {
+public class DeathZone : Photon.MonoBehaviour {
 	
 	float timeDied;
 	float respawnTime = 0.5f;
