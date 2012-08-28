@@ -127,14 +127,28 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				//Send time analytic
 				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
 					collabAnalytics.sendClearTime((int)GameManagerVik.startTime);
+				
+				//Tally total deaths
+				if(!PhotonNetwork.isMasterClient)
+					photonView.RPC("tallyTotalDeaths", PhotonTargets.MasterClient, GameManagerVik.deathCount);
 			}
 		}
 	}
 		
 	[RPC]
 	void updateObjectsBuilt(int objBuilt){
-		GameManagerVik.objectsBuilt = objBuilt;
-			
+		GameManagerVik.objectsBuilt = objBuilt;			
+	}
+		
+	[RPC]
+	void tallyTotalDeaths(int deathCount){
+		GameManagerVik.deathCount += deathCount;	
+		photonView.RPC("updateTotalDeaths", PhotonTargets.OthersBuffered, GameManagerVik.deathCount);	
+	}
+	
+	[RPC]
+	void updateTotalDeaths(int totalDeaths){
+		GameManagerVik.deathCount = totalDeaths;		
 	}
 	
 	void OnTriggerExit(Collider other) 
