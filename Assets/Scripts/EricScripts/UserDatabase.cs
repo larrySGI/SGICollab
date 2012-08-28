@@ -164,7 +164,7 @@ public class UserDatabase : MonoBehaviour {
 	}
 	
 	public static void verifyGameID(string gameID){
-		print("Setting game ID...");
+		print("Setting game ID..." + gameID);
 		
 		string urlconcat ="http://sgicollab.herokuapp.com/add_user_to_game" +
 							"?game_id=" + gameID +
