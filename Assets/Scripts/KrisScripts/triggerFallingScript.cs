@@ -12,7 +12,7 @@ public class triggerFallingScript : MonoBehaviour {
 	private float stayTime;
 	private float displaySeconds;
 	private bool startFalling = false;
-
+	private bool enterFall = false; 
 	public int countDownSeconds = 5;
 	
 	// var for falling objects
@@ -34,6 +34,7 @@ public class triggerFallingScript : MonoBehaviour {
 	void OnTriggerEnter () {
 
 		enterTime = Time.time;
+		enterFall = true;
 		//print ("triggerEnter at " + startTime);
 	
 	}
@@ -41,26 +42,28 @@ public class triggerFallingScript : MonoBehaviour {
 	// on Trigger script, start countdown
 	void OnTriggerStay (){
 		
-		stayTime = Time.time - enterTime;
-		
-		//print ("triggerStay with " + stayTime);
-		
-		restSeconds = countDownSeconds - (stayTime);
-		roundedRestSeconds = Mathf.CeilToInt(restSeconds);
-		displaySeconds = roundedRestSeconds % 60;
-
-		//print ("rest:" + displaySeconds);
-		
-		if (displaySeconds <= 0){
-			startFalling = true;
-			startFallingTime = Time.time;
+		if (enterFall){
+			stayTime = Time.time - enterTime;
+			
+			//print ("triggerStay with " + stayTime);
+			
+			restSeconds = countDownSeconds - (stayTime);
+			roundedRestSeconds = Mathf.CeilToInt(restSeconds);
+			displaySeconds = roundedRestSeconds % 60;
+	
+			//print ("rest:" + displaySeconds);
+			
+			if (displaySeconds <= 0){
+				startFalling = true;
+				startFallingTime = Time.time;
+			}
 		}
 
 	}
 	
 	// on trigger exit, reset countdown timer
 	void OnTriggerExit(){
-	
+		enterFall = false;
 		//print ("exit");
 	
 	}

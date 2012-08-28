@@ -67,12 +67,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 							if (nextLevel > (Application.levelCount - 1)) 
 								nextLevel = -1;
 							GameManagerVik.nextLevel = nextLevel;
-						//		Debug.Log("nextLevel updated = "+nextLevel);
+								Debug.Log("nextLevel updated = "+nextLevel);
 					
 							alreadyLoading = true;
 							
-							ThirdPersonControllerNET.blockammo = 1; 
-							ThirdPersonControllerNET.plankammo = 5;
+							
 					
 				//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 				
@@ -190,76 +189,41 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			{
 				if (!isWaitingForNextStage)
 				{
-					if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
-					{								
-						if (currGameManager.level_tester_mode)
-						{
-							nextLevel += 1; 			
-							//last level check
-							if (nextLevel > (Application.levelCount - 1)) 
-								nextLevel = -1;
-				
-							GameManagerVik.nextLevel = nextLevel;
-				
-							ThirdPersonControllerNET.blockammo = 1;
-							ThirdPersonControllerNET.plankammo = 5;
-							
-							if (nextLevel > -1)
-								Application.LoadLevel(nextLevel);
-							else
-							{
-								PhotonNetwork.LeaveRoom();
-							}
-						}
+
+				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
+				{					
+					if (currGameManager.level_tester_mode)
+					{
+						nextLevel += 1; 			
+						//last level check
+						if (nextLevel > (Application.levelCount - 1)) 
+							nextLevel = -1;
+			
+						GameManagerVik.nextLevel = nextLevel;
+			
+						ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.blocksToStart;
+						ThirdPersonControllerNET.plankammo = ThirdPersonControllerNET.planksToStart;
+						
+						if (nextLevel > -1)
+							Application.LoadLevel(nextLevel);
 						else
 						{
-							isWaitingForNextStage = true;
-							statusText = "waiting for next stage";
-	
-							photonView.RPC("callReady",PhotonTargets.All);	
-							
-							/*
-							if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
-							{
-								nextLevel += 1; 			
-								//last level check
-								if (nextLevel > (Application.levelCount - 1)) 
-									nextLevel = -1;
-								GameManagerVik.nextLevel = nextLevel;
-							//		Debug.Log("nextLevel updated = "+nextLevel);
+							PhotonNetwork.LeaveRoom();
+						}
+					}
+					else
+					{
+						isWaitingForNextStage = true;
+						statusText = "waiting for next stage";
+
+						photonView.RPC("callReady",PhotonTargets.AllBuffered);	
 						
-								alreadyLoading = true;
-								
-								ThirdPersonControllerNET.blockammo = 1; 
-								ThirdPersonControllerNET.plankammo = 5;
-						
-					//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
-					
-					
-						
-								if (nextLevel > -1)
-									Application.LoadLevel(nextLevel);
-								else
-								{
-									PhotonNetwork.LeaveRoom();
-								}
-						
-							}
-							else
-							{
-								statusText = "You must gather your party before venturing forth.";
-							}*/
+
 						}
 					}
 				}
 			}
-			/*
-			if (GUI.Button(new Rect (Screen.width *0.75f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Forgot something..."))
-			{
-				//shuts off the menu so player can move again. Player must step outside and reenter the exit zone. 
-				localPlayerHasReachedEnd = false;
-				currController.deactivateMenu();
-			}*/
+			
 			
 			GUI.Label(	new Rect (Screen.width *0.125f, Screen.height *0.9f, Screen.width * 0.75f, Screen.height * 0.1f), statusText);
 				
