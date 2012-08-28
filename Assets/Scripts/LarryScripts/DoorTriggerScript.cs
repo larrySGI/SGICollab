@@ -337,11 +337,14 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 					{				
 						//there's only a limit of 4 doors. If all 4 doors don't exist, nothing happens.
 						if (ds4 != null)
+						
 							ds4.TriggerDoor();
+						else
+							sequentialCounter++;
 					}	
 						
 					
-				sequentialCounter++;
+				
 				if (sequentialCounter > 3) sequentialCounter = 0;
 			}
 			else if(triggerMode == TriggerMode.All_At_Once){
