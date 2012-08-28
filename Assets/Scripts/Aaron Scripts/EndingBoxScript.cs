@@ -198,7 +198,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 						//last level check
 						if (nextLevel > (Application.levelCount - 1)) 
 							nextLevel = -1;
-			
+						//s
 						GameManagerVik.nextLevel = nextLevel;
 			
 						ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.blocksToStart;
