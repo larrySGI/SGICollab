@@ -126,7 +126,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
 				
 				//Send time analytic
-				collabAnalytics.sendClearTime((int)GameManagerVik.startTime);
+				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
+					collabAnalytics.sendClearTime((int)GameManagerVik.startTime);
 			}
 		}
 	}
