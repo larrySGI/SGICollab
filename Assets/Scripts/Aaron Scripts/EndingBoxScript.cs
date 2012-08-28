@@ -67,12 +67,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 							if (nextLevel > (Application.levelCount - 1)) 
 								nextLevel = -1;
 							GameManagerVik.nextLevel = nextLevel;
-						//		Debug.Log("nextLevel updated = "+nextLevel);
+								Debug.Log("nextLevel updated = "+nextLevel);
 					
 							alreadyLoading = true;
 							
-							ThirdPersonControllerNET.blockammo = 1; 
-							ThirdPersonControllerNET.plankammo = 5;
+							
 					
 				//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 				
@@ -184,8 +183,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			
 						GameManagerVik.nextLevel = nextLevel;
 			
-						ThirdPersonControllerNET.blockammo = 1;
-						ThirdPersonControllerNET.plankammo = 5;
+						ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.blocksToStart;
+						ThirdPersonControllerNET.plankammo = ThirdPersonControllerNET.planksToStart;
 						
 						if (nextLevel > -1)
 							Application.LoadLevel(nextLevel);
@@ -199,7 +198,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 						isWaitingForNextStage = true;
 						statusText = "waiting for next stage";
 
-						photonView.RPC("callReady",PhotonTargets.All);	
+						photonView.RPC("callReady",PhotonTargets.AllBuffered);	
 						
 						/*
 						if(isBuilderAtEnd && isMoverAtEnd && isJumperAtEnd && isViewerAtEnd && !alreadyLoading)
