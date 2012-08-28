@@ -34,6 +34,7 @@ public class LeverAnimate : MonoBehaviour {
 		switchTriggered = true;
 		
 		//Send analytics
+		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
 		collabAnalytics.sendAnalytics(other.transform, "buttonpress");	
 	}
 	public void OnTriggerExit()
