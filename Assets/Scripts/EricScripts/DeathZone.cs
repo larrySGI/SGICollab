@@ -33,7 +33,7 @@ public class DeathZone : Photon.MonoBehaviour {
 		if(other.tag == "Builder" ||
 			other.tag == "Mover" ||
 				other.tag == "Viewer" ||
-					other.tag == "Jumper" && photonView.isMine){
+					other.tag == "Jumper" ){
 			
 			if(Time.time - timeDied > respawnTime)
 			{
@@ -45,12 +45,13 @@ public class DeathZone : Photon.MonoBehaviour {
 					GameObject SpawnManager = GameObject.Find("Code");
 					other.transform.position = SpawnManager.transform.position;						
 				}
-				
 				//Send analytics of death info
-				collabAnalytics.sendAnalytics(this.transform, "death");
+				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine){
+					collabAnalytics.sendAnalytics(this.transform, "death");
 				
 				//Keep track of death count
 				GameManagerVik.deathCount++;
+				}
 			}
 		}
 	}
