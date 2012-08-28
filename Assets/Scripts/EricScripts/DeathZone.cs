@@ -33,7 +33,7 @@ public class DeathZone : Photon.MonoBehaviour {
 		if(other.tag == "Builder" ||
 			other.tag == "Mover" ||
 				other.tag == "Viewer" ||
-					other.tag == "Jumper"){
+					other.tag == "Jumper" && photonView.isMine){
 			
 			if(Time.time - timeDied > respawnTime)
 			{
@@ -46,7 +46,7 @@ public class DeathZone : Photon.MonoBehaviour {
 					other.transform.position = SpawnManager.transform.position;						
 				}
 				
-				//Send analytics
+				//Send analytics of death info
 				collabAnalytics.sendAnalytics(this.transform, "death");
 				
 				//Keep track of death count
