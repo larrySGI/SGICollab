@@ -5,9 +5,11 @@ public class collabAnalytics : MonoBehaviour {
 	
 	static string url = "http://sgicollab.herokuapp.com";
 	static string token, level, gameID, xPos, yPos, zPos;
+	static bool sendEnabled;
 	
 	// Use this for initialization
 	void Start () {
+		sendEnabled = GetComponent<GameManagerVik>().sendAnalytics;
 	}
 	
 	// Update is called once per frame
@@ -26,24 +28,25 @@ public class collabAnalytics : MonoBehaviour {
 		//Viewer Cam
 		//Move Obj
 		
-		token = UserDatabase.token;
-		level = GameManagerVik.nextLevel.ToString();
-		gameID = GameManagerVik.gameID;
-		xPos = player.position.x.ToString();
-		yPos = player.position.y.ToString();
-		zPos = player.position.z.ToString();		
-		
-		string urlconcat = "/" + dataToAnalyse +
-							"?" + dataToAnalyse + "[game_id]=" + gameID +
-							"&" + dataToAnalyse + "[level]=" + level +
-							"&" + dataToAnalyse + "[x]=" + xPos +
-							"&" + dataToAnalyse + "[y]=" + yPos +
-							"&" + dataToAnalyse + "[z]=" + zPos +
-							"&auth_token=" + token;
-		
-		var r = new HTTP.Request ("POST", url + urlconcat);
-		r.Send ();		
-		Debug.Log("Analytics sent online.");
-		
+		if(sendEnabled){
+			token = UserDatabase.token;
+			level = GameManagerVik.nextLevel.ToString();
+			gameID = GameManagerVik.gameID;
+			xPos = player.position.x.ToString();
+			yPos = player.position.y.ToString();
+			zPos = player.position.z.ToString();		
+			
+			string urlconcat = "/" + dataToAnalyse +
+								"?" + dataToAnalyse + "[game_id]=" + gameID +
+								"&" + dataToAnalyse + "[level]=" + level +
+								"&" + dataToAnalyse + "[x]=" + xPos +
+								"&" + dataToAnalyse + "[y]=" + yPos +
+								"&" + dataToAnalyse + "[z]=" + zPos +
+								"&auth_token=" + token;
+			
+			var r = new HTTP.Request ("POST", url + urlconcat);
+			r.Send ();		
+			Debug.Log("Analytics sent online.");
+		}
 	}
 }

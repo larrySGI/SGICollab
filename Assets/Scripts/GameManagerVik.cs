@@ -20,6 +20,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public bool gameStarted = false;	
 	public bool level_tester_mode = false;
+	public bool sendAnalytics = true;
 	
 	public int playerCount = 0;
 	
