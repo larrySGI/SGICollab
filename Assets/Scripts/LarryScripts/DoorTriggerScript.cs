@@ -23,13 +23,23 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	private bool triggered = false;
 			
 	public enum TriggerMode {
-	   All_At_Once,
+		All_At_Once,
 	   One_By_One_Sequential,
 	   Hold_To_Open
 	}	
-	public TriggerMode triggerMode = TriggerMode.All_At_Once; 
+	
+	public enum TriggerFunc {
+		OnEnter = 0,
+		OnExit = 1,
+		OnStay = 2,
+		Start = 3
+	}
+	
+	private TriggerFunc lastTriggered;
+	public TriggerMode triggerMode;
 		
 	private int sequentialCounter = 0;	
+
 		
 	private bool started = false;
 	
@@ -37,28 +47,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	
 	private Transform target = null;
 		
-	[RPC]
-	void resetDoors(bool doors)
-	{	
-		if (ds1 != null)	
-				ds1.ResetDoor();	
 	
-			
-		if (ds2 != null)	
-				ds2.ResetDoor();	
-	
-	
-		if (ds3 != null)	
-				ds3.ResetDoor();	
-	
-	
-		if (ds4 != null)	
-				ds4.ResetDoor();	
-	
-	
-		sequentialCounter = 0;
-	}
-		
 	void resetDoorTime(PhotonTargets ptarget)
 	{
 		photonView.RPC("resetDoors",ptarget, false);		
@@ -66,6 +55,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	
 	void Awake()
 	{
+		
 		target = this.transform.FindChild("Lever");	
 		if (target == null)
 			target = this.transform.FindChild("PressurePlate");
@@ -154,13 +144,18 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 						door4.renderer.material.mainTexture = originalDoor4Texture;
 				}
 			}
+		
+		
 	}		
 		
 	//The door will open/shut upon touch, doesn't matter if the player is on the button or not. Therefore TriggerEntry is the best method, doors will not have
 	//to reset this way.
 	void OnTriggerEnter(){
 	    if (ds1 == null && ds2 == null && ds3 == null && ds4 == null) return;
-	
+		if (!started) return;
+		
+		photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnEnter);	
+		/*
 		if (triggerMode == TriggerMode.One_By_One_Sequential)
 		{
 				
@@ -211,9 +206,17 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 			if (ds4 != null)	
 				ds4.TriggerDoor();	
 		}
+		*/
 	}
 		
 		void OnTriggerStay(){
+			if (triggerMode != TriggerMode.Hold_To_Open) return;
+				if (!started) return;
+
+			photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnStay);	
+
+		
+			/*
 			if(triggerMode == TriggerMode.Hold_To_Open && !triggered){				
 				if (ds1 != null)	
 					ds1.TriggerDoor();		
@@ -229,9 +232,159 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 			
 				triggered = true;
 			}
+			*/
 		}	
 	
 		void OnTriggerExit(){
+				if (!started) return;
+
+				photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnExit);	
+
+		/*
+			if(triggerMode == TriggerMode.Hold_To_Open && triggered){				
+				if (ds1 != null)	
+					ds1.TriggerDoor();		
+				
+				if (ds2 != null)	
+					ds2.TriggerDoor();	
+		
+				if (ds3 != null)	
+					ds3.TriggerDoor();	
+		
+				if (ds4 != null)	
+					ds4.TriggerDoor();	
+			
+				triggered = false;
+			}
+			*/
+		}
+	
+		public void toggleRevealColours(){
+			revealColours = !revealColours;
+		}
+	public void showColours(){
+			revealColours = true;
+	}
+	public void hideColours(){
+			revealColours = false;
+	}
+	
+	
+	//RPCs
+		[RPC] 
+	void resetDoors(bool doors)
+	{	
+		Debug.Log("Resetting Doors");
+		lastTriggered = TriggerFunc.Start;
+		if (ds1 != null)	
+				ds1.ResetDoor();	
+	
+			
+		if (ds2 != null)	
+				ds2.ResetDoor();	
+	
+	
+		if (ds3 != null)	
+				ds3.ResetDoor();	
+	
+	
+		if (ds4 != null)	
+				ds4.ResetDoor();	
+	
+	
+		sequentialCounter = 0;
+	}
+	
+	[RPC] 
+	void TriggerDoors(TriggerFunc mode)
+	{
+	//	if (last_trigger_time > 0) return;
+		
+		if (mode == lastTriggered) return;
+		
+		lastTriggered = mode;
+		//on trigger enter		
+		if (mode == TriggerFunc.OnEnter )
+		{
+			if (triggerMode == TriggerMode.Hold_To_Open) return;
+			if (triggerMode == TriggerMode.One_By_One_Sequential)
+			{
+				
+				if (sequentialCounter == 0)
+					{
+						if (ds1 == null)
+							//skip doors that do not exist
+							sequentialCounter ++;
+						else
+							ds1.TriggerDoor();
+					}
+				if (sequentialCounter == 1)
+					{
+						if (ds2 == null)
+							sequentialCounter ++;
+						else
+							ds2.TriggerDoor();
+					}
+				if (sequentialCounter == 2)
+					{				
+						if (ds3 == null)
+							sequentialCounter ++;
+						else
+							ds3.TriggerDoor();
+					}	
+				
+				if (sequentialCounter == 3)
+					{				
+						//there's only a limit of 4 doors. If all 4 doors don't exist, nothing happens.
+						if (ds4 != null)
+							ds4.TriggerDoor();
+					}	
+						
+					
+				sequentialCounter++;
+				if (sequentialCounter > 3) sequentialCounter = 0;
+			}
+			else if(triggerMode == TriggerMode.All_At_Once){
+				if (ds1 != null)	
+					ds1.TriggerDoor();		
+				
+				if (ds2 != null)	
+					ds2.TriggerDoor();	
+		
+				if (ds3 != null)	
+					ds3.TriggerDoor();	
+		
+				if (ds4 != null)	
+					ds4.TriggerDoor();	
+			}
+		}
+		
+		
+		if (mode == TriggerFunc.OnStay)
+		{
+			if (triggerMode != TriggerMode.Hold_To_Open) return;
+			if (triggered) return;
+			if(triggerMode == TriggerMode.Hold_To_Open && !triggered){				
+				if (ds1 != null)	
+					ds1.TriggerDoor();		
+				
+				if (ds2 != null)	
+					ds2.TriggerDoor();	
+		
+				if (ds3 != null)	
+					ds3.TriggerDoor();	
+		
+				if (ds4 != null)	
+					ds4.TriggerDoor();	
+			
+				triggered = true;
+			}
+		}
+		
+		if (mode == TriggerFunc.OnExit)
+		{
+			
+			if (triggerMode != TriggerMode.Hold_To_Open) return;
 			if(triggerMode == TriggerMode.Hold_To_Open && triggered){				
 				if (ds1 != null)	
 					ds1.TriggerDoor();		
@@ -248,14 +401,8 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 				triggered = false;
 			}
 		}
+	}
 	
-		public void toggleRevealColours(){
-			revealColours = !revealColours;
-		}
-	public void showColours(){
-			revealColours = true;
-	}
-	public void hideColours(){
-			revealColours = false;
-	}
+	
+	
 }
