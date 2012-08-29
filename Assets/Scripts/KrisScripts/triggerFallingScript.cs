@@ -40,33 +40,7 @@ public class triggerFallingScript : MonoBehaviour {
 	}
 	
 	// on Trigger script, start countdown
-	void OnTriggerStay (){
-		
-		if (enterFall){
-			stayTime = Time.time - enterTime;
-			
-			//print ("triggerStay with " + stayTime);
-			
-			restSeconds = countDownSeconds - (stayTime);
-			roundedRestSeconds = Mathf.CeilToInt(restSeconds);
-			displaySeconds = roundedRestSeconds % 60;
 	
-			//print ("rest:" + displaySeconds);
-			
-			if (displaySeconds <= 0){
-				startFalling = true;
-				startFallingTime = Time.time;
-			}
-		}
-
-	}
-	
-	// on trigger exit, reset countdown timer
-	void OnTriggerExit(){
-		enterFall = false;
-		//print ("exit");
-	
-	}
 	
 	
 	// Update is called once per frame
@@ -85,7 +59,25 @@ public class triggerFallingScript : MonoBehaviour {
 			if (displaySeconds <= 0){
 				startFalling = false;
 				target.transform.position = startPos;
+				enterFall = false;
 			}	
+		}else{
+			if (enterFall){
+			stayTime = Time.time - enterTime;
+			
+			//print ("triggerStay with " + stayTime);
+			
+			restSeconds = countDownSeconds - (stayTime);
+			roundedRestSeconds = Mathf.CeilToInt(restSeconds);
+			displaySeconds = roundedRestSeconds % 60;
+	
+			//print ("rest:" + displaySeconds);
+			
+			if (displaySeconds <= 0){
+				startFalling = true;
+				startFallingTime = Time.time;
+			}
+		}
 		}
 	}
 }
