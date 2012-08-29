@@ -214,14 +214,11 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		void OnTriggerStay(){
 			if (triggerMode != TriggerMode.Hold_To_Open) return;
 				if (!started) return;
-<<<<<<< HEAD
-			if (triggered) return;
-			photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnStay);	
-=======
+
 		if(!photonView.isMine)return;
 			if (triggered) return;
 			photonView.RPC("openDoors",PhotonTargets.AllBuffered, 1);	
->>>>>>> 9f9e093caff08e5feb2af88a019ae9714dc03cd0
+
 			
 			/*
 			if(triggerMode == TriggerMode.Hold_To_Open && !triggered){				
@@ -244,13 +241,10 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	
 		void OnTriggerExit(){
 				if (!started) return;
-<<<<<<< HEAD
-				
-				photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnExit);	
-=======
+
 		if(!photonView.isMine)return;
 				photonView.RPC("openDoors",PhotonTargets.AllBuffered,2);	
->>>>>>> 9f9e093caff08e5feb2af88a019ae9714dc03cd0
+
 		
 		/*
 			if(triggerMode == TriggerMode.Hold_To_Open && triggered){				
