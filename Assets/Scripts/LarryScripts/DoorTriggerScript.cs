@@ -155,7 +155,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	    if (ds1 == null && ds2 == null && ds3 == null && ds4 == null) return;
 		if (triggerMode == TriggerMode.Hold_To_Open) return;
 		if (!started) return;
-		
+		if(!photonView.isMine)return;
 		photonView.RPC("openDoors",PhotonTargets.AllBuffered,0);	
 		/*
 		if (triggerMode == TriggerMode.One_By_One_Sequential)
@@ -214,6 +214,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		void OnTriggerStay(){
 			if (triggerMode != TriggerMode.Hold_To_Open) return;
 				if (!started) return;
+		if(!photonView.isMine)return;
 			if (triggered) return;
 			photonView.RPC("openDoors",PhotonTargets.AllBuffered, 1);	
 			
@@ -238,7 +239,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	
 		void OnTriggerExit(){
 				if (!started) return;
-				
+		if(!photonView.isMine)return;
 				photonView.RPC("openDoors",PhotonTargets.AllBuffered,2);	
 		
 		/*
@@ -301,9 +302,9 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	{
 	//	if (last_trigger_time > 0) return;
 		
-		if (mode == lastTriggered) return;
+	//	if (mode == lastTriggered) return;
 		
-		lastTriggered = mode;
+		//lastTriggered = mode;
 		//on trigger enter		
 		if (mode == 0)
 		{
@@ -313,6 +314,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 				
 				if (sequentialCounter == 0)
 					{
+						
 						if (ds1 == null)
 							//skip doors that do not exist
 							sequentialCounter ++;
@@ -340,13 +342,13 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 						if (ds4 != null)
 						
 							ds4.TriggerDoor();
-						else
-							sequentialCounter++;
+						//else
+						//	sequentialCounter++;
 					}	
 						
-					
+				sequentialCounter++;	
 				
-				if (sequentialCounter > 3) sequentialCounter = 0;
+				if (sequentialCounter >= 3) sequentialCounter = 0;
 			}
 			else if(triggerMode == TriggerMode.All_At_Once){
 				if (ds1 != null)	
