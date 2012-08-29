@@ -27,15 +27,15 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	   One_By_One_Sequential,
 	   Hold_To_Open
 	}	
-	
+	/*
 	public enum TriggerFunc {
 		OnEnter = 0,
 		OnExit = 1,
 		OnStay = 2,
 		Start = 3
-	}
+	}*/
 	
-	private TriggerFunc lastTriggered;
+	private int lastTriggered;
 	public TriggerMode triggerMode;
 		
 	private int sequentialCounter = 0;	
@@ -102,6 +102,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 				if (MoverTest.gameStarted)
 				{		
 					resetDoorTime(PhotonTargets.All);
+				lastTriggered = 3;
 					started = true;	
 			
 				}	
@@ -154,8 +155,8 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	    if (ds1 == null && ds2 == null && ds3 == null && ds4 == null) return;
 		if (triggerMode == TriggerMode.Hold_To_Open) return;
 		if (!started) return;
-		
-		photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnEnter);	
+		if(!photonView.isMine)return;
+		photonView.RPC("openDoors",PhotonTargets.AllBuffered,0);	
 		/*
 		if (triggerMode == TriggerMode.One_By_One_Sequential)
 		{
@@ -213,8 +214,14 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		void OnTriggerStay(){
 			if (triggerMode != TriggerMode.Hold_To_Open) return;
 				if (!started) return;
+<<<<<<< HEAD
 			if (triggered) return;
 			photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnStay);	
+=======
+		if(!photonView.isMine)return;
+			if (triggered) return;
+			photonView.RPC("openDoors",PhotonTargets.AllBuffered, 1);	
+>>>>>>> 9f9e093caff08e5feb2af88a019ae9714dc03cd0
 			
 			/*
 			if(triggerMode == TriggerMode.Hold_To_Open && !triggered){				
@@ -237,8 +244,13 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	
 		void OnTriggerExit(){
 				if (!started) return;
+<<<<<<< HEAD
 				
 				photonView.RPC("TriggerDoors",PhotonTargets.AllBuffered, TriggerFunc.OnExit);	
+=======
+		if(!photonView.isMine)return;
+				photonView.RPC("openDoors",PhotonTargets.AllBuffered,2);	
+>>>>>>> 9f9e093caff08e5feb2af88a019ae9714dc03cd0
 		
 		/*
 			if(triggerMode == TriggerMode.Hold_To_Open && triggered){				
@@ -275,7 +287,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	void resetDoors(bool doors)
 	{	
 		Debug.Log("Resetting Doors");
-		lastTriggered = TriggerFunc.Start;
+		lastTriggered = 3;
 		if (ds1 != null)	
 				ds1.ResetDoor();	
 	
@@ -296,15 +308,15 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 	}
 	
 	[RPC] 
-	void TriggerDoors(TriggerFunc mode)
+	void openDoors(int mode)
 	{
 	//	if (last_trigger_time > 0) return;
 		
-		if (mode == lastTriggered) return;
+	//	if (mode == lastTriggered) return;
 		
-		lastTriggered = mode;
+		//lastTriggered = mode;
 		//on trigger enter		
-		if (mode == TriggerFunc.OnEnter )
+		if (mode == 0)
 		{
 			if (triggerMode == TriggerMode.Hold_To_Open) return;
 			if (triggerMode == TriggerMode.One_By_One_Sequential)
@@ -312,6 +324,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 				
 				if (sequentialCounter == 0)
 					{
+						
 						if (ds1 == null)
 							//skip doors that do not exist
 							sequentialCounter ++;
@@ -339,13 +352,13 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 						if (ds4 != null)
 						
 							ds4.TriggerDoor();
-						else
-							sequentialCounter++;
+						//else
+						//	sequentialCounter++;
 					}	
 						
-					
+				sequentialCounter++;	
 				
-				if (sequentialCounter > 3) sequentialCounter = 0;
+				if (sequentialCounter >= 3) sequentialCounter = 0;
 			}
 			else if(triggerMode == TriggerMode.All_At_Once){
 				if (ds1 != null)	
@@ -363,7 +376,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		}
 		
 		
-		if (mode == TriggerFunc.OnStay)
+		if (mode == 1)
 		{
 			//if (triggerMode != TriggerMode.Hold_To_Open) return;
 			//if (triggered) return;
@@ -384,7 +397,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 			}
 		}
 		
-		if (mode == TriggerFunc.OnExit)
+		if (mode == 2)
 		{
 			
 			//if (triggerMode != TriggerMode.Hold_To_Open) return;
