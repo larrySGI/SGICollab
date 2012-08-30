@@ -339,7 +339,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 			menuOn = !menuOn;
 		}
-		
+		/*
 		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
 		{
 			GameObject SpawnManager = GameObject.Find("Code");
@@ -381,6 +381,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			//Keep track of death count
 			GameManagerVik.deathCount++;
 		}
+		*/
 		if(Input.GetKeyDown(KeyCode.P) && !menuOn)
 		{
 			GameManagerVik manager = GameObject.Find("Code").GetComponent<GameManagerVik>();
@@ -418,7 +419,53 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 		}
 	}
-
+	
+	//converted to a called function.
+	public void Retry()
+	{
+		
+			GameObject SpawnManager = GameObject.Find("Code");
+				
+			if (this.lastRespawn.magnitude > 0)				
+				this.transform.position = this.lastRespawn;
+			else
+			{		
+				this.transform.position = SpawnManager.transform.position;
+			}
+			
+			if (SpawnManager.GetComponent<GameManagerVik>().selectedClass == "Builder")
+			{
+				StartCoroutine(destroyLater(1.0F));
+   			
+  
+				GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+				foreach(GameObject creation in platformsCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+				foreach(GameObject creation in blocksCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				blockammo = currentMaxBlocks;
+				plankammo = currentMaxPlanks;
+				
+			}
+			 
+			
+			 
+			//Send analytics
+			collabAnalytics.sendAnalytics(this.transform, "death");
+			
+			//Keep track of death count
+			GameManagerVik.deathCount++;
+	
+	}
+	
+	
 	IEnumerator destroyLater(float waitTime) {
         yield return new WaitForSeconds(waitTime);
         GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");

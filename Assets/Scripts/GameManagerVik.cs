@@ -217,15 +217,24 @@ public class GameManagerVik : Photon.MonoBehaviour
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-	        GUILayout.BeginHorizontal();
-				if (GUILayout.Button("Leave& QUIT", GUILayout.Width(100)))
+
+			GUILayout.BeginHorizontal();
+				if (GUILayout.Button("Leave & QUIT", GUILayout.Width(100)))
 		       	{
 						ChatVik.SP.AnnounceLeave();
 					
 						PhotonNetwork.LeaveRoom();
 						selectedClass = "";
 						gameStarted = false;			
-	        	}					
+	        	}
+			
+				if (GUILayout.Button("Retry", GUILayout.Width(100)))
+				{
+					Debug.Log(selectedClass +" respawning");
+					GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
+				
+				}
+			
 	        GUILayout.EndHorizontal();
 			
 	        GUILayout.BeginHorizontal();						
