@@ -66,10 +66,10 @@ public class ChatVik : Photon.MonoBehaviour
 		
 		//Chat log area
 		GUI.SetNextControlName("");		
-		GUI.DrawTexture(new Rect(10, Screen.height - chatHeight - 10, 300 , chatHeight), chatBG);
-	  	GUI.Box(new Rect(10, Screen.height - chatHeight - 10, 300 , chatHeight), "");
+		GUI.DrawTexture(new Rect(Screen.width * 0.05f, Screen.height * 0.65f, Screen.width * 0.4f , Screen.height * 0.3f), chatBG);
+	  	GUI.Box(new Rect(Screen.width * 0.05f, Screen.height * 0.65f, Screen.width * 0.4f , Screen.height * 0.3f), "");
       		
-        GUILayout.BeginArea(new Rect(10, Screen.height - chatHeight - 10, 300, chatHeight));
+        GUILayout.BeginArea(new Rect(Screen.width * 0.05f, Screen.height * 0.65f, Screen.width * 0.4f, Screen.height * 0.3f));
 	        //Show scroll list of chat messages
 			scrollPos = new Vector2(0, chatHeight);
 	        scrollPos = GUILayout.BeginScrollView(scrollPos);
@@ -91,7 +91,7 @@ public class ChatVik : Photon.MonoBehaviour
         GUILayout.BeginHorizontal(); 
 	        GUI.SetNextControlName("ChatField");
 			GUILayout.Space(Screen.width * 0.5f - 75);
-	    	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(150));
+	    	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(150), GUILayout.MaxWidth(200));
 		
 	        if (Event.current.type == EventType.KeyDown && Event.current.character == '\n')
 			{
