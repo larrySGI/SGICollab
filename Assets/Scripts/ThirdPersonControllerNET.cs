@@ -342,14 +342,39 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
 		{
+			GameObject SpawnManager = GameObject.Find("Code");
+				
 			if (this.lastRespawn.magnitude > 0)				
 				this.transform.position = this.lastRespawn;
 			else
 			{		
-				GameObject SpawnManager = GameObject.Find("Code");
 				this.transform.position = SpawnManager.transform.position;
 			}
 			
+			if (SpawnManager.GetComponent<GameManagerVik>().selectedClass == "Builder")
+			{
+				StartCoroutine(destroyLater(1.0F));
+   			
+  
+				GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+				foreach(GameObject creation in platformsCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+				foreach(GameObject creation in blocksCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				blockammo = currentMaxBlocks;
+				plankammo = currentMaxPlanks;
+				
+			}
+			 
+			
+			 
 			//Send analytics
 			collabAnalytics.sendAnalytics(this.transform, "death");
 			
@@ -393,7 +418,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 		}
 	}
-	
+
+	IEnumerator destroyLater(float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+		foreach(GameObject creation in platformsCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+		foreach(GameObject creation in blocksCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+    }
 	
 	float SidestepAxisInput
 	// If the right mouse button is held, the horizontal axis also turns into sidestep handling
