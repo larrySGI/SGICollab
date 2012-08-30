@@ -14,7 +14,8 @@ public class triggerFallingScript : MonoBehaviour {
 	private bool startFalling = false;
 	private bool enterFall = false; 
 	public int countDownSeconds = 5;
-	
+	public int respawnSeconds = 10;
+		
 	// var for falling objects
 	public GameObject target;
 	public Vector3 dropDistance;
@@ -52,7 +53,7 @@ public class triggerFallingScript : MonoBehaviour {
 			// after falling, set timer to return bridge to original position
 			stayTime = Time.time - startFallingTime;
 					
-			restSeconds = countDownSeconds - (stayTime);
+			restSeconds = respawnSeconds - (stayTime);
 			roundedRestSeconds = Mathf.CeilToInt(restSeconds);
 			displaySeconds = roundedRestSeconds % 60;
 				
