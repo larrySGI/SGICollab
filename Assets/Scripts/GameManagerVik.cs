@@ -266,7 +266,11 @@ public class GameManagerVik : Photon.MonoBehaviour
     }
 	
 	public static void setNextLevel(int level){
-		nextLevel = level;
+		
+		
+	//	if (GameObject.Find("Code").GetComponent<GameManagerVik>().level_tester_mode) nextLevel = Application.loadedLevel;
+	//	else
+			nextLevel = level;
 				
 	}  
 	

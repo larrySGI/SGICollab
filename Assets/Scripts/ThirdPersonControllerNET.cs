@@ -404,18 +404,22 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if (menuOn)//Input.GetMouseButton (1))
 			{
 				//not supposed to move when menu is on.
-				float sidestep = 0;// -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
-                return sidestep;
-
+	//			float sidestep = 0;// -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
+      //          return sidestep;
+				return 0;
 			}
 			else
 			{
+				/*
 				float sidestep = -(Input.GetKey(KeyCode.Q)?1:0) + (Input.GetKey(KeyCode.E)?1:0);
                 float horizontal = Input.GetAxis ("Horizontal");
 				
 				return Mathf.Abs (sidestep) > Mathf.Abs (horizontal) ? sidestep : horizontal;
-
+				 */
+//				return Input.GetAxis("Horizontal");
 				
+				float sidestep = -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
+                return sidestep;
 			}
 		}
 	}
