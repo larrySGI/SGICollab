@@ -26,7 +26,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public Texture aTexture;	
 		
-	public static int nextLevel = -1;	
+	public static int nextLevel = 0;	
 	public static string gameID;
 	bool syncedGameID;
 	
@@ -37,6 +37,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 
 		if (!level_tester_mode)
 			DontDestroyOnLoad(this);
+		
+		//Needs to initialize
+		nextLevel = Application.loadedLevel;
 	}
 	void OnJoinedRoom()
     {
@@ -169,6 +172,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		{			
 			GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 300) / 2, 400, 300));
 			if(!GameObject.FindWithTag("Builder")){
+				
 				if (GUILayout.Button("Join as Builder")){
 	       		 	StartGame(this.builderPrefabName);
 					selectedClass = this.builderPrefabName;
@@ -263,7 +267,20 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public static void setNextLevel(int level){
 		nextLevel = level;
+				
 	}  
+	
+	public static void checkNextLevel()
+	{
+		
+		nextLevel += 1; 			
+							//last level check
+		if (nextLevel > (Application.levelCount - 1)) 
+					nextLevel = -1;
+		Debug.Log("nextLevel updated = "+nextLevel);
+					
+		
+	}
 	
 	public static int getNextLevel(){
 		return nextLevel;
