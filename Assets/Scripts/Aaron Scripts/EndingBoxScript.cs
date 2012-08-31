@@ -10,7 +10,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int nextLevel;
 	private bool alreadyLoading = false;
 	
-	public Texture aTexture;
+//	public Texture aTexture;
 	
 	
 	private string statusText = "";
@@ -26,11 +26,25 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int ReadyCount = 0;
 	private int TargetReadyCount = 0;
 	
+	
+//	public int levelTimeInMinutes;
+	
+//	[HideInInspector]
+//	public int timeLeft;
+	
+	public GUISkin endGameSkin;
+	
 	[RPC]
 	void callReady()
 	{	
 		++ReadyCount;
 //		Debug.Log(ReadyCount);
+	}
+	
+	void Awake()
+	{
+		//60 seconds in a minute, assume 30 fps.
+		timeLeft = levelTimeInMinutes * 60 * 30;	
 	}
 	
 	
@@ -94,6 +108,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			{
 					PhotonNetwork.LeaveRoom();
 			}
+		}
+		
+		void FixedUpdate()
+		{
+	
+			
 		}
 	
 		
@@ -187,6 +207,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	{
 		if (PlayersHaveReachedEnd)
 		{	
+			GUI.skin = endGameSkin;		
 			GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), aTexture, ScaleMode.StretchToFill);
 		
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
