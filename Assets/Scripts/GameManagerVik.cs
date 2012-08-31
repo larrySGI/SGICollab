@@ -39,7 +39,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			DontDestroyOnLoad(this);
 		
 		//Needs to initialize
-		nextLevel = Application.loadedLevel;
+//		nextLevel = Application.loadedLevel;
 	}
 	void OnJoinedRoom()
     {
@@ -148,9 +148,11 @@ public class GameManagerVik : Photon.MonoBehaviour
 						
 			//Begin load level
 			if(Application.loadedLevel == 0){
-				if(nextLevel > 0){
+				if(nextLevel > 0)
+				{
 					print("loading server level = " +nextLevel);
-					Application.LoadLevel(nextLevel);	
+					Application.LoadLevel(nextLevel);
+				    
 					startTime = (float)PhotonNetwork.time;
 				}
 			}
@@ -250,7 +252,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 							//last level check
 		if (nextLevel > (Application.levelCount - 1)) 
 					nextLevel = -1;
-		Debug.Log("nextLevel updated = "+nextLevel);
+	//	Debug.Log("nextLevel updated = "+nextLevel);
 					
 		
 	}
