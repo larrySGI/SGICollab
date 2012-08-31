@@ -26,7 +26,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public Texture aTexture;	
 		
-	public static int nextLevel = -1;	
+	public static int nextLevel = 0;	
 	public static string gameID;
 	bool syncedGameID;
 	
@@ -37,6 +37,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 
 		if (!level_tester_mode)
 			DontDestroyOnLoad(this);
+		
+		//Needs to initialize
+		nextLevel = Application.loadedLevel;
 	}
 	void OnJoinedRoom()
     {
@@ -168,62 +171,30 @@ public class GameManagerVik : Photon.MonoBehaviour
 		if (PhotonNetwork.room == null) return; //Only display this GUI when inside a room
 		
 		if (selectedClass != "")
-		{			
-//			GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 300) / 2, 400, 300));
-//			if(!GameObject.FindWithTag("Builder")){
-//				if (GUILayout.Button("Join as Builder")){
-//	       		 	StartGame(this.builderPrefabName);
-//					selectedClass = this.builderPrefabName;
-//	        	}
-//			}
-//			if(!GameObject.FindWithTag("Viewer")){
-//				if (GUILayout.Button("Join as Viewer")){
-//	 				StartGame(this.viewerPrefabName);
-//					selectedClass = this.viewerPrefabName;
-//	    	    }
-//			}
-//			if(!GameObject.FindWithTag("Mover")){
-//				if (GUILayout.Button("Join as Mover")){
-//	 				StartGame(this.moverPrefabName);
-//					selectedClass = this.moverPrefabName;
-//				}
-//			}
-//			if(!GameObject.FindWithTag("Jumper")){
-//				if (GUILayout.Button("Join as Jumper")){
-//	      		    StartGame(this.jumperPrefabName);
-//					selectedClass = this.jumperPrefabName;
-//	        	}
-//			}
-//			if(!GameObject.FindWithTag("Spectator")){
-//				if (GUILayout.Button("Join as Spectator")){
-//					selectedClass = this.spectatorPrefabName;
-//	      		    StartGame(this.spectatorPrefabName);
-//					
-//	        	}
-//			}
-//			 if (GUILayout.Button("Leave& QUIT")){
-//        	    PhotonNetwork.LeaveRoom();
-//				selectedClass = "";
-//		     }
-//
-//			GUILayout.EndArea();
-//		}
-//		else //already have a player type
-//		{
+		{		
 			//Need to add the Level Tester Mode on. Apparently if we don't have a Room because we're in Level Tester Mode, OnGUI only works once!
 			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-	        GUILayout.BeginHorizontal();
-				if (GUILayout.Button("Leave& QUIT", GUILayout.Width(100)))
+
+			GUILayout.BeginHorizontal();
+				if (GUILayout.Button("Leave & QUIT", GUILayout.Width(100)))
 		       	{
 						ChatVik.SP.AnnounceLeave();
 					
 						PhotonNetwork.LeaveRoom();
 						selectedClass = "";
 						gameStarted = false;			
-	        	}					
+	        	}
+			
+				if (GUILayout.Button("Retry", GUILayout.Width(100)))
+				{
+					Debug.Log(selectedClass +" respawning");
+					GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
+				
+				}
+			
 	        GUILayout.EndHorizontal();
 			
 	        GUILayout.BeginHorizontal();						
@@ -264,8 +235,25 @@ public class GameManagerVik : Photon.MonoBehaviour
     }
 	
 	public static void setNextLevel(int level){
-		nextLevel = level;
+		
+		
+	//	if (GameObject.Find("Code").GetComponent<GameManagerVik>().level_tester_mode) nextLevel = Application.loadedLevel;
+	//	else
+			nextLevel = level;
+				
 	}  
+	
+	public static void checkNextLevel()
+	{
+		
+		nextLevel += 1; 			
+							//last level check
+		if (nextLevel > (Application.levelCount - 1)) 
+					nextLevel = -1;
+		Debug.Log("nextLevel updated = "+nextLevel);
+					
+		
+	}
 	
 	public static int getNextLevel(){
 		return nextLevel;

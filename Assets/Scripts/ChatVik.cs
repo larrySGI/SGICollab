@@ -19,7 +19,7 @@ public class ChatVik : Photon.MonoBehaviour
     private Vector2 scrollPos = Vector2.zero;
     private string chatInput = "";
     private float lastUnfocusTime = 0;
-	float inputAreaY = (float)-((Screen.height * 0.5) + 50);
+	float inputAreaY = -(Screen.height * 0.4f);
 	
 	private GameManagerVik manager;
 	
@@ -29,7 +29,7 @@ public class ChatVik : Photon.MonoBehaviour
 	private string path; //path to save chat log to
 	private string fileName; //file name for the chat log
 	
-	public Texture2D chatBG;
+	//public Texture2D chatBG;
 	
     void Awake()
     {
@@ -66,13 +66,15 @@ public class ChatVik : Photon.MonoBehaviour
 		
 		//Chat log area
 		GUI.SetNextControlName("");		
-		GUI.DrawTexture(new Rect(Screen.width * 0.05f, Screen.height * 0.65f, Screen.width * 0.4f , Screen.height * 0.3f), chatBG);
+	//	GUI.DrawTexture(new Rect(Screen.width * 0.05f, Screen.height * 0.65f, Screen.width * 0.4f , Screen.height * 0.3f), chatBG);
 	  	GUI.Box(new Rect(Screen.width * 0.05f, Screen.height * 0.65f, Screen.width * 0.4f , Screen.height * 0.3f), "");
       		
         GUILayout.BeginArea(new Rect(Screen.width * 0.05f, Screen.height * 0.65f, Screen.width * 0.4f, Screen.height * 0.3f));
 	        //Show scroll list of chat messages
-			scrollPos = new Vector2(0, chatHeight);
-	        scrollPos = GUILayout.BeginScrollView(scrollPos);
+			
+			//note: do NOT scroll to chatheight - use scrollpos to mathf infinity instead to go to the very bottom. 
+			scrollPos = new Vector2(0, Mathf.Infinity);
+	        scrollPos = GUILayout.BeginScrollView(scrollPos); //no scrollbars!
 		
 	        for (int i = 0; i < messages.Count; i++)
 	        {
@@ -90,8 +92,8 @@ public class ChatVik : Photon.MonoBehaviour
 		GUILayout.Space(inputAreaY);
         GUILayout.BeginHorizontal(); 
 	        GUI.SetNextControlName("ChatField");
-			GUILayout.Space(Screen.width * 0.5f - 75);
-	    	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(150), GUILayout.MaxWidth(200));
+			GUILayout.Space(Screen.width * 0.5f - 100); //keep your min and max the same! 
+	    	chatInput = GUILayout.TextField(chatInput, GUILayout.MinWidth(200), GUILayout.MaxWidth(200));
 		
 	        if (Event.current.type == EventType.KeyDown && Event.current.character == '\n')
 			{
@@ -111,6 +113,7 @@ public class ChatVik : Photon.MonoBehaviour
 	                if (lastUnfocusTime < Time.time - 0.1f)
 	                {
 	                    GUI.FocusControl("ChatField");
+					
 	                }
 	            }
 	        }		

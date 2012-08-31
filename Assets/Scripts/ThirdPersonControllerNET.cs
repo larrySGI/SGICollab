@@ -282,6 +282,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		
 		//swapped
 		//if (Input.GetMouseButton (1) && (!requireLock || controlLock || Screen.lockCursor))
+		/*
 		if (menuOn && (!requireLock || controlLock || Screen.lockCursor))
 		
 		// If the right mouse button is held, rotation is locked to the mouse
@@ -305,10 +306,28 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			
 			rotationAmount = Input.GetAxis ("Mouse X") * mouseTurnSpeed * Time.deltaTime;
 			
+		}*/
+		
+		if (menuOn)
+		{
+			if (controlLock)
+			{
+				Screen.lockCursor = false;
+			}
+		
+		}
+		else
+		{
+			if (controlLock)
+			{
+				Screen.lockCursor = true;
+			}
+	
+			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;
+		
+			target.transform.RotateAround (target.transform.up, rotationAmount);
 		}
 		
-		if (!menuOn)
-			target.transform.RotateAround (target.transform.up, rotationAmount);
 		
 		if (Input.GetKeyDown(KeyCode.Backslash) || Input.GetKeyDown(KeyCode.Plus))
 		{
@@ -320,23 +339,49 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		{
 			menuOn = !menuOn;
 		}
-		
+		/*
 		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
 		{
+			GameObject SpawnManager = GameObject.Find("Code");
+				
 			if (this.lastRespawn.magnitude > 0)				
 				this.transform.position = this.lastRespawn;
 			else
 			{		
-				GameObject SpawnManager = GameObject.Find("Code");
 				this.transform.position = SpawnManager.transform.position;
 			}
 			
+			if (SpawnManager.GetComponent<GameManagerVik>().selectedClass == "Builder")
+			{
+				StartCoroutine(destroyLater(1.0F));
+   			
+  
+				GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+				foreach(GameObject creation in platformsCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+				foreach(GameObject creation in blocksCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				blockammo = currentMaxBlocks;
+				plankammo = currentMaxPlanks;
+				
+			}
+			 
+			
+			 
 			//Send analytics
 			collabAnalytics.sendAnalytics(this.transform, "death");
 			
 			//Keep track of death count
 			GameManagerVik.deathCount++;
 		}
+		*/
 		if(Input.GetKeyDown(KeyCode.P) && !menuOn)
 		{
 			GameManagerVik manager = GameObject.Find("Code").GetComponent<GameManagerVik>();
@@ -375,6 +420,65 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 	}
 	
+	//converted to a called function.
+	public void Retry()
+	{
+		
+			GameObject SpawnManager = GameObject.Find("Code");
+				
+			if (this.lastRespawn.magnitude > 0)				
+				this.transform.position = this.lastRespawn;
+			else
+			{		
+				this.transform.position = SpawnManager.transform.position;
+			}
+			
+			if (SpawnManager.GetComponent<GameManagerVik>().selectedClass == "Builder")
+			{
+				StartCoroutine(destroyLater(1.0F));
+   			
+  
+				GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+				foreach(GameObject creation in platformsCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+				foreach(GameObject creation in blocksCreated){
+					creation.transform.position += Vector3.up * 100.0F;
+					creation.renderer.enabled = false;
+				}
+		
+				blockammo = currentMaxBlocks;
+				plankammo = currentMaxPlanks;
+				
+			}
+			 
+			
+			 
+			//Send analytics
+			collabAnalytics.sendAnalytics(this.transform, "death");
+			
+			//Keep track of death count
+			GameManagerVik.deathCount++;
+	
+	}
+	
+	
+	IEnumerator destroyLater(float waitTime) {
+        yield return new WaitForSeconds(waitTime);
+        GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
+		foreach(GameObject creation in platformsCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+		GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
+		foreach(GameObject creation in blocksCreated){
+			PhotonNetwork.Destroy(creation);
+		}
+		
+    }
 	
 	float SidestepAxisInput
 	// If the right mouse button is held, the horizontal axis also turns into sidestep handling
@@ -385,18 +489,22 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if (menuOn)//Input.GetMouseButton (1))
 			{
 				//not supposed to move when menu is on.
-				float sidestep = 0;// -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
-                return sidestep;
-
+	//			float sidestep = 0;// -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
+      //          return sidestep;
+				return 0;
 			}
 			else
 			{
+				/*
 				float sidestep = -(Input.GetKey(KeyCode.Q)?1:0) + (Input.GetKey(KeyCode.E)?1:0);
                 float horizontal = Input.GetAxis ("Horizontal");
 				
 				return Mathf.Abs (sidestep) > Mathf.Abs (horizontal) ? sidestep : horizontal;
-
+				 */
+//				return Input.GetAxis("Horizontal");
 				
+				float sidestep = -(Input.GetKey(KeyCode.Q) ? 1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
+                return sidestep;
 			}
 		}
 	}

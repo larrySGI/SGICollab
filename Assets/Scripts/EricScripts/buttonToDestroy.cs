@@ -14,7 +14,7 @@ public class buttonToDestroy : Photon.MonoBehaviour {
 	}
 		
 	void OnTriggerEnter(Collider other){
-		if (other.attachedRigidbody.name.Contains("Builder")){
+		if (other.attachedRigidbody.name.Contains("Builder") || other.tag.Contains("PlacedPlatform") || other.tag.Contains("PlacedBlock")){
 		print("Destroyed all built objects!");
 		//   print("Starting " + Time.time);
         StartCoroutine(destroyLater(1.0F));
