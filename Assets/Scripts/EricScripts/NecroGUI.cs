@@ -191,7 +191,7 @@ public class NecroGUI : MonoBehaviour {
         GUILayout.Space(15);
 	
         GUILayout.BeginHorizontal();
-	        GUILayout.Label("Confirm Password", GUILayout.Width(Screen.width * 0.2f), GUILayout.Height(100));
+	        GUILayout.Label("Confirm Password", GUILayout.Width(Screen.width * 0.2f), GUILayout.Height(Screen.height * 0.1f));
 	        MainMenuVik.pass2Input = GUILayout.PasswordField(MainMenuVik.pass2Input, "*"[0], 15);
         GUILayout.EndHorizontal();	
         GUILayout.Space(20);
@@ -226,28 +226,30 @@ public class NecroGUI : MonoBehaviour {
 					
 		//Player name
         GUILayout.BeginHorizontal();
-        GUILayout.Space(Screen.width * 0.1f);        
-        GUILayout.Label("Welcome back, " + PhotonNetwork.playerName, "ShortLabel");
+//        GUILayout.Space(Screen.width * 0.1f);        
+        GUILayout.Label("Welcome back, " + PhotonNetwork.playerName, GUILayout.Height(Screen.height * 0.1f));
 		GUILayout.EndHorizontal();
 		
 		//Player's latest stage
-        GUILayout.BeginHorizontal();
-        GUILayout.Space(Screen.width * 0.1f);
+//        GUILayout.Space(Screen.width * 0.1f);
         GUILayout.Label("Max level reached: " + MainMenuVik.maxLevelData, "ShortLabel");
         //GUILayout.Space(Screen.width * 0.1f);		
+        GUILayout.BeginHorizontal();
+		GUILayout.Label("Select a level");	
 		if(GUILayout.Button("<<")){
 			MainMenuVik.levelSelected--;
 			if(MainMenuVik.levelSelected < 1)
 				MainMenuVik.levelSelected = 1;
-		}
-		GUILayout.Label("Level " + MainMenuVik.levelSelected.ToString(), "ShortLabel");
+		}		
+		GUILayout.Label("Level " + MainMenuVik.levelSelected.ToString(), "LegendaryText");
 		if(GUILayout.Button(">>")){
 			MainMenuVik.levelSelected++;
 			if(MainMenuVik.levelSelected > MainMenuVik.maxLevelData)
 				MainMenuVik.levelSelected = MainMenuVik.maxLevelData;
 		}
 		GUILayout.EndHorizontal();		
-        GUILayout.Space(30);
+        GUILayout.Space(10);
+		GUILayout.Label("", "Divider");
 		GameManagerVik.setNextLevel(MainMenuVik.levelSelected);
 	
         //Rooms list
