@@ -60,8 +60,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		
 		statusText = "Press [Spacebar] to Go To Next Stage";
 		
-		nextLevel = GameManagerVik.nextLevel;
+//		nextLevel = GameManagerVik.nextLevel;
+		
+		//Now I'll handle it here. 
+		GameManagerVik.setNextLevel(Application.loadedLevel);
 		GameManagerVik.checkNextLevel(); //automatic
+		nextLevel = GameManagerVik.nextLevel;
 		currGameManager = GameObject.Find("Code").GetComponent<GameManagerVik>();
 		
 		if (currGameManager.level_tester_mode)
