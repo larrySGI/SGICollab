@@ -125,12 +125,6 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		}
 	
 	}
-	
-		void FixedUpdate()
-		{
-	
-			
-		}
 
 	
 	 void OnTriggerEnter(Collider other) 
@@ -216,7 +210,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	//		GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), aTexture, ScaleMode.StretchToFill);
 		
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
-			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.25f));			
+			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.2f));			
 	        	GUILayout.Label("Clear Time: " + GameManagerVik.startTime);			
 	        	GUILayout.Label("Deaths: " + GameManagerVik.deathCount);			
 	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
@@ -270,7 +264,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			}*/
 			
 			
-			GUI.Label(	new Rect (Screen.width *0.125f, Screen.height *0.9f, Screen.width * 0.75f, Screen.height * 0.1f), statusText);
+			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 150, Screen.height * 0.1f), statusText);
 				
 		}	
 	
