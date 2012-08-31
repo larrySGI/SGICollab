@@ -10,11 +10,11 @@ public class GameManagerVik : Photon.MonoBehaviour
     // read the documentation for info how to spawn dynamically loaded game objects at runtime (not using Resources folders)
 	private bool menuOn = false;
 	
-    public string playerPrefabName = "Charprefab";
-	public string builderPrefabName = "Builder";
-	public string jumperPrefabName = "Jumper";
-	public string moverPrefabName = "Mover";
-	public string viewerPrefabName = "Viewer";
+    public static string playerPrefabName = "Charprefab";
+	public static string builderPrefabName = "Builder";
+	public static string jumperPrefabName = "Jumper";
+	public static string moverPrefabName = "Mover";
+	public static string viewerPrefabName = "Viewer";
 	public string spectatorPrefabName = "Spectator";
     public string selectedClass;
 	
@@ -91,8 +91,10 @@ public class GameManagerVik : Photon.MonoBehaviour
 		GameManagerVik.objectsBuilt = 0;
 		GameManagerVik.startTime = PhotonNetwork.time;
 	}
-    void StartGame(string prefabName)
+		
+    public void StartGame(string prefabName)
     {    		
+		MainMenuVik.currentMenuState = menuState.none;
 		Camera.main.farClipPlane = 1000; //Main menu set this to 0.4 for a nicer BG    
 
         //prepare instantiation data for the viking: Randomly disable the axe and/or shield
@@ -165,33 +167,33 @@ public class GameManagerVik : Photon.MonoBehaviour
     {
 		if (PhotonNetwork.room == null) return; //Only display this GUI when inside a room
 		
-		if (selectedClass == "")
+		if (selectedClass != "")
 		{			
-			GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 300) / 2, 400, 300));
-			if(!GameObject.FindWithTag("Builder")){
-				if (GUILayout.Button("Join as Builder")){
-	       		 	StartGame(this.builderPrefabName);
-					selectedClass = this.builderPrefabName;
-	        	}
-			}
-			if(!GameObject.FindWithTag("Viewer")){
-				if (GUILayout.Button("Join as Viewer")){
-	 				StartGame(this.viewerPrefabName);
-					selectedClass = this.viewerPrefabName;
-	    	    }
-			}
-			if(!GameObject.FindWithTag("Mover")){
-				if (GUILayout.Button("Join as Mover")){
-	 				StartGame(this.moverPrefabName);
-					selectedClass = this.moverPrefabName;
-				}
-			}
-			if(!GameObject.FindWithTag("Jumper")){
-				if (GUILayout.Button("Join as Jumper")){
-	      		    StartGame(this.jumperPrefabName);
-					selectedClass = this.jumperPrefabName;
-	        	}
-			}
+//			GUILayout.BeginArea(new Rect((Screen.width - 400) / 2, (Screen.height - 300) / 2, 400, 300));
+//			if(!GameObject.FindWithTag("Builder")){
+//				if (GUILayout.Button("Join as Builder")){
+//	       		 	StartGame(this.builderPrefabName);
+//					selectedClass = this.builderPrefabName;
+//	        	}
+//			}
+//			if(!GameObject.FindWithTag("Viewer")){
+//				if (GUILayout.Button("Join as Viewer")){
+//	 				StartGame(this.viewerPrefabName);
+//					selectedClass = this.viewerPrefabName;
+//	    	    }
+//			}
+//			if(!GameObject.FindWithTag("Mover")){
+//				if (GUILayout.Button("Join as Mover")){
+//	 				StartGame(this.moverPrefabName);
+//					selectedClass = this.moverPrefabName;
+//				}
+//			}
+//			if(!GameObject.FindWithTag("Jumper")){
+//				if (GUILayout.Button("Join as Jumper")){
+//	      		    StartGame(this.jumperPrefabName);
+//					selectedClass = this.jumperPrefabName;
+//	        	}
+//			}
 //			if(!GameObject.FindWithTag("Spectator")){
 //				if (GUILayout.Button("Join as Spectator")){
 //					selectedClass = this.spectatorPrefabName;
@@ -199,15 +201,15 @@ public class GameManagerVik : Photon.MonoBehaviour
 //					
 //	        	}
 //			}
-			 if (GUILayout.Button("Leave& QUIT")){
-        	    PhotonNetwork.LeaveRoom();
-				selectedClass = "";
-		     }
-
-			GUILayout.EndArea();
-		}
-		else //already have a player type
-		{
+//			 if (GUILayout.Button("Leave& QUIT")){
+//        	    PhotonNetwork.LeaveRoom();
+//				selectedClass = "";
+//		     }
+//
+//			GUILayout.EndArea();
+//		}
+//		else //already have a player type
+//		{
 			//Need to add the Level Tester Mode on. Apparently if we don't have a Room because we're in Level Tester Mode, OnGUI only works once!
 			if(Time.timeScale==0 && !level_tester_mode)
 			{

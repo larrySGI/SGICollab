@@ -12,7 +12,6 @@ public class UserDatabase : MonoBehaviour {
 	
 	float lastTime;
 	float intervalForUserCheck = 300;
-	static bool loggedIn = false;
 	
     void Start() {
 		lastTime = Time.time;
@@ -25,7 +24,7 @@ public class UserDatabase : MonoBehaviour {
 		}
 	}
 	
-	public static IEnumerator signUp(string email, string username, string password){
+	public static void signUp(string email, string username, string password){
 		print("Signing up...");
 		
 		string urlconcat ="?user[name]=" + username + 
@@ -47,20 +46,16 @@ public class UserDatabase : MonoBehaviour {
 		} else {
 			Debug.Log(r.response.Text);	
 			Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
+			//if(json["success"] == false){};
+			
 			if (json.ContainsKey ("auth_token")) {
 			 	token = json["auth_token"].ToString();
-				MainMenuVik.userTally = true;
-				loggedIn = true;
-			}else{
-				MainMenuVik.userTally = false;
 			}
-		}
-		
-		yield return null;		
+		}	
 	}
 	
 	//User log in
-	public static IEnumerator login(string username, string password){
+	public static void login(string username, string password){
 		print("Logging in...");
 				
 		string urlconcat ="/sign_in" + 
@@ -84,14 +79,8 @@ public class UserDatabase : MonoBehaviour {
 			 if (json.ContainsKey ("auth_token")) {
 			 	token = json["auth_token"].ToString();
 			 	MainMenuVik.maxLevelData = (int)json["maxStageReached"];
-				MainMenuVik.userTally = true;
-				loggedIn = true;
-			 }else{
-				MainMenuVik.userTally = false;
-			 }
-		}
-		
-		yield return null;	
+			}
+		}	
 	}
 	
 	//Just retrieving some data
