@@ -5,7 +5,7 @@ public class collabAnalytics : MonoBehaviour {
 	
 	static string url = "http://sgicollab.herokuapp.com";
 	static string token, level, gameID, xPos, yPos, zPos;
-	static bool sendEnabled;
+	public static bool sendEnabled;
 	
 	// Use this for initialization
 	void Start () {

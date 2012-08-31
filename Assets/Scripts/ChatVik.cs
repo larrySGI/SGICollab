@@ -193,20 +193,21 @@ public class ChatVik : Photon.MonoBehaviour
     }
 	
 	IEnumerator saveChatToOnlineDatabase(){
-		string token = UserDatabase.token;
-		string level = GameManagerVik.nextLevel.ToString();
-		
-		string url = "http://sgicollab.herokuapp.com/chat" +
-						"?auth_token=" + token +
-						"&chat[message]=" + chatInput +
-						"&chat[level]=" + level +
-						"&chat[userclass]=" + chatterClass;
-		
-		var r = new HTTP.Request ("POST", url);
-		r.Send ();		
-		Debug.Log("Chat saved online.");
-		
-		yield return null;	
+		if(collabAnalytics.sendEnabled){
+			string token = UserDatabase.token;
+			string level = GameManagerVik.nextLevel.ToString();
+			
+			string url = "http://sgicollab.herokuapp.com/chat" +
+							"?auth_token=" + token +
+							"&chat[message]=" + chatInput +
+							"&chat[level]=" + level +
+							"&chat[userclass]=" + chatterClass;
+			
+			var r = new HTTP.Request ("POST", url);
+			r.Send ();		
+			Debug.Log("Chat saved online.");				
+		}
+		yield return null;
 	}
 	
     void SendChat(PhotonPlayer target)
