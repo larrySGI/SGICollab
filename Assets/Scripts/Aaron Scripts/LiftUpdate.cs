@@ -11,14 +11,14 @@ using System.Collections;
 public class LiftUpdate : Photon.MonoBehaviour {
 	
 //	public Texture viewerTexture;
-	private GameManagerVik manager;
+//	private GameManagerVik manager;
 	
 	// Use this for initialization
 	void Awake () 
 	{
 			
-		GameObject SpawnManager = GameObject.Find("Code");
-		manager = SpawnManager.GetComponent<GameManagerVik>();
+//		GameObject SpawnManager = GameObject.Find("Code");
+//		manager = SpawnManager.GetComponent<GameManagerVik>();
 	}
 	
 	// Update is called once per frame

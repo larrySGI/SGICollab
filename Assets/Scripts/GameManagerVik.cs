@@ -34,8 +34,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public static int deathCount, objectsBuilt;
 	
 	void Awake(){
-
-		if (!level_tester_mode)
+		
+		//we don't actually need this. However, make sure you have only one Level_tester_mode from the very start of the game or you will regret it. 
+		//if (!level_tester_mode)
 			DontDestroyOnLoad(this);
 		
 		//Needs to initialize
@@ -170,17 +171,21 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
     void OnGUI()
     {
-		if (PhotonNetwork.room == null) return; //Only display this GUI when inside a room
-		
+		if (PhotonNetwork.room == null) 
+		Debug.Log(selectedClass);
 		if (selectedClass != "")
 		{		
 			//Need to add the Level Tester Mode on. Apparently if we don't have a Room because we're in Level Tester Mode, OnGUI only works once!
+			
 			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-
-			GUILayout.BeginHorizontal();
+			
+			
+			//if (menuOn)
+			//{
+				GUILayout.BeginHorizontal();
 				if (GUILayout.Button("Leave & QUIT", GUILayout.Width(100)))
 		       	{
 						ChatVik.SP.AnnounceLeave();
@@ -197,8 +202,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 				
 				}
 			
-	        GUILayout.EndHorizontal();
-			
+		        GUILayout.EndHorizontal();
+			//}
 	        GUILayout.BeginHorizontal();						
 				GUILayout.Label("You are now a " + selectedClass);
 	        GUILayout.EndHorizontal();						

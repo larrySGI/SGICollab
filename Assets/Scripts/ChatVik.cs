@@ -182,6 +182,7 @@ public class ChatVik : Photon.MonoBehaviour
         if (chatInput != "")
         {
 			//Send to other players
+			if (photonView)
             photonView.RPC("SendChatMessage", target, "<"+chatterClass+">: " +chatInput, chatterClass);
 			
 			//Send to online database
