@@ -110,11 +110,6 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			}
 		}
 		
-		void FixedUpdate()
-		{
-	
-			
-		}
 	
 		
 		if (Input.GetKeyUp(KeyCode.Space) && PlayersHaveReachedEnd)
@@ -127,6 +122,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	}
 	
+		void FixedUpdate()
+		{
+	
+			
+		}
+
 	
 	 void OnTriggerEnter(Collider other) 
 	{			
