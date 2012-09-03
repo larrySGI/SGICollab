@@ -180,9 +180,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
 		    
-			GUILayout.BeginHorizontal();
-				GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
-			GUILayout.EndHorizontal();
+//			GUILayout.BeginHorizontal();
+//				GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
+//			GUILayout.EndHorizontal();
 			
 			GUILayout.BeginHorizontal();			
 				GUILayout.Label("You are now a " + selectedClass);
@@ -249,16 +249,20 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	
 	public void retry(){
-		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
 		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
+		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuToggle();
+		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
+		Screen.lockCursor = true;
 	}
 	
 	
 	public void quitGame(){
+		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
+		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuToggle();
+		Screen.lockCursor = false;
 		ChatVik.SP.AnnounceLeave();	
 		PhotonNetwork.LeaveRoom();
 		selectedClass = "";
 		gameStarted = false;
-		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
 	}
 }

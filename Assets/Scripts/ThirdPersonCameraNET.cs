@@ -429,10 +429,11 @@ public class ThirdPersonCameraNET : MonoBehaviour
 			(!requireLock || controlLock || Screen.lockCursor)			// ... and we're allowed to
 		)
 		{
+			/*
 			if (controlLock)
 			{
 				Screen.lockCursor = false;
-			}
+			}*/
 			//return;
 			/*
 			 //do not move if menu is on!
@@ -447,10 +448,10 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		}
 		else
 		{
-			if (controlLock)
+			/*if (controlLock)
 			{
 				Screen.lockCursor = true;
-			}
+			}*/
 			
 			//FreeUpdate ();
 			FollowUpdate();

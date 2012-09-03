@@ -377,13 +377,13 @@ public class NecroGUI : MonoBehaviour {
 				
         if (GUILayout.Button("Retry")){
 			Debug.Log("RETRY");
-			GetComponent<GameManagerVik>().retry();
 			pauseWindow = false;
+			GetComponent<GameManagerVik>().retry();
 		}
         if (GUILayout.Button("QUIT")){
 			Debug.Log("QUIT");
-			GetComponent<GameManagerVik>().quitGame();
 			pauseWindow = false;
+			GetComponent<GameManagerVik>().quitGame();
 		}
 		
 		GUI.DragWindow (new Rect (0,0,10000,10000));		

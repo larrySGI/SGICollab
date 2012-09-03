@@ -157,7 +157,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			photonDelta = thisFrameTime - lastFrameTime;
 			timeLeft -= photonDelta;			
 		}		
-		Debug.Log(timeLeft);
+		//Debug.Log(timeLeft);
 	}
 
 	

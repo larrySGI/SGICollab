@@ -69,14 +69,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 	}
 	
-//	public void activateMenu()
-//	{
-//		menuOn = true;	
-//	}
-//	public void deactivateMenu()
-//	{
-//		menuOn = false;	
-//	}
 	
     public void SetIsRemotePlayer(bool val)
     {
@@ -121,6 +113,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		currentMaxPlanks = planksToStart;
 		blockammo = blocksToStart;
 		plankammo = planksToStart;
+		
+		Screen.lockCursor = true;
 	}
 	
 	void Awake(){
@@ -156,7 +150,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		if(target.name.Contains("Builder"))
 		{
 			if (Input.GetKeyUp("1") && !menuOn){				
-				if(blockammo>0 && !menuOn){
+				if(blockammo>0){
 					//Creating object
 					Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 					var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
@@ -306,84 +300,30 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			rotationAmount = Input.GetAxis ("Mouse X") * mouseTurnSpeed * Time.deltaTime;
 			
 		}*/
-		
-		if (menuOn)
+//		print("BEFORE menuOn = "+menuOn);
+//		print("BEFORE Screen.lockCursor = "+Screen.lockCursor);
+		if (!menuOn)
 		{
-			if (controlLock)
-			{
-				Screen.lockCursor = false;
-			}
-		
-		}
-		else
-		{
-			if (controlLock)
-			{
-				Screen.lockCursor = true;
-			}
+//			Screen.lockCursor = false;
+//		}
+//		else
+//		{
+//			Screen.lockCursor = true;
 	
 			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;
 		
 			target.transform.RotateAround (target.transform.up, rotationAmount);
 		}
 		
+//		print("AFTER menuOn = "+menuOn);
+		//print("AFTER Screen.lockCursor = "+Screen.lockCursor);
 		
 		if (Input.GetKeyDown(KeyCode.Backslash) || Input.GetKeyDown(KeyCode.Plus))
 		{
 			walking = !walking;
 		}
 		
-		
-		//turn off an on menu
-		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
-		{
-			menuToggle();
-			//GameObject.Find("Code").GetComponent<GameManagerVik>().menuToggle();
-		}
-		
-		/*
-		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
-		{
-			GameObject SpawnManager = GameObject.Find("Code");
 				
-			if (this.lastRespawn.magnitude > 0)				
-				this.transform.position = this.lastRespawn;
-			else
-			{		
-				this.transform.position = SpawnManager.transform.position;
-			}
-			
-			if (SpawnManager.GetComponent<GameManagerVik>().selectedClass == "Builder")
-			{
-				StartCoroutine(destroyLater(1.0F));
-   			
-  
-				GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
-				foreach(GameObject creation in platformsCreated){
-					creation.transform.position += Vector3.up * 100.0F;
-					creation.renderer.enabled = false;
-				}
-		
-				GameObject[] blocksCreated = GameObject.FindGameObjectsWithTag("PlacedBlock");
-				foreach(GameObject creation in blocksCreated){
-					creation.transform.position += Vector3.up * 100.0F;
-					creation.renderer.enabled = false;
-				}
-		
-				blockammo = currentMaxBlocks;
-				plankammo = currentMaxPlanks;
-				
-			}
-			 
-			
-			 
-			//Send analytics
-			collabAnalytics.sendAnalytics(this.transform, "death");
-			
-			//Keep track of death count
-			GameManagerVik.deathCount++;
-		}
-		*/
 		if(Input.GetKeyDown(KeyCode.P) && !menuOn)
 		{
 			GameManagerVik manager = GameObject.Find("Code").GetComponent<GameManagerVik>();
@@ -422,17 +362,19 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 		
 		//New GUI for in game "pause" menu
-		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
-		{
-			menuOn = !menuOn;
-			NecroGUI.pauseWindow = !NecroGUI.pauseWindow;
+		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape)){
+			menuToggle();
+
 		}
 	}
 	
 	
 	public void menuToggle()
 	{
-		menuOn = !menuOn;	
+		print ("toggle");
+		menuOn = !menuOn;		
+		Screen.lockCursor = !menuOn;
+		NecroGUI.pauseWindow = !NecroGUI.pauseWindow;
 	}
 	
 	
