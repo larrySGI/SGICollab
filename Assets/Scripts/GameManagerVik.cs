@@ -38,7 +38,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//we don't actually need this. However, make sure you have only one Level_tester_mode from the very start of the game or you will regret it. 
 		//if (!level_tester_mode)
 			DontDestroyOnLoad(this);
-		
+			//menuOn = false;
 		//Needs to initialize
 //		nextLevel = Application.loadedLevel;
 	}
@@ -93,8 +93,6 @@ public class GameManagerVik : Photon.MonoBehaviour
 		print("Synced gameID = " + gameID);	
 	}
 	
-//	[RPC]
-//	void syncTimeLimit(s
 	
 	void OnLevelWasLoaded(int level)  
 	{		
@@ -179,8 +177,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
     void OnGUI()
     {
-		if (PhotonNetwork.room == null) 
-		Debug.Log(selectedClass);
+		if (PhotonNetwork.room == null)  return;
 		if (selectedClass != "")
 		{		
 			//Need to add the Level Tester Mode on. Apparently if we don't have a Room because we're in Level Tester Mode, OnGUI only works once!
@@ -189,7 +186,6 @@ public class GameManagerVik : Photon.MonoBehaviour
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-			
 			
 			if (menuOn)
 			{
@@ -202,8 +198,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 						selectedClass = "";
 						gameStarted = false;			
 	        	}
-		        GUILayout.EndHorizontal();
-	
+	    		GUILayout.EndHorizontal();
+	        
 				GUILayout.BeginHorizontal();
 				if (GUILayout.Button("Retry", GUILayout.Width(100)))
 				{
@@ -211,18 +207,19 @@ public class GameManagerVik : Photon.MonoBehaviour
 					GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
 				
 				}
-		        GUILayout.EndHorizontal();
+				GUILayout.EndHorizontal();
 			}
-	        /*
+		    
 			GUILayout.BeginHorizontal();
 				GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
 			GUILayout.EndHorizontal();
-			*/
+			
 			GUILayout.BeginHorizontal();						
 				GUILayout.Label("You are now a " + selectedClass);
 	        GUILayout.EndHorizontal();						
 			
-			if(selectedClass == "Builder"){
+			if(selectedClass == "Builder")
+			{
 		        GUILayout.BeginHorizontal();
 					GUILayout.Space(500);
 			        GUILayout.Label("Block Ammo: " + ThirdPersonControllerNET.blockammo);			

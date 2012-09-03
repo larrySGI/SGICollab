@@ -31,7 +31,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	public int levelTimeInMinutes = 1;
 	[HideInInspector]
-	public int timeLeft = 0;
+	public int timeLeft = -1;
 	private int levelEndMode = 0; //default;
 	
 	public GUISkin endGameSkin;
@@ -44,15 +44,21 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	}
 	
 	[RPC]
-	void startTimer()
+	void SyncOnJoin()
 	{
-		timeLeft = levelTimeInMinutes * 60 * 30; 	
+		if (!started)
+			timeLeft = levelTimeInMinutes * 60;
+		
+		
+		photonView.RPC("syncTimer",PhotonTargets.All, timeLeft);		
+
 	}
 	
 	[RPC]
 	void syncTimer(int currTime)
 	{
 		timeLeft = currTime;
+		started = true; //doesn't matter who calls it.
 	}
 	
 	void Awake()
@@ -73,9 +79,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		isViewerAtEnd = false;
 		
 		statusText = "Press [Spacebar] to Go To Next Stage";
-		
-//		nextLevel = GameManagerVik.nextLevel;
-		
+				
 		//Now I'll handle it here. 
 		GameManagerVik.setNextLevel(Application.loadedLevel);
 		GameManagerVik.checkNextLevel(); //automatic
@@ -87,6 +91,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		else
 			TargetReadyCount = 4;
 		
+		//photonView.RPC("SyncOnJoin",PhotonTargets.Others);		
 				
 	}
 	
@@ -94,6 +99,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	void Update () 
 	{
 	//	if (currGameManager.level_tester_mode) return;
+		//if (!started) return;
 		if (alreadyLoading) return;
 		if (PlayersHaveReachedEnd && ReadyCount >=TargetReadyCount)
 		{
@@ -140,6 +146,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	void FixedUpdate()
 	{
+		//if (!started) return;
 		if (isWaitingForNextStage || PlayersHaveReachedEnd) return;
 		
 		lastFrameTime = thisFrameTime;
@@ -150,6 +157,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			photonDelta = thisFrameTime - lastFrameTime;
 			timeLeft -= photonDelta;			
 		}		
+		Debug.Log(timeLeft);
 	}
 
 	
