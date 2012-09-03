@@ -174,6 +174,11 @@ public class GameManagerVik : Photon.MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
 			menuOn = !menuOn;*/
 	}
+
+	public bool isPaused()
+	{
+		return (Time.timeScale == 0);	
+	}
 	
     void OnGUI()
     {
@@ -210,9 +215,12 @@ public class GameManagerVik : Photon.MonoBehaviour
 				GUILayout.EndHorizontal();
 			}
 		    
-			GUILayout.BeginHorizontal();
-				GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
-			GUILayout.EndHorizontal();
+			if (GameObject.Find("EndingBoundBox") != null)
+			{
+				GUILayout.BeginHorizontal();
+					GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
+				GUILayout.EndHorizontal();
+			}
 			
 			GUILayout.BeginHorizontal();						
 				GUILayout.Label("You are now a " + selectedClass);

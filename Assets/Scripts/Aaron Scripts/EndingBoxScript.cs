@@ -13,7 +13,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 //	public Texture aTexture;
 	private int lastFrameTime;
 	private int thisFrameTime;
-	private int photonDelta;
+	private int delta;
 	
 	private string statusText = "";
 	private bool started = false;
@@ -31,7 +31,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	public int levelTimeInMinutes = 1;
 	[HideInInspector]
-	public int timeLeft = -1;
+	public  int timeLeft = -1;
 	private int levelEndMode = 0; //default;
 	
 	public GUISkin endGameSkin;
@@ -43,28 +43,40 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 //		Debug.Log(ReadyCount);
 	}
 	
+	
 	[RPC]
-	void SyncOnJoin()
+	void SyncTimer(int currTime)
 	{
-		if (!started)
-			timeLeft = levelTimeInMinutes * 60;
+		//if I have more time left than someone, then someone else's time must be correct. 
+		//if (currTime < timeLeft)
+		Debug.Log("time recieved " + currTime);		
 		
+		if (timeLeft > currTime)
+		{
+			Debug.Log("Syncing Timer");
+			timeLeft = currTime;
+		}
 		
-		photonView.RPC("syncTimer",PhotonTargets.All, timeLeft);		
-
+//		started = true; //doesn't matter who calls it.
 	}
 	
 	[RPC]
-	void syncTimer(int currTime)
-	{
-		timeLeft = currTime;
-		started = true; //doesn't matter who calls it.
+	void SyncOnJoin()
+	{		
+		//send my time left to everyone.
+		Debug.Log("RPC SyncOnJoin called");
+		Debug.Log(currGameManager.selectedClass);
+	//	if (photonView.isMine)
+		photonView.RPC("SyncTimer",PhotonTargets.OthersBuffered, timeLeft);		
 	}
+	
+	
 	
 	void Awake()
 	{
 		//60 seconds in a minute, assume 30 fps.
 		//timeLeft = levelTimeInMinutes * 60 * 30;	
+		started = false;
 	}
 	
 	
@@ -73,7 +85,9 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		ReadyCount = 0;
 		isWaitingForNextStage = PlayersHaveReachedEnd = false;
 		
-		isBuilderAtEnd = false;
+		lastFrameTime = thisFrameTime = (int)Time.time;
+		delta = 0;
+		isBuilderAtEnd = false; 
 		isMoverAtEnd = false;
 		isJumperAtEnd = false;
 		isViewerAtEnd = false;
@@ -82,8 +96,6 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				
 		//Now I'll handle it here. 
 		GameManagerVik.setNextLevel(Application.loadedLevel);
-		GameManagerVik.checkNextLevel(); //automatic
-		nextLevel = GameManagerVik.nextLevel;
 		currGameManager = GameObject.Find("Code").GetComponent<GameManagerVik>();
 		
 		if (currGameManager.level_tester_mode)
@@ -91,7 +103,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		else
 			TargetReadyCount = 4;
 		
-		//photonView.RPC("SyncOnJoin",PhotonTargets.Others);		
+		timeLeft = levelTimeInMinutes * 60;
+//		Debug.Log("Running Start");
 				
 	}
 	
@@ -99,7 +112,21 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	void Update () 
 	{
 	//	if (currGameManager.level_tester_mode) return;
-		//if (!started) return;
+	
+		if (!started) 
+		{
+			if (currGameManager.gameStarted)
+			{
+				timeLeft = levelTimeInMinutes * 60;
+				started = true;
+				
+				Debug.Log(currGameManager.selectedClass +" Calling Sync on Join");
+				photonView.RPC("SyncOnJoin",PhotonTargets.Others);	
+			}
+		
+			return;
+			
+		}
 		if (alreadyLoading) return;
 		if (PlayersHaveReachedEnd && ReadyCount >=TargetReadyCount)
 		{
@@ -112,7 +139,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 								nextLevel = -1;
 							GameManagerVik.nextLevel = nextLevel;
 								Debug.Log("nextLevel updated = "+nextLevel);
-			*/		
+			*/
+			GameManagerVik.checkNextLevel(); //automatic
+			nextLevel = GameManagerVik.nextLevel;
+
+			
 			alreadyLoading = true;
 							
 							
@@ -122,17 +153,20 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				
 					
 			if (nextLevel > -1)
+			{
 					Application.LoadLevel(nextLevel);
+					//timeLeft = levelTimeInMinutes * 60;
+			}
 			else
 			{
 					PhotonNetwork.LeaveRoom();
 			}
 		}
-		/*
+		
 		if (timeLeft <= 0)
 		{
 			PlayersHaveReachedEnd = true;	
-		}*/
+		}
 		
 		if (Input.GetKeyUp(KeyCode.Space) && PlayersHaveReachedEnd)
 		{
@@ -146,18 +180,18 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	void FixedUpdate()
 	{
-		//if (!started) return;
+		if (!started) return;
 		if (isWaitingForNextStage || PlayersHaveReachedEnd) return;
 		
-		lastFrameTime = thisFrameTime;
-		thisFrameTime = (int)PhotonNetwork.time;
 		
-		if (Time.timeScale > 0 && currGameManager.gameStarted)
-		{
-			photonDelta = thisFrameTime - lastFrameTime;
-			timeLeft -= photonDelta;			
-		}		
-		Debug.Log(timeLeft);
+		if (currGameManager.isPaused() || !currGameManager.gameStarted) return;
+		
+		lastFrameTime = thisFrameTime;
+		thisFrameTime = (int)Time.time;		
+		delta = thisFrameTime - lastFrameTime;
+	//		Debug.Log(thisFrameTime +" " + lastFrameTime + " " +photonDelta + " " + timeLeft);
+		timeLeft -= delta;			
+	//	Debug.Log(timeLeft);
 	}
 
 	
