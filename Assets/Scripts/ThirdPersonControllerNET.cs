@@ -4,9 +4,8 @@ using System.Collections;
 public delegate void JumpDelegate ();
 enum GravityGunState { Free, Catch, Occupied, Charge, Release};
 public class ThirdPersonControllerNET : Photon.MonoBehaviour
-{
-	
-	private bool menuOn = false;
+{	
+	public bool menuOn = false;
 	private bool slowDown = false;
 	private int slowdownmeter = 0;
 	private int jumpmeter = 0;
@@ -70,14 +69,14 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		}
 	}
 	
-	public void activateMenu()
-	{
-		menuOn = true;	
-	}
-	public void deactivateMenu()
-	{
-		menuOn = false;	
-	}
+//	public void activateMenu()
+//	{
+//		menuOn = true;	
+//	}
+//	public void deactivateMenu()
+//	{
+//		menuOn = false;	
+//	}
 	
     public void SetIsRemotePlayer(bool val)
     {
@@ -334,11 +333,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			walking = !walking;
 		}
 		
-		//turn off an on menu
-		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
-		{
-			menuOn = !menuOn;
-		}
 		/*
 		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
 		{
@@ -418,12 +412,18 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				}
 			}
 		}
+		
+		//New GUI for in game "pause" menu
+		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
+		{
+			menuOn = !menuOn;
+			NecroGUI.pauseWindow = !NecroGUI.pauseWindow;
+		}
 	}
 	
 	//converted to a called function.
 	public void Retry()
-	{
-		
+	{		
 			GameObject SpawnManager = GameObject.Find("Code");
 				
 			if (this.lastRespawn.magnitude > 0)				
@@ -435,8 +435,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			
 			if (SpawnManager.GetComponent<GameManagerVik>().selectedClass == "Builder")
 			{
-				StartCoroutine(destroyLater(1.0F));
-   			
+				StartCoroutine(destroyLater(1.0F));   			
   
 				GameObject[] platformsCreated = GameObject.FindGameObjectsWithTag("PlacedPlatform");
 				foreach(GameObject creation in platformsCreated){
@@ -454,15 +453,12 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				plankammo = currentMaxPlanks;
 				
 			}
-			 
-			
-			 
+		
 			//Send analytics
 			collabAnalytics.sendAnalytics(this.transform, "death");
 			
 			//Keep track of death count
-			GameManagerVik.deathCount++;
-	
+			GameManagerVik.deathCount++;	
 	}
 	
 	

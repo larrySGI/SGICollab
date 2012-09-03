@@ -93,6 +93,7 @@ public class MainMenuVik : Photon.MonoBehaviour
 		NecroGUI.signupWindow = false;
 		NecroGUI.lobbyWindow = false;
 		NecroGUI.roleSelectWindow = false;
+		NecroGUI.pauseWindow = false;
 		endFrame = true;
 		Debug.Log("all falsed");
 	}

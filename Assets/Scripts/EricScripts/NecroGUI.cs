@@ -48,6 +48,7 @@ public class NecroGUI : MonoBehaviour {
 //	private float VertSliderValue = 0.5f;
 //	private bool ToggleBTN = false;
 	
+	
 	void Awake(){
 		connectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.5f, Screen.width * 0.6f, Screen.height * 0.5f);
 		loginWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.4f, Screen.width * 0.6f, Screen.height * 0.6f);
@@ -55,10 +56,11 @@ public class NecroGUI : MonoBehaviour {
 		lobbyWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.2f, Screen.width * 0.6f, Screen.height * 0.8f);
 		roleSelectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.4f, Screen.width * 0.6f, Screen.height * 0.6f);
 		
-		pauseWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.45f, Screen.width * 0.6f, Screen.height * 0.6f);
+		pauseWindowRect = new Rect (Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f);
 //		print(Screen.width);
 //		print(Screen.height);
 	}
+	
 	
 	void AddSpikes(float windowWidth)
 	{
@@ -73,6 +75,7 @@ public class NecroGUI : MonoBehaviour {
 		GUILayout.EndHorizontal();
 	}
 	
+	
 	void FancyTop(float windowWidth)
 	{
 		leafOffset = (windowWidth/2)-64;
@@ -82,6 +85,7 @@ public class NecroGUI : MonoBehaviour {
 		GUI.Label(new Rect(frameOffset, 3, 0, 0), "", "IconFrame");//-------------------------------- custom	
 		GUI.Label(new Rect(skullOffset, 12, 0, 0), "", "Skull");//-------------------------------- custom	
 	}
+	
 	
 	void WaxSeal(float windowWidth, float windowHeight)
 	{
@@ -93,6 +97,7 @@ public class NecroGUI : MonoBehaviour {
 		GUI.Label(new Rect(WSribbonOffsetX, WSribbonOffsetY, 0, 0), "", "RibbonBlue");//-------------------------------- custom	
 		GUI.Label(new Rect(WSwaxOffsetX, WSwaxOffsetY, 0, 0), "", "WaxSeal");//-------------------------------- custom	
 	}
+	
 	
 	void DeathBadge(float xPos, float yPos)
 	{
@@ -117,8 +122,8 @@ public class NecroGUI : MonoBehaviour {
         GUILayout.Label("Hint: This demo uses a settings file and logs the server address to the console.", "PlainText");
 	}
 	
-	void drawLoginWindow(int windowID){
-				
+	
+	void drawLoginWindow(int windowID){				
 		// use the spike function to add the spikes
 		AddSpikes(loginWindowRect.width);
 		
@@ -161,8 +166,8 @@ public class NecroGUI : MonoBehaviour {
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
 	
-	void drawSignupWindow(int windowID){
-		
+	
+	void drawSignupWindow(int windowID){		
 		// use the spike function to add the spikes
 		AddSpikes(signupWindowRect.width);
 				
@@ -219,6 +224,7 @@ public class NecroGUI : MonoBehaviour {
 		
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
+	
 	
 	void drawLobbyWindow(int windowID){
 		// use the spike function to add the spikes
@@ -278,6 +284,7 @@ public class NecroGUI : MonoBehaviour {
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
 	
+	
 	void attemptEnterRoom(string roomName){
 		Playtomic.Log.Play();
         foreach (RoomInfo game in PhotonNetwork.GetRoomList())
@@ -299,6 +306,7 @@ public class NecroGUI : MonoBehaviour {
 		MainMenuVik.currentMenuState = menuState.roleSelect;
 	}
 	
+	
 	string[] updateAllRoomsNames(){
 		string[] allRoomsNames = new string[20];
 		for(int x = 0; x < 20; x++){
@@ -315,6 +323,7 @@ public class NecroGUI : MonoBehaviour {
 		}
 		return allRoomsNames;
 	}
+	
 	
 	void drawRoleSelectWindow(int windowID){
 		// use the spike function to add the spikes
@@ -357,12 +366,29 @@ public class NecroGUI : MonoBehaviour {
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
 	
+	
 	void drawPauseWindow(int windowID){
 		// use the spike function to add the spikes
 		AddSpikes(signupWindowRect.width);
 		
+		GUILayout.Label("Menu");
+		GUILayout.Label("", "Divider");
+		GUILayout.Space(15);
+				
+        if (GUILayout.Button("Retry")){
+			Debug.Log("RETRY");
+			GetComponent<GameManagerVik>().retry();
+			pauseWindow = false;
+		}
+        if (GUILayout.Button("QUIT")){
+			Debug.Log("QUIT");
+			GetComponent<GameManagerVik>().quitGame();
+			pauseWindow = false;
+		}
+		
 		GUI.DragWindow (new Rect (0,0,10000,10000));		
 	}
+	
 	
 	void OnGUI(){
 		GUI.skin = mySkin;

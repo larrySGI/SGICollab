@@ -8,7 +8,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	//added by hh
     // this is a object name (must be in any Resources folder) of the prefab to spawn as player avatar.
     // read the documentation for info how to spawn dynamically loaded game objects at runtime (not using Resources folders)
-	private bool menuOn = false;
+//	private bool menuOn = false;
 	
     public static string playerPrefabName = "Charprefab";
 	public static string builderPrefabName = "Builder";
@@ -164,8 +164,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 			return; //premature return on scale 0. 
 		}
 		
-		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
-			menuOn = !menuOn;
+//		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
+//			menuOn = !menuOn;
 	}
 	
     void OnGUI()
@@ -180,24 +180,24 @@ public class GameManagerVik : Photon.MonoBehaviour
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
 
-			GUILayout.BeginHorizontal();
-				if (GUILayout.Button("Leave & QUIT", GUILayout.Width(100)))
-		       	{
-						ChatVik.SP.AnnounceLeave();
-					
-						PhotonNetwork.LeaveRoom();
-						selectedClass = "";
-						gameStarted = false;			
-	        	}
-			
-				if (GUILayout.Button("Retry", GUILayout.Width(100)))
-				{
-					Debug.Log(selectedClass +" respawning");
-					GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
-				
-				}
-			
-	        GUILayout.EndHorizontal();
+//			GUILayout.BeginHorizontal();
+//				if (GUILayout.Button("Leave & QUIT", GUILayout.Width(100)))
+//		       	{
+//						ChatVik.SP.AnnounceLeave();
+//					
+//						PhotonNetwork.LeaveRoom();
+//						selectedClass = "";
+//						gameStarted = false;			
+//	        	}
+//			
+//				if (GUILayout.Button("Retry", GUILayout.Width(100)))
+//				{
+//					Debug.Log(selectedClass +" respawning");
+//					GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
+//				
+//				}
+//			
+//	        GUILayout.EndHorizontal();
 			
 	        GUILayout.BeginHorizontal();						
 				GUILayout.Label("You are now a " + selectedClass);
@@ -259,5 +259,20 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public static int getNextLevel(){
 		return nextLevel;
+	}
+	
+	
+	public void retry(){
+		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
+		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
+	}
+	
+	
+	public void quitGame(){
+		ChatVik.SP.AnnounceLeave();	
+		PhotonNetwork.LeaveRoom();
+		selectedClass = "";
+		gameStarted = false;
+		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
 	}
 }
