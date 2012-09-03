@@ -258,15 +258,12 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public void retry(){
 		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
-		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuToggle();
 		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
 		Screen.lockCursor = true;
 	}
 	
 	
 	public void quitGame(){
-		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
-		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuToggle();
 		Screen.lockCursor = false;
 		ChatVik.SP.AnnounceLeave();	
 		PhotonNetwork.LeaveRoom();
