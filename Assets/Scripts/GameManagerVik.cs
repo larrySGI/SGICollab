@@ -167,6 +167,11 @@ public class GameManagerVik : Photon.MonoBehaviour
 			return; //premature return on scale 0. 
 		}
 	}
+
+	public bool isPaused()
+	{
+		return (Time.timeScale == 0);	
+	}
 	
     void OnGUI()
     {
@@ -179,10 +184,13 @@ public class GameManagerVik : Photon.MonoBehaviour
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-		    
-//			GUILayout.BeginHorizontal();
-//				GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
-//			GUILayout.EndHorizontal();
+	
+			if (GameObject.Find("EndingBoundBox") != null)
+			{
+				GUILayout.BeginHorizontal();
+					GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
+				GUILayout.EndHorizontal();
+			}
 			
 			GUILayout.BeginHorizontal();			
 				GUILayout.Label("You are now a " + selectedClass);
