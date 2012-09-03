@@ -48,6 +48,11 @@ public class GameManagerVik : Photon.MonoBehaviour
 			photonView.RPC("retrieveLevelFromMaster", PhotonTargets.MasterClient);
 		}
     }
+	
+	public void menuToggle()
+	{
+		menuOn = !menuOn;	
+	}
     
     IEnumerator OnLeftRoom()
     {
@@ -87,6 +92,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 		UserDatabase.verifyGameID(gameID);
 		print("Synced gameID = " + gameID);	
 	}
+	
+//	[RPC]
+//	void syncTimeLimit(s
 	
 	void OnLevelWasLoaded(int level)  
 	{		
@@ -164,9 +172,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 			Time.timeScale = 0;
 			return; //premature return on scale 0. 
 		}
-		
+		/* //This is useless, the code gets eaten by ThirdPersonControllerNET
 		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
-			menuOn = !menuOn;
+			menuOn = !menuOn;*/
 	}
 	
     void OnGUI()
@@ -183,8 +191,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 			}
 			
 			
-			//if (menuOn)
-			//{
+			if (menuOn)
+			{
 				GUILayout.BeginHorizontal();
 				if (GUILayout.Button("Leave & QUIT", GUILayout.Width(100)))
 		       	{
@@ -194,17 +202,23 @@ public class GameManagerVik : Photon.MonoBehaviour
 						selectedClass = "";
 						gameStarted = false;			
 	        	}
-			
+		        GUILayout.EndHorizontal();
+	
+				GUILayout.BeginHorizontal();
 				if (GUILayout.Button("Retry", GUILayout.Width(100)))
 				{
 					Debug.Log(selectedClass +" respawning");
 					GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
 				
 				}
-			
 		        GUILayout.EndHorizontal();
-			//}
-	        GUILayout.BeginHorizontal();						
+			}
+	        /*
+			GUILayout.BeginHorizontal();
+				GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
+			GUILayout.EndHorizontal();
+			*/
+			GUILayout.BeginHorizontal();						
 				GUILayout.Label("You are now a " + selectedClass);
 	        GUILayout.EndHorizontal();						
 			

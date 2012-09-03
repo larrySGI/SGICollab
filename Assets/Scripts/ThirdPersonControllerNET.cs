@@ -338,6 +338,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
 		{
 			menuOn = !menuOn;
+			GameObject.Find("Code").GetComponent<GameManagerVik>().menuToggle();
 		}
 		/*
 		if(Input.GetKeyDown(KeyCode.R) && !menuOn)

@@ -11,9 +11,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private bool alreadyLoading = false;
 	
 //	public Texture aTexture;
-	
+	private int lastFrameTime;
+	private int thisFrameTime;
+	private int photonDelta;
 	
 	private string statusText = "";
+	private bool started = false;
 	
 	//This boolean tracks whether a player has reached the end.
 	[HideInInspector]	
@@ -26,11 +29,10 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int ReadyCount = 0;
 	private int TargetReadyCount = 0;
 	
-	
-//	public int levelTimeInMinutes;
-	
-//	[HideInInspector]
-//	public int timeLeft;
+	public int levelTimeInMinutes = 1;
+	[HideInInspector]
+	public int timeLeft = 0;
+	private int levelEndMode = 0; //default;
 	
 	public GUISkin endGameSkin;
 	
@@ -39,6 +41,18 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	{	
 		++ReadyCount;
 //		Debug.Log(ReadyCount);
+	}
+	
+	[RPC]
+	void startTimer()
+	{
+		timeLeft = levelTimeInMinutes * 60 * 30; 	
+	}
+	
+	[RPC]
+	void syncTimer(int currTime)
+	{
+		timeLeft = currTime;
 	}
 	
 	void Awake()
@@ -73,12 +87,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		else
 			TargetReadyCount = 4;
 		
-		//last level check
-		//
-		//if (nextLevel > (Application.levelCount - 1)) 
-		//	nextLevel = -1;
-		
-		//Debug.Log("nextLevel at start = "+nextLevel);
+				
 	}
 	
 	// Update is called once per frame
@@ -113,8 +122,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 					PhotonNetwork.LeaveRoom();
 			}
 		}
-		
-	
+		/*
+		if (timeLeft <= 0)
+		{
+			PlayersHaveReachedEnd = true;	
+		}*/
 		
 		if (Input.GetKeyUp(KeyCode.Space) && PlayersHaveReachedEnd)
 		{
@@ -124,6 +136,20 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				photonView.RPC("callReady",PhotonTargets.AllBuffered);			
 		}
 	
+	}
+	
+	void FixedUpdate()
+	{
+		if (isWaitingForNextStage || PlayersHaveReachedEnd) return;
+		
+		lastFrameTime = thisFrameTime;
+		thisFrameTime = (int)PhotonNetwork.time;
+		
+		if (Time.timeScale > 0 && currGameManager.gameStarted)
+		{
+			photonDelta = thisFrameTime - lastFrameTime;
+			timeLeft -= photonDelta;			
+		}		
 	}
 
 	
@@ -216,55 +242,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
 			GUILayout.EndArea();
 			
-			/*
-			if (nextLevel ==  -1)
-			{
-				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Complete!"))
-				{
-					PhotonNetwork.LeaveRoom();
-				}			
-			}
-			else
-			{
-				if (!isWaitingForNextStage)
-				{
-
-				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
-				{					
-					if (currGameManager.level_tester_mode)
-					{
-						nextLevel += 1; 			
-						//last level check
-						if (nextLevel > (Application.levelCount - 1)) 
-							nextLevel = -1;
-						//s
-						GameManagerVik.nextLevel = nextLevel;
-			
-						ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.blocksToStart;
-						ThirdPersonControllerNET.plankammo = ThirdPersonControllerNET.planksToStart;
-						
-						if (nextLevel > -1)
-							Application.LoadLevel(nextLevel);
-						else
-						{
-							PhotonNetwork.LeaveRoom();
-						}
-					}
-					else
-					{
-						isWaitingForNextStage = true;
-						statusText = "waiting for next stage";
-
-						photonView.RPC("callReady",PhotonTargets.AllBuffered);	
-						
-
-						}
-					}
-				}
-			}*/
-			
-			
-			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 150, Screen.height * 0.1f), statusText);
+			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 300, Screen.height * 0.1f), statusText);
 				
 		}	
 	
