@@ -11,9 +11,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private bool alreadyLoading = false;
 	
 //	public Texture aTexture;
-	
+	private int lastFrameTime;
+	private int thisFrameTime;
+	private int photonDelta;
 	
 	private string statusText = "";
+	private bool started = false;
 	
 	//This boolean tracks whether a player has reached the end.
 	[HideInInspector]	
@@ -26,11 +29,10 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int ReadyCount = 0;
 	private int TargetReadyCount = 0;
 	
-	
-//	public int levelTimeInMinutes;
-	
-//	[HideInInspector]
-//	public int timeLeft;
+	public int levelTimeInMinutes = 1;
+	[HideInInspector]
+	public int timeLeft = -1;
+	private int levelEndMode = 0; //default;
 	
 	public GUISkin endGameSkin;
 	
@@ -39,6 +41,24 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	{	
 		++ReadyCount;
 //		Debug.Log(ReadyCount);
+	}
+	
+	[RPC]
+	void SyncOnJoin()
+	{
+		if (!started)
+			timeLeft = levelTimeInMinutes * 60;
+		
+		
+		photonView.RPC("syncTimer",PhotonTargets.All, timeLeft);		
+
+	}
+	
+	[RPC]
+	void syncTimer(int currTime)
+	{
+		timeLeft = currTime;
+		started = true; //doesn't matter who calls it.
 	}
 	
 	void Awake()
@@ -59,9 +79,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		isViewerAtEnd = false;
 		
 		statusText = "Press [Spacebar] to Go To Next Stage";
-		
-//		nextLevel = GameManagerVik.nextLevel;
-		
+				
 		//Now I'll handle it here. 
 		GameManagerVik.setNextLevel(Application.loadedLevel);
 		GameManagerVik.checkNextLevel(); //automatic
@@ -73,18 +91,15 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		else
 			TargetReadyCount = 4;
 		
-		//last level check
-		//
-		//if (nextLevel > (Application.levelCount - 1)) 
-		//	nextLevel = -1;
-		
-		//Debug.Log("nextLevel at start = "+nextLevel);
+		//photonView.RPC("SyncOnJoin",PhotonTargets.Others);		
+				
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
 	//	if (currGameManager.level_tester_mode) return;
+		//if (!started) return;
 		if (alreadyLoading) return;
 		if (PlayersHaveReachedEnd && ReadyCount >=TargetReadyCount)
 		{
@@ -113,8 +128,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 					PhotonNetwork.LeaveRoom();
 			}
 		}
-		
-	
+		/*
+		if (timeLeft <= 0)
+		{
+			PlayersHaveReachedEnd = true;	
+		}*/
 		
 		if (Input.GetKeyUp(KeyCode.Space) && PlayersHaveReachedEnd)
 		{
@@ -126,11 +144,21 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	}
 	
-		void FixedUpdate()
+	void FixedUpdate()
+	{
+		//if (!started) return;
+		if (isWaitingForNextStage || PlayersHaveReachedEnd) return;
+		
+		lastFrameTime = thisFrameTime;
+		thisFrameTime = (int)PhotonNetwork.time;
+		
+		if (Time.timeScale > 0 && currGameManager.gameStarted)
 		{
-	
-			
-		}
+			photonDelta = thisFrameTime - lastFrameTime;
+			timeLeft -= photonDelta;			
+		}		
+		Debug.Log(timeLeft);
+	}
 
 	
 	 void OnTriggerEnter(Collider other) 
@@ -216,61 +244,13 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	//		GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), aTexture, ScaleMode.StretchToFill);
 		
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
-			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.25f));			
+			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.2f));			
 	        	GUILayout.Label("Clear Time: " + GameManagerVik.startTime);			
 	        	GUILayout.Label("Deaths: " + GameManagerVik.deathCount);			
 	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
 			GUILayout.EndArea();
 			
-			/*
-			if (nextLevel ==  -1)
-			{
-				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Complete!"))
-				{
-					PhotonNetwork.LeaveRoom();
-				}			
-			}
-			else
-			{
-				if (!isWaitingForNextStage)
-				{
-
-				if (GUI.Button(new Rect (Screen.width *0.4f, Screen.height *0.8f, Screen.width * 0.25f, Screen.height * 0.1f), "Go To Next Stage"))
-				{					
-					if (currGameManager.level_tester_mode)
-					{
-						nextLevel += 1; 			
-						//last level check
-						if (nextLevel > (Application.levelCount - 1)) 
-							nextLevel = -1;
-						//s
-						GameManagerVik.nextLevel = nextLevel;
-			
-						ThirdPersonControllerNET.blockammo = ThirdPersonControllerNET.blocksToStart;
-						ThirdPersonControllerNET.plankammo = ThirdPersonControllerNET.planksToStart;
-						
-						if (nextLevel > -1)
-							Application.LoadLevel(nextLevel);
-						else
-						{
-							PhotonNetwork.LeaveRoom();
-						}
-					}
-					else
-					{
-						isWaitingForNextStage = true;
-						statusText = "waiting for next stage";
-
-						photonView.RPC("callReady",PhotonTargets.AllBuffered);	
-						
-
-						}
-					}
-				}
-			}*/
-			
-			
-			GUI.Label(	new Rect (Screen.width *0.125f, Screen.height *0.9f, Screen.width * 0.75f, Screen.height * 0.1f), statusText);
+			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 300, Screen.height * 0.1f), statusText);
 				
 		}	
 	

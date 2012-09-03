@@ -34,10 +34,11 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public static int deathCount, objectsBuilt;
 	
 	void Awake(){
-
-		if (!level_tester_mode)
-			DontDestroyOnLoad(this);
 		
+		//we don't actually need this. However, make sure you have only one Level_tester_mode from the very start of the game or you will regret it. 
+		//if (!level_tester_mode)
+			DontDestroyOnLoad(this);
+			//menuOn = false;
 		//Needs to initialize
 //		nextLevel = Application.loadedLevel;
 	}
@@ -47,6 +48,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			photonView.RPC("retrieveLevelFromMaster", PhotonTargets.MasterClient);
 		}
     }
+	
     
     IEnumerator OnLeftRoom()
     {
@@ -86,6 +88,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		UserDatabase.verifyGameID(gameID);
 		print("Synced gameID = " + gameID);	
 	}
+	
 	
 	void OnLevelWasLoaded(int level)  
 	{		
@@ -163,47 +166,30 @@ public class GameManagerVik : Photon.MonoBehaviour
 			Time.timeScale = 0;
 			return; //premature return on scale 0. 
 		}
-		
-//		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
-//			menuOn = !menuOn;
 	}
 	
     void OnGUI()
     {
-		if (PhotonNetwork.room == null) return; //Only display this GUI when inside a room
-		
+		if (PhotonNetwork.room == null)  return;
 		if (selectedClass != "")
 		{		
 			//Need to add the Level Tester Mode on. Apparently if we don't have a Room because we're in Level Tester Mode, OnGUI only works once!
+			
 			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-
-//			GUILayout.BeginHorizontal();
-//				if (GUILayout.Button("Leave & QUIT", GUILayout.Width(100)))
-//		       	{
-//						ChatVik.SP.AnnounceLeave();
-//					
-//						PhotonNetwork.LeaveRoom();
-//						selectedClass = "";
-//						gameStarted = false;			
-//	        	}
-//			
-//				if (GUILayout.Button("Retry", GUILayout.Width(100)))
-//				{
-//					Debug.Log(selectedClass +" respawning");
-//					GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
-//				
-//				}
-//			
-//	        GUILayout.EndHorizontal();
+		    
+			GUILayout.BeginHorizontal();
+				GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
+			GUILayout.EndHorizontal();
 			
-	        GUILayout.BeginHorizontal();						
+			GUILayout.BeginHorizontal();			
 				GUILayout.Label("You are now a " + selectedClass);
 	        GUILayout.EndHorizontal();						
 			
-			if(selectedClass == "Builder"){
+			if(selectedClass == "Builder")
+			{
 		        GUILayout.BeginHorizontal();
 					GUILayout.Space(500);
 			        GUILayout.Label("Block Ammo: " + ThirdPersonControllerNET.blockammo);			

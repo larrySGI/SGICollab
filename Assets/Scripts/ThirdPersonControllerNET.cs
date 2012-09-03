@@ -333,6 +333,14 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			walking = !walking;
 		}
 		
+		
+		//turn off an on menu
+		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape))
+		{
+			menuToggle();
+			//GameObject.Find("Code").GetComponent<GameManagerVik>().menuToggle();
+		}
+		
 		/*
 		if(Input.GetKeyDown(KeyCode.R) && !menuOn)
 		{
@@ -420,6 +428,13 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			NecroGUI.pauseWindow = !NecroGUI.pauseWindow;
 		}
 	}
+	
+	
+	public void menuToggle()
+	{
+		menuOn = !menuOn;	
+	}
+	
 	
 	//converted to a called function.
 	public void Retry()
