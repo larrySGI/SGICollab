@@ -146,7 +146,7 @@ public class NecroGUI : MonoBehaviour {
         GUILayout.Label("Password", GUILayout.Width(Screen.width * 0.2f));		
         MainMenuVik.pass1Input = GUILayout.PasswordField(MainMenuVik.pass1Input, "*"[0], 15);
         GUILayout.EndHorizontal();	
-        GUILayout.Space(20);
+        GUILayout.Space(10);
 	
 		//Log in or create new account
         GUILayout.BeginHorizontal();		
@@ -161,6 +161,11 @@ public class NecroGUI : MonoBehaviour {
 			MainMenuVik.currentMenuState = menuState.profile;
         }
         GUILayout.EndHorizontal();
+		
+        if (GUILayout.Button("Quit to windows")){
+			Debug.Log("QUIT TO WINDOWS");
+			Application.Quit();
+		}
         GUILayout.EndVertical();
 		
 		GUI.DragWindow (new Rect (0,0,10000,10000));
@@ -199,7 +204,7 @@ public class NecroGUI : MonoBehaviour {
 	        GUILayout.Label("Confirm Password", GUILayout.Width(Screen.width * 0.2f), GUILayout.Height(Screen.height * 0.1f));
 	        MainMenuVik.pass2Input = GUILayout.PasswordField(MainMenuVik.pass2Input, "*"[0], 15);
         GUILayout.EndHorizontal();	
-        GUILayout.Space(20);
+        GUILayout.Space(10);
 	
         GUILayout.BeginHorizontal();		
         if (GUILayout.Button("Create!", GUILayout.Width(Screen.width * 0.25f)))
@@ -221,6 +226,11 @@ public class NecroGUI : MonoBehaviour {
 				MainMenuVik.currentMenuState = menuState.login;
 		}
         GUILayout.EndHorizontal();
+		
+        if (GUILayout.Button("Quit to windows")){
+			Debug.Log("QUIT TO WINDOWS");
+			Application.Quit();
+		}
 		
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
@@ -280,6 +290,17 @@ public class NecroGUI : MonoBehaviour {
 		GUILayout.EndVertical();	
 		GUILayout.EndHorizontal();
         GUILayout.EndScrollView();
+		GUILayout.Space(5);
+		GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Log out")){
+			Debug.Log("LOG OUT");
+			MainMenuVik.currentMenuState = menuState.login;
+		}
+        if (GUILayout.Button("Quit to windows")){
+			Debug.Log("QUIT TO WINDOWS");
+			Application.Quit();
+		}
+		GUILayout.EndHorizontal();
 		
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
@@ -357,11 +378,23 @@ public class NecroGUI : MonoBehaviour {
       		    GetComponent<GameManagerVik>().StartGame(GameManagerVik.jumperPrefabName);
         	}
 		}
-		if (GUILayout.Button("QUIT")){
+//		if (GUILayout.Button("QUIT")){
+//    	    PhotonNetwork.LeaveRoom();
+//			GetComponent<GameManagerVik>().selectedClass = "";
+//			MainMenuVik.currentMenuState = menuState.profile;
+//	    }
+		GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Log out")){
+			Debug.Log("LOG OUT");
     	    PhotonNetwork.LeaveRoom();
 			GetComponent<GameManagerVik>().selectedClass = "";
-			MainMenuVik.currentMenuState = menuState.profile;
-	    }
+			MainMenuVik.currentMenuState = menuState.login;
+		}
+        if (GUILayout.Button("Quit to windows")){
+			Debug.Log("QUIT TO WINDOWS");
+			Application.Quit();
+		}
+		GUILayout.EndHorizontal();
 		
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
@@ -375,15 +408,19 @@ public class NecroGUI : MonoBehaviour {
 		GUILayout.Label("", "Divider");
 		GUILayout.Space(15);
 				
-        if (GUILayout.Button("Retry")){
-			Debug.Log("RETRY");
+        if (GUILayout.Button("Respawn")){
+			Debug.Log("RESPAWN");
 			pauseWindow = false;
 			GetComponent<GameManagerVik>().retry();
 		}
-        if (GUILayout.Button("QUIT")){
-			Debug.Log("QUIT");
+        if (GUILayout.Button("Quit to main menu")){
+			Debug.Log("QUIT TO MAIN");
 			pauseWindow = false;
 			GetComponent<GameManagerVik>().quitGame();
+		}
+        if (GUILayout.Button("Quit to windows")){
+			Debug.Log("QUIT TO WINDOWS");
+			Application.Quit();
 		}
 		
 		GUI.DragWindow (new Rect (0,0,10000,10000));		
