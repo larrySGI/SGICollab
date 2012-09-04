@@ -333,13 +333,12 @@ public class NecroGUI : MonoBehaviour {
 				}
 				return;
 			}
-		}	
-	    PhotonNetwork.CreateRoom(roomName, true, true, 4);
-		Debug.Log("CREATED = " + roomName);
-		joinedRoomName = roomName;
-		MainMenuVik.currentMenuState = menuState.roleSelect;
+		}
+		PhotonNetwork.CreateRoom(roomName, true, true, 4, null , null);
+			Debug.Log("CREATED = " + roomName);
+			joinedRoomName = roomName;
+			MainMenuVik.currentMenuState = menuState.roleSelect;
 	}
-		
 	
 	string[] updateAllRoomsNames(){
 		string[] allRoomsNames = new string[20];

@@ -856,7 +856,7 @@ public static class PhotonNetwork
     /// <param name="maxPlayers">Max number of players that can join the room.</param>
     public static void CreateRoom(string roomName, bool isVisible, bool isOpen, int maxPlayers)
     {
-        CreateRoom(roomName, isVisible, isOpen, maxPlayers, null, null);
+         CreateRoom(roomName, isVisible, isOpen, maxPlayers, null, null);
     }
 
     /// <summary>
@@ -900,7 +900,7 @@ public static class PhotonNetwork
                     Debug.LogError("Error: CreateRoom called with " + maxPlayers + " maxplayers. This has been reverted to the max of 255 players because internally a 'byte' is used."); 
                     maxPlayers = 255;                    
                 }
-
+				
                 networkingPeer.OpCreateGame(roomName, isVisible, isOpen, (byte)maxPlayers, PhotonNetwork.autoCleanUpPlayerObjects, customRoomProperties, propsToListInLobby);
             }
         }

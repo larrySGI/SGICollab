@@ -845,6 +845,7 @@ public class NetworkingPeer : LoadbalancingPeer, IPhotonPeerListener
                             if (this.DebugOut >= DebugLevel.ERROR)
                             {
                                 this.DebugReturn(DebugLevel.ERROR, string.Format("createGame failed, client stays on masterserver: {0}.", operationResponse.ToStringFull()));
+								MainMenuVik.currentMenuState = menuState.profile;
                             }
 
                             SendMonoMessage(PhotonNetworkingMessage.OnPhotonCreateRoomFailed);
