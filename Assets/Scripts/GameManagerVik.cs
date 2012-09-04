@@ -139,7 +139,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	void Update()
 	{
 		if (level_tester_mode) return;
-		
+		//Debug.Log("state = " + MainMenuVik.currentMenuState);
 		if (GameObject.FindWithTag("Viewer") && 
 			GameObject.FindWithTag("Mover") &&
 			GameObject.FindWithTag("Builder") &&
