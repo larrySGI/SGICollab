@@ -179,8 +179,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			{
 				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
 			
-				if(GameObject.Find("Code").GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
-				
+				if(PhotonNetwork.isMasterClient)
 					collabAnalytics.sendClearTime((int)GameManagerVik.startTime, "incomplete" );
 	
 				finalAnalyticsSent = true;
@@ -252,8 +251,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
 				
 				//Send time analytic
-				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
-				//{
+				if(PhotonNetwork.isMasterClient)
 					collabAnalytics.sendClearTime((int)GameManagerVik.startTime, "complete" );
 				//}
 				//Tally total deaths
