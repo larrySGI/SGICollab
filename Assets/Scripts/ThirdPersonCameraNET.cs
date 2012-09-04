@@ -159,27 +159,39 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		}
 		
 		//print("currCameraIndex = " + currCameraIndex);
-		
-		
+		Debug.Log("Length of array is" +cameras.Length);
+		Debug.Log("current index is"+currCameraIndex);
 		if(currCameraIndex > 0 )
 		{			
 			GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+			if (buttonsForDoors)
+			{
 			DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
+			
 			thisScript.showColours();
-					
+			}		
 			GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+			if (buttonsForLifts)
+			{
 			triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
+			
 			thatScript.showColours();
+			}
 		}
 		else
 		{
 			GameObject buttonsForDoors = GameObject.FindGameObjectWithTag("SwitchForDoor");
+			if (buttonsForDoors)
+			{
 			DoorTriggerScript thisScript = buttonsForDoors.GetComponent<DoorTriggerScript>();
 			thisScript.hideColours();
-					
+			}		
 			GameObject buttonsForLifts = GameObject.FindGameObjectWithTag("SwitchForLift");
+			if (buttonsForLifts)
+			{
 			triggerCsScript thatScript = buttonsForLifts.GetComponent<triggerCsScript>();
 			thatScript.hideColours();
+			}
 		}
 		(cameras[currCameraIndex].GetComponent<Camera>() as Camera).enabled = true;
 		
