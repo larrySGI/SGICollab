@@ -33,6 +33,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public static double startTime;
 	public static int deathCount, objectsBuilt;
 	
+	public GUISkin inGameSkin;
+	
 	void Awake(){
 		
 		//we don't actually need this. However, make sure you have only one Level_tester_mode from the very start of the game or you will regret it. 
@@ -179,45 +181,50 @@ public class GameManagerVik : Photon.MonoBehaviour
 		if (selectedClass != "")
 		{		
 			//Need to add the Level Tester Mode on. Apparently if we don't have a Room because we're in Level Tester Mode, OnGUI only works once!
+			GUI.skin = inGameSkin;
+			
 			
 			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
-	
+			GUILayout.Space(Screen.height * 0.05f);
 			if (GameObject.Find("EndingBoundBox") != null)
 			{
 				GUILayout.BeginHorizontal();
+					GUILayout.Space(Screen.width * 0.05f);
 					GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
 				GUILayout.EndHorizontal();
 			}
 			
 			GUILayout.BeginHorizontal();			
+				GUILayout.Space(Screen.width * 0.05f);
 				GUILayout.Label("You are now a " + selectedClass);
-	        GUILayout.EndHorizontal();						
-			
-			if(selectedClass == "Builder")
-			{
-		        GUILayout.BeginHorizontal();
-					GUILayout.Space(500);
-			        GUILayout.Label("Block Ammo: " + ThirdPersonControllerNET.blockammo);			
-		        GUILayout.EndHorizontal();
+	    	
+				if(selectedClass == "Builder")
+				{
+					GUILayout.Space(Screen.width * 0.5f);
+				       
+				    GUILayout.BeginVertical();
+						GUILayout.Label("Block Ammo: " + ThirdPersonControllerNET.blockammo);	
+				   		 GUILayout.Label("Plank Ammo: " + ThirdPersonControllerNET.plankammo);
+				    
+			      	GUILayout.EndVertical();
 				
-		        GUILayout.BeginHorizontal();
-					GUILayout.Space(500);
-			        GUILayout.Label("Plank Ammo: " + ThirdPersonControllerNET.plankammo);
-		        GUILayout.EndHorizontal();
-			}
+				   
+				}
 			
-			if(selectedClass == "Viewer"){
-		        GUILayout.BeginHorizontal();
-					GUILayout.Space(500);
-					string camIndex = ThirdPersonCameraNET.currCameraIndex.ToString();
-					if(camIndex == "0")
-						camIndex = "Main";
-			        GUILayout.Label("Camera: " + camIndex);			
-		        GUILayout.EndHorizontal();
-			}
+				if(selectedClass == "Viewer"){
+			        GUILayout.BeginHorizontal();
+						GUILayout.Space(Screen.width * 0.5f);
+						string camIndex = ThirdPersonCameraNET.currCameraIndex.ToString();
+						if(camIndex == "0")
+							camIndex = "Main";
+				        GUILayout.Label("Camera: " + camIndex);			
+			        GUILayout.EndHorizontal();
+				}
+		    GUILayout.EndHorizontal();						
+			
 		}
     }
 
@@ -258,15 +265,12 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	public void retry(){
 		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
-		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuToggle();
 		GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().Retry();
 		Screen.lockCursor = true;
 	}
 	
 	
 	public void quitGame(){
-		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuOn = false;
-		//GameObject.FindWithTag(selectedClass).GetComponent<ThirdPersonControllerNET>().menuToggle();
 		Screen.lockCursor = false;
 		ChatVik.SP.AnnounceLeave();	
 		PhotonNetwork.LeaveRoom();

@@ -10,7 +10,9 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int nextLevel;
 	private bool alreadyLoading = false;
 	
-//	public Texture aTexture;
+	public Texture completedTexture;
+	public Texture incompleteTexture;
+	
 	private int lastFrameTime;
 	private int thisFrameTime;
 	private int delta;
@@ -258,7 +260,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	}
 	
 	void OnTriggerExit(Collider other) 
-	{	
+	{	 
        	//we do not disable localPlayerAtEnd here. 
 		if(other.attachedRigidbody.name.Contains("Builder"))
 			isBuilderAtEnd =false;
@@ -275,8 +277,15 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		if (PlayersHaveReachedEnd)
 		{	
 			GUI.skin = endGameSkin;		
-	//		GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), aTexture, ScaleMode.StretchToFill);
-		
+			
+			if (timeLeft > 0)	
+				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), completedTexture, ScaleMode.StretchToFill);
+			else
+				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), incompleteTexture, ScaleMode.StretchToFill);
+
+	//		GUILayout.Box("","Complete");
+			
+			//This will be offset to one side to avoid overlapping the chatbox. 
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
 			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.2f));			
 	        	GUILayout.Label("Clear Time: " + GameManagerVik.startTime);			
@@ -284,7 +293,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
 			GUILayout.EndArea();
 			
-			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 300, Screen.height * 0.1f), statusText);
+			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 400, Screen.height * 0.1f), statusText);
 				
 		}	
 	

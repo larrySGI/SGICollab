@@ -300,30 +300,20 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			rotationAmount = Input.GetAxis ("Mouse X") * mouseTurnSpeed * Time.deltaTime;
 			
 		}*/
-//		print("BEFORE menuOn = "+menuOn);
-//		print("BEFORE Screen.lockCursor = "+Screen.lockCursor);
+		
 		if (!menuOn)
 		{
-//			Screen.lockCursor = false;
-//		}
-//		else
-//		{
-//			Screen.lockCursor = true;
-	
-			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;
-		
+			rotationAmount = Input.GetAxis ("Horizontal") * turnSpeed * Time.deltaTime;		
 			target.transform.RotateAround (target.transform.up, rotationAmount);
 		}
 		
-//		print("AFTER menuOn = "+menuOn);
-		//print("AFTER Screen.lockCursor = "+Screen.lockCursor);
 		
 		if (Input.GetKeyDown(KeyCode.Backslash) || Input.GetKeyDown(KeyCode.Plus))
 		{
 			walking = !walking;
 		}
 		
-				
+		
 		if(Input.GetKeyDown(KeyCode.P) && !menuOn)
 		{
 			GameManagerVik manager = GameObject.Find("Code").GetComponent<GameManagerVik>();
@@ -364,7 +354,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 		//New GUI for in game "pause" menu
 		if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.Escape)){
 			menuToggle();
-
 		}
 	}
 	

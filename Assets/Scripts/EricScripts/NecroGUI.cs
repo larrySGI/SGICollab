@@ -291,6 +291,7 @@ public class NecroGUI : MonoBehaviour {
 		GUILayout.EndHorizontal();
         GUILayout.EndScrollView();
 		GUILayout.Space(5);
+		
 		GUILayout.BeginHorizontal();
         if (GUILayout.Button("Log out")){
 			Debug.Log("LOG OUT");
@@ -378,11 +379,7 @@ public class NecroGUI : MonoBehaviour {
       		    GetComponent<GameManagerVik>().StartGame(GameManagerVik.jumperPrefabName);
         	}
 		}
-//		if (GUILayout.Button("QUIT")){
-//    	    PhotonNetwork.LeaveRoom();
-//			GetComponent<GameManagerVik>().selectedClass = "";
-//			MainMenuVik.currentMenuState = menuState.profile;
-//	    }
+		
 		GUILayout.BeginHorizontal();
         if (GUILayout.Button("Log out")){
 			Debug.Log("LOG OUT");
