@@ -198,11 +198,12 @@ public class ChatVik : Photon.MonoBehaviour
 			string token = UserDatabase.token;
 			string level = GameManagerVik.nextLevel.ToString();
 			
-			string url = "http://sgicollab.herokuapp.com/chat" +
+			string url = "http://sgicollab1.herokuapp.com/chat" +
 							"?auth_token=" + token +
 							"&chat[message]=" + chatInput +
 							"&chat[level]=" + level +
-							"&chat[userclass]=" + chatterClass;
+							"&chat[userclass]=" + chatterClass +
+							"&chat[game_id]="+ GameManagerVik.gameID;
 			
 			var r = new HTTP.Request ("POST", url);
 			r.Send ();		

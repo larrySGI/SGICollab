@@ -48,6 +48,9 @@ public class GameManagerVik : Photon.MonoBehaviour
     {
 		if(!PhotonNetwork.isMasterClient){
 			photonView.RPC("retrieveLevelFromMaster", PhotonTargets.MasterClient);
+			
+		}else{
+			gameID = UserDatabase.getGameID();
 		}
     }
 	
@@ -145,7 +148,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			//Sync game ID
 			if(!syncedGameID){
 				if(PhotonNetwork.isMasterClient){
-					gameID = UserDatabase.getGameID();
+					
 					photonView.RPC("syncGameIDLocally", PhotonTargets.Others, gameID);	
 				}
 				syncedGameID = true;

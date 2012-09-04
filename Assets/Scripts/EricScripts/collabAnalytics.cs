@@ -3,8 +3,8 @@ using System.Collections;
 
 public class collabAnalytics : MonoBehaviour {
 	
-	static string url = "http://sgicollab.herokuapp.com";
-	static string token, level, gameID, xPos, yPos, zPos;
+	static string url = "http://sgicollab1.herokuapp.com";
+	public static string token, level, gameID, xPos, yPos, zPos;
 	public static bool sendEnabled;
 	
 	// Use this for initialization
