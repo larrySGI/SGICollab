@@ -11,6 +11,7 @@ public class NecroGUI : MonoBehaviour {
 	public static bool signupWindow;
 	public static bool lobbyWindow;
 	public static bool roleSelectWindow;
+	public static bool messageWindow;
 	public static bool pauseWindow;
 	
 	//Predetermined window sizes
@@ -19,6 +20,7 @@ public class NecroGUI : MonoBehaviour {
 	private Rect signupWindowRect;
 	private Rect lobbyWindowRect;
 	private Rect roleSelectWindowRect;
+	private Rect messageWindowRect;
 	private Rect pauseWindowRect;
 	
 	//Custom GUI
@@ -41,6 +43,7 @@ public class NecroGUI : MonoBehaviour {
 	private int spikeCount;	
 	
 	string[] allRoomsCapacity = new string[20];
+	string joinedRoomName;
 	
 	//Not used yet	
 //	private Vector2 scrollPosition;
@@ -54,8 +57,8 @@ public class NecroGUI : MonoBehaviour {
 		loginWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.4f, Screen.width * 0.6f, Screen.height * 0.6f);
 		signupWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.2f, Screen.width * 0.6f, Screen.height * 0.8f);
 		lobbyWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.2f, Screen.width * 0.6f, Screen.height * 0.8f);
-		roleSelectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.4f, Screen.width * 0.6f, Screen.height * 0.6f);
-		
+		roleSelectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.7f);
+		messageWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.4f, Screen.width * 0.6f, Screen.height * 0.5f);
 		pauseWindowRect = new Rect (Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f);
 //		print(Screen.width);
 //		print(Screen.height);
@@ -308,12 +311,20 @@ public class NecroGUI : MonoBehaviour {
 	
 	
 	void attemptEnterRoom(string roomName){
+		
 		Playtomic.Log.Play();
+//		double startTime = PhotonNetwork.time;
+//		int randomDelay = Random.Range(0, 4);
+//		randomDelay *= 4;
+//		while(PhotonNetwork.time - startTime < randomDelay)
+//			Debug.Log("Delaying..");
+		
         foreach (RoomInfo game in PhotonNetwork.GetRoomList())
         {
 			if(game.name == roomName){
 				if(game.playerCount < game.maxPlayers){
 	            	PhotonNetwork.JoinRoom(roomName);
+					joinedRoomName = roomName;
 					MainMenuVik.currentMenuState = menuState.roleSelect;
 					Debug.Log("JOINED = " + game.name);
 				}
@@ -325,9 +336,10 @@ public class NecroGUI : MonoBehaviour {
 		}	
 	    PhotonNetwork.CreateRoom(roomName, true, true, 4);
 		Debug.Log("CREATED = " + roomName);
+		joinedRoomName = roomName;
 		MainMenuVik.currentMenuState = menuState.roleSelect;
 	}
-	
+		
 	
 	string[] updateAllRoomsNames(){
 		string[] allRoomsNames = new string[20];
@@ -351,6 +363,7 @@ public class NecroGUI : MonoBehaviour {
 		// use the spike function to add the spikes
 		AddSpikes(lobbyWindowRect.width);		
 		
+		GUILayout.Label(joinedRoomName);
 		GUILayout.Label("Choose a role");
 		GUILayout.Label("", "Divider");
 		GUILayout.Space(15);
@@ -382,10 +395,10 @@ public class NecroGUI : MonoBehaviour {
 		
 		GUILayout.BeginHorizontal();
         if (GUILayout.Button("Log out")){
-			Debug.Log("LOG OUT");
+			Debug.Log("change this to Exit room");
     	    PhotonNetwork.LeaveRoom();
 			GetComponent<GameManagerVik>().selectedClass = "";
-			MainMenuVik.currentMenuState = menuState.login;
+			MainMenuVik.currentMenuState = menuState.profile;
 		}
         if (GUILayout.Button("Quit to windows")){
 			Debug.Log("QUIT TO WINDOWS");
@@ -396,6 +409,15 @@ public class NecroGUI : MonoBehaviour {
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
 	
+	
+	void drawMessageWindowRect(int windowID){
+		GUILayout.Label("Loading..", "CursedText");
+	}
+	
+//	void asd(string selectedPrefabName){
+//		GetComponent<GameManagerVik>().selectedClass = GameManagerVik.moverPrefabName;
+//		GetComponent<GameManagerVik>().StartGame(GameManagerVik.moverPrefabName);		
+//	}
 	
 	void drawPauseWindow(int windowID){
 		// use the spike function to add the spikes
@@ -442,8 +464,11 @@ public class NecroGUI : MonoBehaviour {
 		if (roleSelectWindow)
 			roleSelectWindowRect = GUI.Window (4, roleSelectWindowRect, drawRoleSelectWindow, "");
 		
+		if (messageWindow)
+			messageWindowRect = GUI.Window (5, messageWindowRect, drawMessageWindowRect, "");
+		
 		if (pauseWindow)
-			pauseWindowRect = GUI.Window (5, pauseWindowRect, drawPauseWindow, "");
+			pauseWindowRect = GUI.Window (6, pauseWindowRect, drawPauseWindow, "");
 		
 //			//now adjust to the group. (0,0) is the topleft corner of the group.
 //			GUI.BeginGroup (new Rect (0,0,100,100));
