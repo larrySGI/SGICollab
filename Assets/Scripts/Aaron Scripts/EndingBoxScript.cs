@@ -10,7 +10,9 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int nextLevel;
 	private bool alreadyLoading = false;
 	
-//	public Texture aTexture;
+	public Texture completedTexture;
+	public Texture incompleteTexture;
+	
 	private int lastFrameTime;
 	private int thisFrameTime;
 	private int delta;
@@ -22,6 +24,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	[HideInInspector]	
 	public bool PlayersHaveReachedEnd = false;
 	public bool isWaitingForNextStage = false;
+	public bool finalAnalyticsSent = false;
 	
 	private GameManagerVik currGameManager = null;
 	//private ThirdPersonControllerNET currController = null;
@@ -92,6 +95,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		isJumperAtEnd = false;
 		isViewerAtEnd = false;
 		
+		finalAnalyticsSent = false;
+		
 		statusText = "Press [Spacebar] to Go To Next Stage";
 				
 		//Now I'll handle it here. 
@@ -142,7 +147,9 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			*/
 			GameManagerVik.checkNextLevel(); //automatic
 			nextLevel = GameManagerVik.nextLevel;
-
+			
+			
+			
 			
 			alreadyLoading = true;
 							
@@ -166,6 +173,18 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		if (timeLeft <= 0)
 		{
 			PlayersHaveReachedEnd = true;	
+			
+			//I need to do this here to prevent repeatedly sending an incomplete statement.
+			if (!finalAnalyticsSent)
+			{
+				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
+			
+				if(PhotonNetwork.isMasterClient)
+					collabAnalytics.sendClearTime((int)GameManagerVik.startTime, "incomplete" );
+	
+				finalAnalyticsSent = true;
+			}
+	
 		}
 		
 		if (Input.GetKeyUp(KeyCode.Space) && PlayersHaveReachedEnd)
@@ -226,14 +245,15 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 				isMoverAtEnd =true;
 			}
 	
+			//this can remain as-is.
 			if (isMoverAtEnd && isViewerAtEnd && isJumperAtEnd && isBuilderAtEnd){
 				PlayersHaveReachedEnd = true;
 				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
 				
 				//Send time analytic
-				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
-					collabAnalytics.sendClearTime((int)GameManagerVik.startTime);
-				
+				if(PhotonNetwork.isMasterClient)
+					collabAnalytics.sendClearTime((int)GameManagerVik.startTime, "complete" );
+				//}
 				//Tally total deaths
 				if(!PhotonNetwork.isMasterClient)
 					photonView.RPC("tallyTotalDeaths", PhotonTargets.MasterClient, GameManagerVik.deathCount);
@@ -258,7 +278,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	}
 	
 	void OnTriggerExit(Collider other) 
-	{	
+	{	 
        	//we do not disable localPlayerAtEnd here. 
 		if(other.attachedRigidbody.name.Contains("Builder"))
 			isBuilderAtEnd =false;
@@ -275,8 +295,20 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		if (PlayersHaveReachedEnd)
 		{	
 			GUI.skin = endGameSkin;		
-	//		GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), aTexture, ScaleMode.StretchToFill);
-		
+			
+				
+			//Do not send analytics here, onGUI will keep doing so anyway
+			if (timeLeft > 0)	
+			{
+				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), completedTexture, ScaleMode.StretchToFill);
+			}
+			else
+			{
+				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), incompleteTexture, ScaleMode.StretchToFill);
+
+			}
+			
+			//This will be offset to one side to avoid overlapping the chatbox. 
 			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
 			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.2f));			
 	        	GUILayout.Label("Clear Time: " + GameManagerVik.startTime);			
@@ -284,7 +316,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
 			GUILayout.EndArea();
 			
-			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 300, Screen.height * 0.1f), statusText);
+			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 400, Screen.height * 0.1f), statusText);
 				
 		}	
 	

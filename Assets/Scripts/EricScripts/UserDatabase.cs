@@ -132,8 +132,9 @@ public class UserDatabase : MonoBehaviour {
 		Debug.Log("level = " + level);
 		string urlconcat ="http://sgicollab.herokuapp.com/game" +
 							"?auth_token=" + token +
+							"&game[room_name]=" +  PhotonNetwork.room.name +
 							"&game[level]=" + level;
-		
+		print(urlconcat);
 		var r = new HTTP.Request ("POST", urlconcat);
 		r.Send ();
 		while (!r.isDone) {
