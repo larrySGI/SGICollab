@@ -50,7 +50,7 @@ public class collabAnalytics : MonoBehaviour {
 		}
 	}
 	
-	public static void sendClearTime(int clearTime){
+	public static void sendClearTime(int clearTime, string completed){
 		if(sendEnabled){
 			token = UserDatabase.token;
 			gameID = GameManagerVik.gameID;
@@ -58,7 +58,9 @@ public class collabAnalytics : MonoBehaviour {
 			string urlconcat = "/game" + 
 								"/" + gameID +
 								"?auth_token=" + token +
-								"&game_duration=" + clearTime;
+								"&game[level]=" + level +
+								"&game[completed]=" + level +
+								"&game[cleartime]=" + clearTime;
 			
 			var r = new HTTP.Request ("PUT", url + urlconcat);
 			r.Send ();		

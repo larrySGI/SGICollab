@@ -193,7 +193,12 @@ public class GameManagerVik : Photon.MonoBehaviour
 			{
 				GUILayout.BeginHorizontal();
 					GUILayout.Space(Screen.width * 0.05f);
-					GUILayout.Label("Time remaining :" + GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft);
+					int timeleft = GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft;
+					int minutes = timeleft/60;
+					int seconds = timeleft - (minutes * 60);
+				
+				
+					GUILayout.Label("Time remaining : " + minutes +":" +seconds );
 				GUILayout.EndHorizontal();
 			}
 			
