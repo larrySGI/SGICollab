@@ -62,7 +62,7 @@ public class ChatVik : Photon.MonoBehaviour
       //  Debug.Log(SP == null);
 		GUI.skin = chatSkin;
 		if (!manager.gameStarted) return;
-	
+
 		
 		//Chat log area
 		GUI.SetNextControlName("");		
@@ -99,21 +99,24 @@ public class ChatVik : Photon.MonoBehaviour
 			{
 				//My way of hiding the GUI
 				Input.ResetInputAxes();
-				inputAreaY *= -1;
-				
+//				
+				//moved the multiplication into the if function. Do NOT *-1, if focus control borks because one person logs out, the whole function will be desyned.
+			
 	         	if (GUI.GetNameOfFocusedControl() == "ChatField")
 	            {                
 	                SendChat(PhotonTargets.All);
 	                lastUnfocusTime = Time.time;
 	                GUI.FocusControl("");
 	               	GUI.UnfocusWindow();
+					inputAreaY = -(Screen.height * 0.4f);
+				
 	            }
 	            else
 	            {
 	                if (lastUnfocusTime < Time.time - 0.1f)
 	                {
 	                    GUI.FocusControl("ChatField");
-					
+						inputAreaY = (Screen.height * 0.4f);
 	                }
 	            }
 	        }		
