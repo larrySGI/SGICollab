@@ -115,14 +115,15 @@ public class GameManagerVik : Photon.MonoBehaviour
         
         object[] objs = new object[1]; // Put our bool data in an object array, to send
         objs[0] = enabledRenderers;
-		
         // Spawn our local player
-		if(prefabName=="Mover")
-			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*5,transform.rotation, 0, objs);		
+		if(prefabName=="Mover"){
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*5,transform.rotation, 0, objs);
+		}
 		if(prefabName=="Jumper")
 			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*2, transform.rotation, 0, objs);
-		if(prefabName=="Builder")
-			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*3, transform.rotation, 0, objs);			
+		if(prefabName=="Builder"){
+			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*3, transform.rotation, 0, objs);
+		}
 		if(prefabName=="Viewer")
 			PhotonNetwork.Instantiate(prefabName, transform.position+transform.right*4, transform.rotation, 0, objs);	
 		if(prefabName=="Spectator")
