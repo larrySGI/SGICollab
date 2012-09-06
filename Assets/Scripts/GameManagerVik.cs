@@ -210,7 +210,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 						GUILayout.Label("Time remaining : " + minutes +":" +seconds );
 					}
 				
-					GUILayout.Label("Current Room :");
+					GUILayout.Label("Current Room :" + gameID);
 					GUILayout.Label("Stage Number :" + Application.loadedLevel);
 					
 					GUILayout.BeginHorizontal();
