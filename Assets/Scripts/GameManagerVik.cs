@@ -48,6 +48,9 @@ public class GameManagerVik : Photon.MonoBehaviour
     {
 		if(!PhotonNetwork.isMasterClient){
 			photonView.RPC("retrieveLevelFromMaster", PhotonTargets.MasterClient);
+			
+		}else{
+			gameID = UserDatabase.getGameID();
 		}
     }
 	
@@ -146,7 +149,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			//Sync game ID
 			if(!syncedGameID){
 				if(PhotonNetwork.isMasterClient){
-					gameID = UserDatabase.getGameID();
+					
 					photonView.RPC("syncGameIDLocally", PhotonTargets.Others, gameID);	
 				}
 				syncedGameID = true;
@@ -192,15 +195,21 @@ public class GameManagerVik : Photon.MonoBehaviour
 			GUILayout.Space(Screen.height * 0.05f);
 			if (GameObject.Find("EndingBoundBox") != null)
 			{
-				GUILayout.BeginHorizontal();
-					GUILayout.Space(Screen.width * 0.05f);
+				GUILayout.Space(Screen.width * 0.05f);
+				GUILayout.BeginVertical();
+			
 					int timeleft = GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft;
 					int minutes = timeleft/60;
 					int seconds = timeleft - (minutes * 60);
 				
 				
 					GUILayout.Label("Time remaining : " + minutes +":" +seconds );
-				GUILayout.EndHorizontal();
+					
+				
+					GUILayout.Label("Current Room :");
+					GUILayout.Label("Stage Number :" + Application.loadedLevel);
+				
+				GUILayout.EndVertical();
 			}
 			
 			GUILayout.BeginHorizontal();			

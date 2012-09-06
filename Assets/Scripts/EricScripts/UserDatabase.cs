@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class UserDatabase : MonoBehaviour {
 	
-	static string url = "http://sgicollab.herokuapp.com/users";
+	static string url = "http://sgicollab1.herokuapp.com/users";
 	public static string token;
 	
 	float lastTime;
@@ -129,10 +129,10 @@ public class UserDatabase : MonoBehaviour {
 		print("Getting game ID...");
 				
 		string level = GameManagerVik.nextLevel.ToString();
-		Debug.Log("level = " + level);
-		string urlconcat ="http://sgicollab.herokuapp.com/game" +
+		
+		string urlconcat ="http://sgicollab1.herokuapp.com/game" +
 							"?auth_token=" + token +
-							"&game[room_name]=" +  PhotonNetwork.room.name +
+							"&game[room_name]=" +  WWW.EscapeURL(PhotonNetwork.room.name) +
 							"&game[level]=" + level;
 		print(urlconcat);
 		var r = new HTTP.Request ("POST", urlconcat);
@@ -145,6 +145,7 @@ public class UserDatabase : MonoBehaviour {
 		
 		if (r.exception != null) {
 			Debug.Log (r.exception.ToString ());
+			return null;
 		} else {
 			Debug.Log(r.response.Text);	
 			
@@ -155,13 +156,12 @@ public class UserDatabase : MonoBehaviour {
 			return r.response.Text;
 		}
 		
-		return null;
 	}
 	
 	public static void verifyGameID(string gameID){
 		print("Setting game ID..." + gameID);
 		
-		string urlconcat ="http://sgicollab.herokuapp.com/add_user_to_game" +
+		string urlconcat ="http://sgicollab1.herokuapp.com/add_user_to_game" +
 							"?game_id=" + gameID +
 							"&auth_token=" + token;
 		
