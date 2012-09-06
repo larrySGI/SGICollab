@@ -147,6 +147,11 @@ public class UserDatabase : MonoBehaviour {
 			Debug.Log (r.exception.ToString ());
 		} else {
 			Debug.Log(r.response.Text);	
+			
+			//Must inform us if there is any errors here
+//			if(r.response.Text == ""){
+//			}
+			
 			return r.response.Text;
 		}
 		

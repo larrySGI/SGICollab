@@ -44,6 +44,11 @@ public class NecroGUI : MonoBehaviour {
 	
 	string[] allRoomsCapacity = new string[20];
 	string joinedRoomName;
+	string loadingMessage = "      Loading..";
+	public static string errorMessage = "     Try again!";
+	public static string message;
+	
+	static double startTime;
 	
 	//Not used yet	
 //	private Vector2 scrollPosition;
@@ -58,7 +63,7 @@ public class NecroGUI : MonoBehaviour {
 		signupWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.2f, Screen.width * 0.6f, Screen.height * 0.8f);
 		lobbyWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.2f, Screen.width * 0.6f, Screen.height * 0.8f);
 		roleSelectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.7f);
-		messageWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.4f, Screen.width * 0.6f, Screen.height * 0.5f);
+		messageWindowRect = new Rect (Screen.width * 0.3f, Screen.height * 0.5f, Screen.width * 0.4f, Screen.height * 0.4f);
 		pauseWindowRect = new Rect (Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f);
 //		print(Screen.width);
 //		print(Screen.height);
@@ -326,7 +331,8 @@ public class NecroGUI : MonoBehaviour {
 	            	PhotonNetwork.JoinRoom(roomName);
 					joinedRoomName = roomName;
 					MainMenuVik.currentMenuState = menuState.roleSelect;
-					Debug.Log("JOINED = " + game.name);
+					Debug.Log("JOINED = " + game.name);						
+					showMessage(loadingMessage);
 				}
 				else{
 					//tell user its full maybe
@@ -335,9 +341,10 @@ public class NecroGUI : MonoBehaviour {
 			}
 		}
 		PhotonNetwork.CreateRoom(roomName, true, true, 4, null , null);
-			Debug.Log("CREATED = " + roomName);
-			joinedRoomName = roomName;
-			MainMenuVik.currentMenuState = menuState.roleSelect;
+		Debug.Log("CREATED = " + roomName);
+		joinedRoomName = roomName;
+		MainMenuVik.currentMenuState = menuState.roleSelect;
+		showMessage(loadingMessage);
 	}
 	
 	string[] updateAllRoomsNames(){
@@ -360,13 +367,13 @@ public class NecroGUI : MonoBehaviour {
 	
 	void drawRoleSelectWindow(int windowID){
 		// use the spike function to add the spikes
-		AddSpikes(lobbyWindowRect.width);		
+		AddSpikes(roleSelectWindowRect.width);		
 		
 		GUILayout.Label(joinedRoomName);
 		GUILayout.Label("Choose a role");
 		GUILayout.Label("", "Divider");
 		GUILayout.Space(15);
-		
+				
 		if(!GameObject.FindWithTag("Builder")){
 			if (GUILayout.Button("Builder")){
 				GetComponent<GameManagerVik>().selectedClass = GameManagerVik.builderPrefabName;
@@ -391,7 +398,7 @@ public class NecroGUI : MonoBehaviour {
       		    GetComponent<GameManagerVik>().StartGame(GameManagerVik.jumperPrefabName);
         	}
 		}
-		
+				
 		GUILayout.BeginHorizontal();
         if (GUILayout.Button("Log out")){
 			Debug.Log("change this to Exit room");
@@ -408,19 +415,35 @@ public class NecroGUI : MonoBehaviour {
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
 	
-	
-	void drawMessageWindowRect(int windowID){
-		GUILayout.Label("Loading..", "CursedText");
+	public static void showMessage(string msg){
+		message = msg;
+		messageWindow = true;
+		startTime = PhotonNetwork.time;
 	}
 	
-//	void asd(string selectedPrefabName){
-//		GetComponent<GameManagerVik>().selectedClass = GameManagerVik.moverPrefabName;
-//		GetComponent<GameManagerVik>().StartGame(GameManagerVik.moverPrefabName);		
-//	}
+	
+	void drawMessageWindowRect(int windowID){
+		// use the spike function to add the spikes
+		AddSpikes(messageWindowRect.width);	
+		
+		GUILayout.Label(message, "CursedText");
+		
+		if(messageWindow && PhotonNetwork.time - startTime < 4){
+			Debug.Log("loading...");
+			Debug.Log("PhotonNetwork.time = " + PhotonNetwork.time);
+			Debug.Log("startTime = " + startTime);
+			return;
+		}
+		else{
+			Debug.Log("loaded!");
+			messageWindow = false;
+		}
+	}
+	
 	
 	void drawPauseWindow(int windowID){
 		// use the spike function to add the spikes
-		AddSpikes(signupWindowRect.width);
+		AddSpikes(pauseWindowRect.width);
 		
 		GUILayout.Label("Menu");
 		GUILayout.Label("", "Divider");
