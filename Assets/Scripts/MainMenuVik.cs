@@ -10,8 +10,8 @@ public class MainMenuVik : Photon.MonoBehaviour
     public static menuState currentMenuState;
     private menuState lastMenuState;
 	private bool endFrame = false;
-	public static bool userTally = false;
-	public static int maxLevelData = 1;
+//	public static bool userTally = false;
+//	public static int maxLevelData = 5;
 		
     public static string roomName = "Room 01";
     public static Vector2 scrollPos = Vector2.zero;

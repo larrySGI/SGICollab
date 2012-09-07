@@ -23,6 +23,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public bool sendAnalytics = true;
 	
 	public int playerCount = 0;
+	public static int maxStageReached = 5;
 	
 	public Texture aTexture;	
 		
@@ -31,7 +32,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	bool syncedGameID;
 	
 	public static double startTime;
-	public static int deathCount, objectsBuilt;
+	public static int deathCount, starsCollected;
 	
 	public GUISkin inGameSkin;
 	
@@ -98,9 +99,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	void OnLevelWasLoaded(int level)  
 	{		
 		//Set tracked variables to default
-		GameManagerVik.deathCount = 0;
-		GameManagerVik.objectsBuilt = 0;
-		GameManagerVik.startTime = PhotonNetwork.time;
+		deathCount = 0;
+		startTime = PhotonNetwork.time;
+		starsCollected = 0;
 	}
 		
     public void StartGame(string prefabName)
@@ -208,6 +209,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				
 					GUILayout.Label("Current Room :");
 					GUILayout.Label("Stage Number :" + Application.loadedLevel);
+					GUILayout.Label("Stars Found :" + starsCollected + "/3");
 				
 				GUILayout.EndVertical();
 			}
