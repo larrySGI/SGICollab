@@ -162,7 +162,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					collabAnalytics.sendAnalytics(this.transform, "blockmake");
 					
 					//Keep track of total objects built
-					GameManagerVik.objectsBuilt++;
+//					GameManagerVik.objectsBuilt++;
 				}
 			}
 			if (Input.GetKeyUp("2") && !menuOn){				
@@ -177,7 +177,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					collabAnalytics.sendAnalytics(this.transform, "plankmake");
 					
 					//Keep track of total objects built
-					GameManagerVik.objectsBuilt++;
+//					GameManagerVik.objectsBuilt++;
 				}
 			}				
 		}

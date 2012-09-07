@@ -72,6 +72,9 @@ public class NecroGUI : MonoBehaviour {
 		pName = PlayerPrefs.GetString("playerName","");
 	}
 	
+	void OnLevelWasLoaded(){
+		message = loadingMessage;
+	}
 	
 	void AddSpikes(float windowWidth)
 	{
@@ -232,7 +235,7 @@ public class NecroGUI : MonoBehaviour {
 				MainMenuVik.email3Input = MainMenuVik.emailInput + "@"+ MainMenuVik.email2Input + ".com";
 				UserDatabase.signUp(MainMenuVik.email3Input, MainMenuVik.nickInput, MainMenuVik.pass1Input);
 				PhotonNetwork.playerName = MainMenuVik.nickInput;
-				MainMenuVik.levelSelected = MainMenuVik.maxLevelData;
+				MainMenuVik.levelSelected = GameManagerVik.maxStageReached;
 				MainMenuVik.currentMenuState = menuState.profile;
 			}
         }	
@@ -264,7 +267,7 @@ public class NecroGUI : MonoBehaviour {
 		
 		//Player's latest stage
 //        GUILayout.Space(Screen.width * 0.1f);
-        GUILayout.Label("Max level reached: " + MainMenuVik.maxLevelData, "ShortLabel");
+        GUILayout.Label("Max level reached: " + GameManagerVik.maxStageReached, "ShortLabel");
         //GUILayout.Space(Screen.width * 0.1f);		
         GUILayout.BeginHorizontal();
 		GUILayout.Label("Select a level");	
@@ -276,8 +279,8 @@ public class NecroGUI : MonoBehaviour {
 		GUILayout.Label("Level " + MainMenuVik.levelSelected.ToString(), "LegendaryText");
 		if(GUILayout.Button(">>")){
 			MainMenuVik.levelSelected++;
-			if(MainMenuVik.levelSelected > MainMenuVik.maxLevelData)
-				MainMenuVik.levelSelected = MainMenuVik.maxLevelData;
+			if(MainMenuVik.levelSelected > GameManagerVik.maxStageReached)
+				MainMenuVik.levelSelected = GameManagerVik.maxStageReached;
 		}
 		GUILayout.EndHorizontal();		
         GUILayout.Space(10);

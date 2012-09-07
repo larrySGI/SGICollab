@@ -17,7 +17,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int thisFrameTime;
 	private int delta;
 	
-	private string statusText = "";
+//	private string statusText = "";
 	private bool started = false;
 	
 	//This boolean tracks whether a player has reached the end.
@@ -36,8 +36,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	[HideInInspector]
 	public  int timeLeft = -1;
 	private int levelEndMode = 0; //default;
+	int clearTime;
 	
 	public GUISkin endGameSkin;
+	
+	public static Hashtable clearLevelScore = new Hashtable();
+	int numberOfPlayersNotUpdated = 3;
 	
 	[RPC]
 	void callReady()
@@ -80,11 +84,13 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		//60 seconds in a minute, assume 30 fps.
 		//timeLeft = levelTimeInMinutes * 60 * 30;	
 		started = false;
+		clearLevelScore.Add("Clear Time", 0);
+		clearLevelScore.Add("Total Deaths", 0);
 	}
 	
 	
 	// Use this for initialization
-	void Start () {
+	void OnLevelWasLoaded () {
 		ReadyCount = 0;
 		isWaitingForNextStage = PlayersHaveReachedEnd = false;
 		
@@ -97,7 +103,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		
 		finalAnalyticsSent = false;
 		
-		statusText = "Press [Spacebar] to Go To Next Stage";
+//		statusText = "Press [Spacebar] to Go To Next Stage";
 				
 		//Now I'll handle it here. 
 		GameManagerVik.setNextLevel(Application.loadedLevel);
@@ -109,8 +115,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			TargetReadyCount = 4;
 		
 		timeLeft = levelTimeInMinutes * 60;
-//		Debug.Log("Running Start");
-				
+		
+		//Initialise hashtable for each level ending scores
+		LevelCompleteGUI.showWindow = false;
+		clearLevelScore["Clear Time"] = 0;
+		clearLevelScore["Total Deaths"] = 0;
 	}
 	
 	// Update is called once per frame
@@ -133,40 +142,44 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			
 		}
 		if (alreadyLoading) return;
-		if (PlayersHaveReachedEnd && ReadyCount >=TargetReadyCount)
-		{
+		if (PlayersHaveReachedEnd){
+			clearLevelScore["Total Deaths"] = GameManagerVik.deathCount;
 			
-			//Now done in a call to GameManagerVik
-			/*
-			nextLevel += 1; 			
-							//last level check
-							if (nextLevel > (Application.levelCount - 1)) 
-								nextLevel = -1;
-							GameManagerVik.nextLevel = nextLevel;
-								Debug.Log("nextLevel updated = "+nextLevel);
-			*/
-			GameManagerVik.checkNextLevel(); //automatic
-			nextLevel = GameManagerVik.nextLevel;
-			
-			
-			
-			
-			alreadyLoading = true;
-							
-							
-					
-				//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
+			if(ReadyCount >=TargetReadyCount)
+			{
+				
+				//Now done in a call to GameManagerVik
+				/*
+				nextLevel += 1; 			
+								//last level check
+								if (nextLevel > (Application.levelCount - 1)) 
+									nextLevel = -1;
+								GameManagerVik.nextLevel = nextLevel;
+									Debug.Log("nextLevel updated = "+nextLevel);
+				*/
+				GameManagerVik.checkNextLevel(); //automatic
+				nextLevel = GameManagerVik.nextLevel;
 				
 				
+				
+				
+				alreadyLoading = true;
+								
+								
+						
+					//		Playtomic.Log.LevelAverageMetric("Time", 0, Time.timeSinceLevelLoad);
 					
-			if (nextLevel > -1)
-			{
-					Application.LoadLevel(nextLevel);
-					//timeLeft = levelTimeInMinutes * 60;
-			}
-			else
-			{
-					PhotonNetwork.LeaveRoom();
+					
+						
+				if (nextLevel > -1)
+				{
+						Application.LoadLevel(nextLevel);
+						//timeLeft = levelTimeInMinutes * 60;
+				}
+				else
+				{
+						PhotonNetwork.LeaveRoom();
+				}
 			}
 		}
 		
@@ -177,12 +190,15 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			//I need to do this here to prevent repeatedly sending an incomplete statement.
 			if (!finalAnalyticsSent)
 			{
-				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
+				clearTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
 			
 				if(PhotonNetwork.isMasterClient)
-					collabAnalytics.sendClearTime((int)GameManagerVik.startTime, "incomplete" );
+					collabAnalytics.sendClearTime(clearTime, "incomplete" );
 	
 				finalAnalyticsSent = true;
+				
+				clearLevelScore["Clear Time"] = "Failed";
+				LevelCompleteGUI.showWindow = true;
 			}
 	
 		}
@@ -190,7 +206,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		if (Input.GetKeyUp(KeyCode.Space) && PlayersHaveReachedEnd)
 		{
 				isWaitingForNextStage = true;
-				statusText = "waiting for next stage";
+				LevelCompleteGUI.statusText = "Waiting for other players";
 
 				photonView.RPC("callReady",PhotonTargets.AllBuffered);			
 		}
@@ -226,8 +242,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
  	   	 if(other.attachedRigidbody.name.Contains("Builder"))
 			{
 				isBuilderAtEnd =true;	
-				int objbuilt = GameManagerVik.objectsBuilt;
-				photonView.RPC("updateObjectsBuilt", PhotonTargets.AllBuffered, objbuilt);
+//				int objbuilt = GameManagerVik.objectsBuilt;
+//				photonView.RPC("updateObjectsBuilt", PhotonTargets.AllBuffered, objbuilt);
 			}
 		
 			if(other.attachedRigidbody.name.Contains("Jumper"))
@@ -248,33 +264,41 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			//this can remain as-is.
 			if (isMoverAtEnd && isViewerAtEnd && isJumperAtEnd && isBuilderAtEnd){
 				PlayersHaveReachedEnd = true;
-				GameManagerVik.startTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
+				clearTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
 				
 				//Send time analytic
 				if(PhotonNetwork.isMasterClient)
-					collabAnalytics.sendClearTime((int)GameManagerVik.startTime, "complete" );
-				//}
+					collabAnalytics.sendClearTime(clearTime, "complete" );
+				
 				//Tally total deaths
 				if(!PhotonNetwork.isMasterClient)
-					photonView.RPC("tallyTotalDeaths", PhotonTargets.MasterClient, GameManagerVik.deathCount);
+					photonView.RPC("tallyScoresFactors", PhotonTargets.MasterClient, GameManagerVik.deathCount);
+				
+				clearLevelScore["Clear Time"] = clearTime + " secs";
+				LevelCompleteGUI.showWindow = true;
 			}
 		}
 	}
 		
-	[RPC]
-	void updateObjectsBuilt(int objBuilt){
-		GameManagerVik.objectsBuilt = objBuilt;			
-	}
+//	[RPC]
+//	void updateObjectsBuilt(int objBuilt){
+//		GameManagerVik.objectsBuilt = objBuilt;			
+//	}
 		
 	[RPC]
-	void tallyTotalDeaths(int deathCount){
+	void tallyScoresFactors(int deathCount, PhotonMessageInfo info){
 		GameManagerVik.deathCount += deathCount;	
-		photonView.RPC("updateTotalDeaths", PhotonTargets.OthersBuffered, GameManagerVik.deathCount);	
+		numberOfPlayersNotUpdated--;
+		
+		if(numberOfPlayersNotUpdated == 0){
+			photonView.RPC("updateTotalScoresFactors", PhotonTargets.AllBuffered, GameManagerVik.deathCount);	
+		}
 	}
 	
 	[RPC]
-	void updateTotalDeaths(int totalDeaths){
-		GameManagerVik.deathCount = totalDeaths;		
+	void updateTotalScoresFactors(int totalDeaths, PhotonMessageInfo info){
+		GameManagerVik.deathCount = totalDeaths;
+		GetComponent<LevelCompleteGUI>().countStarsGrade(timeLeft, GameManagerVik.deathCount, GameManagerVik.starsCollected);
 	}
 	
 	void OnTriggerExit(Collider other) 
@@ -292,33 +316,33 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	
 	void OnGUI()
 	{
-		if (PlayersHaveReachedEnd)
-		{	
-			GUI.skin = endGameSkin;		
-			
-				
-			//Do not send analytics here, onGUI will keep doing so anyway
-			if (timeLeft > 0)	
-			{
-				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), completedTexture, ScaleMode.StretchToFill);
-			}
-			else
-			{
-				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), incompleteTexture, ScaleMode.StretchToFill);
-
-			}
-			
-			//This will be offset to one side to avoid overlapping the chatbox. 
-			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
-			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.2f));			
-	        	GUILayout.Label("Clear Time: " + GameManagerVik.startTime);			
-	        	GUILayout.Label("Deaths: " + GameManagerVik.deathCount);			
-	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
-			GUILayout.EndArea();
-			
-			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 400, Screen.height * 0.1f), statusText);
-				
-		}	
+//		if (PlayersHaveReachedEnd)
+//		{	
+//			GUI.skin = endGameSkin;		
+//			
+//				
+//			//Do not send analytics here, onGUI will keep doing so anyway
+//			if (timeLeft > 0)	
+//			{
+//				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), completedTexture, ScaleMode.StretchToFill);
+//			}
+//			else
+//			{
+//				GUI.DrawTexture(new Rect (Screen.width *0.125f, Screen.height *0.125f, Screen.width * 0.75f, Screen.height * 0.75f), incompleteTexture, ScaleMode.StretchToFill);
+//
+//			}
+//			
+//			//This will be offset to one side to avoid overlapping the chatbox. 
+//			//Stats here. Note: you might want to stop stat collecting for a given stage when a player first reaches the end point.	
+//			GUILayout.BeginArea(new Rect(Screen.width * 0.5f - 100, Screen.height * 0.65f, 200, Screen.height * 0.2f));			
+//	        	GUILayout.Label("Clear Time: " + GameManagerVik.startTime);			
+//	        	GUILayout.Label("Deaths: " + GameManagerVik.deathCount);			
+//	        	GUILayout.Label("Total Objects Built: " + GameManagerVik.objectsBuilt);	
+//			GUILayout.EndArea();
+//			
+//			GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 400, Screen.height * 0.1f), statusText);
+//				
+//		}	
 	
 	}
 

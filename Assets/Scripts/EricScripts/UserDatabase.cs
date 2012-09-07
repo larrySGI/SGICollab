@@ -9,6 +9,7 @@ public class UserDatabase : MonoBehaviour {
 	
 	static string url = "http://sgicollab1.herokuapp.com/users";
 	public static string token;
+	public int adminID = 1;
 	
 	float lastTime;
 	float intervalForUserCheck = 300;
@@ -31,7 +32,7 @@ public class UserDatabase : MonoBehaviour {
 							"&user[email]=" + email + 
 							"&user[password]=" + password + 
 							"&user[password_confirmation]=" + password + 
-							"&user[maxStageReached]=1";
+							"&user[maxStageReached]=5";
 	
 		var r = new HTTP.Request ("POST", url + urlconcat);
 		r.Send ();
@@ -78,18 +79,32 @@ public class UserDatabase : MonoBehaviour {
 			Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
 			 if (json.ContainsKey ("auth_token")) {
 			 	token = json["auth_token"].ToString();
-			 	MainMenuVik.maxLevelData = (int)json["maxStageReached"];
+			 	GameManagerVik.maxStageReached = (int)json["maxStageReached"];
 			}
 		}	
 	}
 	
-	//Just retrieving some data
-//	public static IEnumerator getData(string username, string password, string data){
-//		print("Retrieving data...");
+//	public static void setData(string username, string password, string data){
 //		
-//		var user = ParseClass.Authenticate(username, password);
-//		while(!user.isDone) yield return null;
-//		Debug.Log(user.Get<string>(data));		
+//		string urlconcat = "?user[name]=" + username + 
+//							"&user[password]=" + password +
+//							"&auth_token=" + token +
+//							"&user["+ data +"]=" + data;
+//		
+//		var r = new HTTP.Request ("PUT", url + urlconcat);
+//		r.Send ();
+//		while (!r.isDone) {
+//				if (r.exception != null) {
+//					Debug.Log (r.exception.ToString ());
+//			}
+//		}
+//		
+//		if (r.exception != null) {
+//			Debug.Log (r.exception.ToString ());
+//		} else {
+//			Debug.Log(r.response.Text);
+//			
+//		}
 //	}
 	
 	
@@ -125,7 +140,7 @@ public class UserDatabase : MonoBehaviour {
 	}
 	
 	
-	public static string getGameID(){
+	public string getGameID(){
 		print("Getting game ID...");
 				
 		string level = GameManagerVik.nextLevel.ToString();
@@ -133,7 +148,9 @@ public class UserDatabase : MonoBehaviour {
 		string urlconcat ="http://sgicollab1.herokuapp.com/game" +
 							"?auth_token=" + token +
 							"&game[room_name]=" +  WWW.EscapeURL(PhotonNetwork.room.name) +
-							"&game[level]=" + level;
+							"&game[level]=" + level + 
+							"&game[admin_id]=" + adminID;
+		
 		print(urlconcat);
 		var r = new HTTP.Request ("POST", urlconcat);
 		r.Send ();
