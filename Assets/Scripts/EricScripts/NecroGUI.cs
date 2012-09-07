@@ -50,6 +50,8 @@ public class NecroGUI : MonoBehaviour {
 	
 	static double startTime;
 	
+	private string pName = "";
+	
 	//Not used yet	
 //	private Vector2 scrollPosition;
 //	private float HroizSliderValue = 0.5f;
@@ -66,7 +68,8 @@ public class NecroGUI : MonoBehaviour {
 		messageWindowRect = new Rect (Screen.width * 0.3f, Screen.height * 0.5f, Screen.width * 0.4f, Screen.height * 0.4f);
 		pauseWindowRect = new Rect (Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f);
 //		print(Screen.width);
-//		print(Screen.height);
+//		print(Screen.height)
+		pName = PlayerPrefs.GetString("playerName","");
 	}
 	
 	void OnLevelWasLoaded(){
@@ -146,9 +149,10 @@ public class NecroGUI : MonoBehaviour {
         GUILayout.BeginHorizontal();
 		//Player name input
     	GUILayout.Label("Username", GUILayout.Width(Screen.width * 0.2f));
-        PhotonNetwork.playerName = GUILayout.TextField(PhotonNetwork.playerName);
+        //PhotonNetwork.playerName = GUILayout.TextField(PhotonNetwork.playerName, 30);
+		pName = GUILayout.TextField(pName);
         if (GUI.changed)
-            PlayerPrefs.SetString("playerName", PhotonNetwork.playerName);
+            PlayerPrefs.SetString("playerName", pName);
         GUILayout.EndHorizontal();	
         GUILayout.Space(15);
 	
@@ -168,7 +172,11 @@ public class NecroGUI : MonoBehaviour {
 
         if ((Event.current.type == EventType.KeyDown && Event.current.character == '\n') 
 				|| GUILayout.Button("GO", GUILayout.Width(Screen.width * 0.22f))){
-			UserDatabase.login(PhotonNetwork.playerName, MainMenuVik.pass1Input);
+			PhotonNetwork.playerName = pName;
+//			PlayerPrefs.setString("playerName"
+		//	Debug.Log(
+			
+			UserDatabase.login(pName, MainMenuVik.pass1Input);
 			MainMenuVik.currentMenuState = menuState.profile;
         }
         GUILayout.EndHorizontal();

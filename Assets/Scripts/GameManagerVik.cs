@@ -193,54 +193,56 @@ public class GameManagerVik : Photon.MonoBehaviour
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
+			
 			GUILayout.Space(Screen.height * 0.05f);
-			if (GameObject.Find("EndingBoundBox") != null)
-			{
+			
+			GUILayout.BeginHorizontal();
+				
 				GUILayout.Space(Screen.width * 0.05f);
 				GUILayout.BeginVertical();
 			
-					int timeleft = GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft;
-					int minutes = timeleft/60;
-					int seconds = timeleft - (minutes * 60);
+					if (GameObject.Find("EndingBoundBox") != null)
+					{
+	
+						int timeleft = GameObject.Find("EndingBoundBox").GetComponent<EndingBoxScript>().timeLeft;
+						int minutes = timeleft/60;
+						int seconds = timeleft - (minutes * 60);
 				
 				
-					GUILayout.Label("Time remaining : " + minutes +":" +seconds );
-					
+						GUILayout.Label("Time remaining : " + minutes +":" +seconds );
+					}
 				
-					GUILayout.Label("Current Room :");
+					GUILayout.Label("Current Room :" + gameID);
 					GUILayout.Label("Stage Number :" + Application.loadedLevel);
-					GUILayout.Label("Stars Found :" + starsCollected + "/3");
+					GUILayout.Label("Stars Found :" + starsCollected + "/3");			
+					GUILayout.BeginHorizontal();
 				
-				GUILayout.EndVertical();
-			}
-			
-			GUILayout.BeginHorizontal();			
-				GUILayout.Space(Screen.width * 0.05f);
-				GUILayout.Label("You are now a " + selectedClass);
-	    	
-				if(selectedClass == "Builder")
-				{
-					GUILayout.Space(Screen.width * 0.5f);
-				       
-				    GUILayout.BeginVertical();
-						GUILayout.Label("Block Ammo: " + ThirdPersonControllerNET.blockammo);	
-				   		 GUILayout.Label("Plank Ammo: " + ThirdPersonControllerNET.plankammo);
+						GUILayout.Label("You are now a " + selectedClass);
+						GUILayout.Space(Screen.width * 0.5f);
+				
+						if(selectedClass == "Builder")
+						{
+						       
+						    GUILayout.BeginVertical();
+								GUILayout.Label("Block Ammo: " + ThirdPersonControllerNET.blockammo);	
+						   		GUILayout.Label("Plank Ammo: " + ThirdPersonControllerNET.plankammo);
 				    
-			      	GUILayout.EndVertical();
+					      	GUILayout.EndVertical();
 				
 				   
-				}
+						}
 			
-				if(selectedClass == "Viewer"){
-			        GUILayout.BeginHorizontal();
-						GUILayout.Space(Screen.width * 0.5f);
-						string camIndex = ThirdPersonCameraNET.currCameraIndex.ToString();
-						if(camIndex == "0")
-							camIndex = "Main";
-				        GUILayout.Label("Camera: " + camIndex);			
-			        GUILayout.EndHorizontal();
-				}
-		    GUILayout.EndHorizontal();						
+						if(selectedClass == "Viewer")
+						{
+							string camIndex = ThirdPersonCameraNET.currCameraIndex.ToString();
+							if(camIndex == "0")
+								camIndex = "Main";
+				       		 GUILayout.Label("Camera: " + camIndex);			
+
+						}
+
+				GUILayout.EndHorizontal();	
+			GUILayout.EndVertical();
 			
 		}
     }
