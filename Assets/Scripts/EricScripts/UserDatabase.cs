@@ -9,6 +9,7 @@ public class UserDatabase : MonoBehaviour {
 	
 	static string url = "http://sgicollab1.herokuapp.com/users";
 	public static string token;
+	public int adminID = 1;
 	
 	float lastTime;
 	float intervalForUserCheck = 300;
@@ -139,7 +140,7 @@ public class UserDatabase : MonoBehaviour {
 	}
 	
 	
-	public static string getGameID(){
+	public string getGameID(){
 		print("Getting game ID...");
 				
 		string level = GameManagerVik.nextLevel.ToString();
@@ -148,7 +149,7 @@ public class UserDatabase : MonoBehaviour {
 							"?auth_token=" + token +
 							"&game[room_name]=" +  WWW.EscapeURL(PhotonNetwork.room.name) +
 							"&game[level]=" + level + 
-							"&game[admin_id]=1";
+							"&game[admin_id]=" + adminID;
 		
 		print(urlconcat);
 		var r = new HTTP.Request ("POST", urlconcat);

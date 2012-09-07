@@ -51,7 +51,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 			photonView.RPC("retrieveLevelFromMaster", PhotonTargets.MasterClient);
 			
 		}else{
-			gameID = UserDatabase.getGameID();
+			gameID = GetComponent<UserDatabase>().getGameID();
 		}
     }
 	
