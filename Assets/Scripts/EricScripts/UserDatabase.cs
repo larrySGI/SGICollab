@@ -148,8 +148,8 @@ public class UserDatabase : MonoBehaviour {
 		string urlconcat ="http://sgicollab1.herokuapp.com/game" +
 							"?auth_token=" + token +
 							"&game[room_name]=" +  WWW.EscapeURL(PhotonNetwork.room.name) +
-							"&game[level]=" + level + 
-							"&game[admin_id]=" + adminID;
+							"&game[level]=" + level;// + 
+//							"&game[admin_id]=" + adminID;
 		
 		print(urlconcat);
 		var r = new HTTP.Request ("POST", urlconcat);

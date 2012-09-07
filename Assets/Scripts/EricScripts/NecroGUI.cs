@@ -43,7 +43,7 @@ public class NecroGUI : MonoBehaviour {
 	private int spikeCount;	
 	
 	string[] allRoomsCapacity = new string[20];
-	string joinedRoomName;
+	public static string joinedRoomName;
 	string loadingMessage = "      Loading..";
 	public static string errorMessage = "     Try again!";
 	public static string message;

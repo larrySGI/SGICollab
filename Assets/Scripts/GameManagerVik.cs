@@ -194,6 +194,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
 			}
 			
+			GUILayout.BeginVertical();
 			GUILayout.Space(Screen.height * 0.05f);
 			
 			GUILayout.BeginHorizontal();
@@ -212,7 +213,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 						GUILayout.Label("Time remaining : " + minutes +":" +seconds );
 					}
 				
-					GUILayout.Label("Current Room :" + gameID);
+					GUILayout.Label("Current Room :" + NecroGUI.joinedRoomName);
 					GUILayout.Label("Stage Number :" + Application.loadedLevel);
 					GUILayout.Label("Stars Found :" + starsCollected + "/3");			
 					GUILayout.BeginHorizontal();
@@ -242,6 +243,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 						}
 
 				GUILayout.EndHorizontal();	
+			GUILayout.EndVertical();			
 			GUILayout.EndVertical();
 			
 		}
