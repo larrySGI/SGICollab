@@ -52,7 +52,6 @@ public class MainMenuVik : Photon.MonoBehaviour
 			endFrame = false;
 			StartCoroutine(wait());
 			lastMenuState = currentMenuState;
-			Debug.Log("State changing");
 		}
 		if(!endFrame || currentMenuState == menuState.none)
 			return;
@@ -83,6 +82,5 @@ public class MainMenuVik : Photon.MonoBehaviour
 		NecroGUI.roleSelectWindow = false;
 		NecroGUI.pauseWindow = false;
 		endFrame = true;
-		Debug.Log("all falsed");
 	}
 }

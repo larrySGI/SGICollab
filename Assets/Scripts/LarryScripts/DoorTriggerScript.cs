@@ -280,7 +280,7 @@ public class DoorTriggerScript : Photon.MonoBehaviour {
 		[RPC] 
 	void resetDoors(bool doors)
 	{	
-		Debug.Log("Resetting Doors");
+		//Debug.Log("Resetting Doors");
 		lastTriggered = 3;
 		if (ds1 != null)	
 				ds1.ResetDoor();	

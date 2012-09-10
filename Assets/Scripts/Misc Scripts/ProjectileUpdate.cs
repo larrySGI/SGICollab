@@ -13,12 +13,8 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 	[RPC]
 	void updateMovement (Vector3 newPosition, Quaternion newRotation)
 	{	
-		Debug.Log("updating plank");
-		transform.position = newPosition;
-		
+		transform.position = newPosition;		
 		transform.rotation = newRotation;
-		
-
 	}
 
 	

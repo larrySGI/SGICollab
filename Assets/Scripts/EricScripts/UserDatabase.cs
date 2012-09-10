@@ -26,14 +26,15 @@ public class UserDatabase : MonoBehaviour {
 		}
 	}
 	
-	public static void signUp(string email, string username, string password){
+	public void signUp(string email, string username, string password){
 		print("Signing up...");
 		
 		string urlconcat ="?user[name]=" + username + 
 							"&user[email]=" + email + 
 							"&user[password]=" + password + 
 							"&user[password_confirmation]=" + password + 
-							"&user[maxStageReached]=5";
+							"&user[maxStageReached]=5" + 
+							"&user[admin_id]=" + adminID;
 	
 		var r = new HTTP.Request ("POST", url + urlconcat);
 		r.Send ();

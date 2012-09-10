@@ -226,7 +226,7 @@ public class NecroGUI : MonoBehaviour {
 			}
 			else{	
 				MainMenuVik.email3Input = MainMenuVik.emailInput + "@"+ MainMenuVik.email2Input + ".com";
-				UserDatabase.signUp(MainMenuVik.email3Input, MainMenuVik.nickInput, MainMenuVik.pass1Input);
+				GetComponent<UserDatabase>().signUp(MainMenuVik.email3Input, MainMenuVik.nickInput, MainMenuVik.pass1Input);
 				PhotonNetwork.playerName = MainMenuVik.nickInput;
 				MainMenuVik.levelSelected = GameManagerVik.maxStageReached;
 				MainMenuVik.currentMenuState = menuState.profile;
@@ -428,7 +428,7 @@ public class NecroGUI : MonoBehaviour {
 			return;
 		}
 		else{
-			Debug.Log("loaded!");
+			Debug.Log("Loading message time up!");
 			messageWindow = false;
 		}
 	}
