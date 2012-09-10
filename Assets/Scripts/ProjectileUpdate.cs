@@ -13,7 +13,11 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 	[RPC]
 	void updateMovement (Vector3 newPosition, Quaternion newRotation)
 	{	
-		Debug.Log("updating plank");
+		
+		//Vector3 move = newPosition - lastPosition;
+		//transform.rigidbody.MovePosition(move);
+		
+		
 		transform.position = newPosition;
 		
 		transform.rotation = newRotation;
@@ -71,7 +75,8 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 			}
 		}else{
 			enabled=false;
-			rigidbody.isKinematic =true;
+			rigidbody.isKinematic =false;
+			//rigidbody.AddForce (new Vector3(0,0,0), ForceMode.VelocityChange);
 		}
 		
 	}

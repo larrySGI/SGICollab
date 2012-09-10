@@ -20,8 +20,8 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 	public static int planksToStart=2;
 	private GravityGunState gravityGunState =0;
 	
-	public float triggerHoldRange = 2.0f;
-	public float holdDistance = 1.0f;
+	//public float triggerHoldRange = 2.0f;
+	private float holdDistance = 3.0f;
 	
 	private Rigidbody rigid;
 		// The object we're steering
@@ -188,15 +188,16 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				{
 					    if(Input.GetKeyUp("t") && !menuOn) 
 						{
-									float range = target.transform.localScale.z * triggerHoldRange;
+									//float range = target.transform.localScale.z * triggerHoldRange;
 									//float rad = target.collider.radius;
 									
 					                RaycastHit hit;
-									LayerMask layerMask = 1;
+									//removed layermask, not actually needed
+									//int layerMask = 1 << 8;
 										print ("Searching for pickable objects");
 									//if (Physics.SphereCast(target.transform.position, 0.2f, target.transform.forward, out hit, 2.0f, layerMask)){
 														   		  //origin,          height, direction,       		 hit,	 radius, layer
-									if(Physics.CapsuleCast(target.transform.position,(target.transform.position - target.transform.up),0.2f,target.transform.forward,out hit,2.0f,layerMask)){//distance,								 ,radius
+									if(Physics.CapsuleCast(target.transform.position,(target.transform.position - target.transform.up),0.2f,target.transform.forward,out hit,holdDistance * 2.0f)){//distance,								 ,radius
 					                    if(hit.rigidbody) 
 										{
 											Debug.Log("Picked an object");
@@ -222,7 +223,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 				
 				else if(gravityGunState == GravityGunState.Catch) 
 				{
-						holdDistance =  transform.localScale.z + rigid.transform.localScale.z;
+						//holdDistance =  transform.localScale.z + rigid.transform.localScale.z;
 				
 					    rigid.transform.position = transform.position + transform.forward * holdDistance;
 					    rigid.transform.rotation = transform.rotation;
@@ -249,7 +250,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 						rigid.transform.rotation = transform.rotation;
 					    if(!Input.GetKeyUp("t") && !menuOn)
 					    {
-							if(rigid.name.Contains("pPlatform"))
+							if(rigid.name.Contains("pPlatform")) 
 								rigid.isKinematic = true;
 							else
 							{
