@@ -10,6 +10,7 @@ public class UserDatabase : MonoBehaviour {
 	static string url = "http://sgicollab1.herokuapp.com/users";
 	public static string token;
 	public int adminID = 2;
+	public static string failedResponse = "Failed";
 	
 	float lastTime;
 	float intervalForUserCheck = 300; //seconds
@@ -167,8 +168,9 @@ public class UserDatabase : MonoBehaviour {
 			Debug.Log(r.response.Text);	
 			
 			//Must inform us if there is any errors here
-//			if(r.response.Text == ""){
-//			}
+			if(r.response.Text.Length > 10){				
+				return failedResponse;
+			}
 			
 			return r.response.Text;
 		}
@@ -195,8 +197,9 @@ public class UserDatabase : MonoBehaviour {
 		} else {
 			Debug.Log(r.response.Text);
 			
-			if(r.response.Text == "user not signed in")
-				Application.LoadLevel(0);
+			if(r.response.Text == "user not signed in"){
+				PhotonNetwork.LeaveRoom();
+			}
 		}
 	}
 }

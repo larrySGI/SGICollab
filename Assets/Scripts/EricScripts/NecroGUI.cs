@@ -414,7 +414,7 @@ public class NecroGUI : MonoBehaviour {
 	public static void showMessage(string msg){
 		message = msg;
 		messageWindow = true;
-		startTime = PhotonNetwork.time;
+		startTime = Time.time;
 	}
 	
 	
@@ -424,10 +424,7 @@ public class NecroGUI : MonoBehaviour {
 		
 		GUILayout.Label(message, "CursedText");
 		
-		if(messageWindow && PhotonNetwork.time - startTime < 4){
-			Debug.Log("loading...");
-			Debug.Log("PhotonNetwork.time = " + PhotonNetwork.time);
-			Debug.Log("startTime = " + startTime);
+		if(messageWindow && Time.time - startTime <4){
 			return;
 		}
 		else{

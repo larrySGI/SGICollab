@@ -153,14 +153,7 @@ public class ChatVik : Photon.MonoBehaviour
     {		
         string communication = "[" + info.sender + "]" + text;
 		
-		AddMessage(communication, incomingchatter);
-				
-		using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
-		{
-			AddToChatLog(fs, communication + Environment.NewLine);	
-			fs.Close();
-			fs.Dispose();
-		}
+		AddMessage(communication, incomingchatter);			
     }
 	
 
@@ -255,11 +248,5 @@ public class ChatVik : Photon.MonoBehaviour
 			}		
 		}
 	}
-		
-	private static void AddToChatLog(FileStream fs, string value)
-    {
-        byte[] info = new UTF8Encoding(true).GetBytes(value);
-        fs.Write(info, 0, info.Length);
-    }
 }
 
