@@ -33,9 +33,9 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int TargetReadyCount = 0;
 	
 	public int levelTimeInMinutes = 1;
+	
 	[HideInInspector]
-	public  int timeLeft = -1;
-	private int levelEndMode = 0; //default;
+	public int timeLeft = -1;
 	int clearTime;
 	
 	public GUISkin endGameSkin;
@@ -56,7 +56,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	{
 		//if I have more time left than someone, then someone else's time must be correct. 
 		//if (currTime < timeLeft)
-		Debug.Log("time recieved " + currTime);		
+		Debug.Log("Time received " + currTime);		
 		
 		if (timeLeft > currTime)
 		{
@@ -71,8 +71,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	void SyncOnJoin()
 	{		
 		//send my time left to everyone.
-		Debug.Log("RPC SyncOnJoin called");
-		Debug.Log(currGameManager.selectedClass);
+		//Debug.Log("RPC SyncOnJoin called");
+		Debug.Log(currGameManager.selectedClass + " chosen");
 	//	if (photonView.isMine)
 		photonView.RPC("SyncTimer",PhotonTargets.OthersBuffered, timeLeft);		
 	}

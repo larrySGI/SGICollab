@@ -85,8 +85,6 @@ public class LevelCompleteGUI : MonoBehaviour {
 		GUILayout.EndHorizontal();
 		GUILayout.Label(statusText, "BoldOutlineText");
 		GUILayout.EndArea();
-		
-		//GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 400, Screen.height * 0.1f), statusText);
 	}
 	
 	

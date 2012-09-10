@@ -19,15 +19,6 @@ public class collabAnalytics : MonoBehaviour {
 			
 	public static void sendAnalytics(Transform player, string dataToAnalyse){
 		
-		//blockmake
-		//plankmake
-		//death
-		//buttonpress
-		
-		//jump
-		//Viewer Cam
-		//Move Obj
-		
 		if(sendEnabled){
 			token = UserDatabase.token;
 			level = GameManagerVik.nextLevel.ToString();

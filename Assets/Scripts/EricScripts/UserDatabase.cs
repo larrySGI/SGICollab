@@ -9,10 +9,11 @@ public class UserDatabase : MonoBehaviour {
 	
 	static string url = "http://sgicollab1.herokuapp.com/users";
 	public static string token;
-	public int adminID = 1;
+	public int adminID = 2;
+	public static string failedResponse = "Failed";
 	
 	float lastTime;
-	float intervalForUserCheck = 300;
+	float intervalForUserCheck = 300; //seconds
 	
     void Start() {
 		lastTime = Time.time;
@@ -25,14 +26,15 @@ public class UserDatabase : MonoBehaviour {
 		}
 	}
 	
-	public static void signUp(string email, string username, string password){
+	public void signUp(string email, string username, string password){
 		print("Signing up...");
 		
 		string urlconcat ="?user[name]=" + username + 
 							"&user[email]=" + email + 
 							"&user[password]=" + password + 
 							"&user[password_confirmation]=" + password + 
-							"&user[maxStageReached]=5";
+							"&user[maxStageReached]=5" + 
+							"&user[admin_id]=" + adminID;
 	
 		var r = new HTTP.Request ("POST", url + urlconcat);
 		r.Send ();
@@ -148,8 +150,8 @@ public class UserDatabase : MonoBehaviour {
 		string urlconcat ="http://sgicollab1.herokuapp.com/game" +
 							"?auth_token=" + token +
 							"&game[room_name]=" +  WWW.EscapeURL(PhotonNetwork.room.name) +
-							"&game[level]=" + level;// + 
-//							"&game[admin_id]=" + adminID;
+							"&game[level]=" + level + 
+							"&game[admin_id]=" + adminID;
 		
 		print(urlconcat);
 		var r = new HTTP.Request ("POST", urlconcat);
@@ -167,8 +169,9 @@ public class UserDatabase : MonoBehaviour {
 			Debug.Log(r.response.Text);	
 			
 			//Must inform us if there is any errors here
-//			if(r.response.Text == ""){
-//			}
+			if(r.response.Text.Length > 10){				
+				return failedResponse;
+			}
 			
 			return r.response.Text;
 		}
@@ -195,8 +198,9 @@ public class UserDatabase : MonoBehaviour {
 		} else {
 			Debug.Log(r.response.Text);
 			
-			if(r.response.Text == "user not signed in")
-				Application.LoadLevel(0);
+			if(r.response.Text == "user not signed in"){
+				PhotonNetwork.LeaveRoom();
+			}
 		}
 	}
 }
