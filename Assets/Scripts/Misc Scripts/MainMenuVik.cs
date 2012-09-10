@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-//using System.Net;
-//using System.IO;
 
 public enum menuState {none, splash, login, signup, profile, roleSelect};
 
@@ -10,8 +8,6 @@ public class MainMenuVik : Photon.MonoBehaviour
     public static menuState currentMenuState;
     private menuState lastMenuState;
 	private bool endFrame = false;
-//	public static bool userTally = false;
-//	public static int maxLevelData = 5;
 		
     public static string roomName = "Room 01";
     public static Vector2 scrollPos = Vector2.zero;
@@ -21,16 +17,10 @@ public class MainMenuVik : Photon.MonoBehaviour
 	public static string nickInput = "";
 	public static string pass1Input = "";
 	public static string pass2Input = "";
-	public static int levelSelected = 1; //awake should give me level 1 from the beginning
+	public static int levelSelected = 1;
 	
     void Awake()
     {
-		//this will keep the code object from being destroyed
-		
- 		// added after push
-        //PhotonNetwork.logLevel = NetworkLogLevel.Full;
-		Playtomic.Initialize(428042, "077e33f2d4704abd", "15d6d5a5dd864d97a38851a7541448");
-		Playtomic.Log.View();
         //Connect to the main photon server. This is the only IP and port we ever need to set(!)
         if (!PhotonNetwork.connected)
             PhotonNetwork.ConnectUsingSettings("v1.0"); // version of the game/demo. used to separate older clients from newer ones (e.g. if incompatible)
@@ -56,8 +46,6 @@ public class MainMenuVik : Photon.MonoBehaviour
 		else
 			NecroGUI.connectWindow = false;
 				
-//        if (PhotonNetwork.room != null)
-//            return; //Only when we're not in a Room
 		
 		//Stop redrawing GUI if state is going to change
 		if(lastMenuState != currentMenuState){

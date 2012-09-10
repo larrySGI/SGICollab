@@ -152,7 +152,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			if (Input.GetKeyUp("1") && !menuOn){				
 				if(blockammo>0){
 					//Creating object
-					Playtomic.Log.LevelCounterMetric("BuildBlock", level_number);
 					var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
 					builtBlock.tag = "PlacedBlock";
 				
@@ -167,7 +166,6 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 			if (Input.GetKeyUp("2") && !menuOn){				
 				if(plankammo>0){
-					Playtomic.Log.LevelCounterMetric("BuildPlank", level_number);
 					var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z * 2, transform.rotation, 0);
 					builtPlatform.tag = "PlacedPlatform";
 				

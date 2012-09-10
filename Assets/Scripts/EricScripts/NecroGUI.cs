@@ -51,13 +51,7 @@ public class NecroGUI : MonoBehaviour {
 	static double startTime;
 	
 	private string pName = "";
-	
-	//Not used yet	
-//	private Vector2 scrollPosition;
-//	private float HroizSliderValue = 0.5f;
-//	private float VertSliderValue = 0.5f;
-//	private bool ToggleBTN = false;
-	
+		
 	
 	void Awake(){
 		connectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.5f, Screen.width * 0.6f, Screen.height * 0.5f);
@@ -174,7 +168,6 @@ public class NecroGUI : MonoBehaviour {
 				|| GUILayout.Button("GO", GUILayout.Width(Screen.width * 0.22f))){
 			PhotonNetwork.playerName = pName;
 //			PlayerPrefs.setString("playerName"
-		//	Debug.Log(
 			
 			UserDatabase.login(pName, MainMenuVik.pass1Input);
 			MainMenuVik.currentMenuState = menuState.profile;
@@ -326,15 +319,7 @@ public class NecroGUI : MonoBehaviour {
 	}
 	
 	
-	void attemptEnterRoom(string roomName){
-		
-		Playtomic.Log.Play();
-//		double startTime = PhotonNetwork.time;
-//		int randomDelay = Random.Range(0, 4);
-//		randomDelay *= 4;
-//		while(PhotonNetwork.time - startTime < randomDelay)
-//			Debug.Log("Delaying..");
-		
+	void attemptEnterRoom(string roomName){		
         foreach (RoomInfo game in PhotonNetwork.GetRoomList())
         {
 			if(game.name == roomName){
@@ -501,11 +486,6 @@ public class NecroGUI : MonoBehaviour {
 			messageWindowRect = GUI.Window (5, messageWindowRect, drawMessageWindowRect, "");
 		
 		if (pauseWindow)
-			pauseWindowRect = GUI.Window (6, pauseWindowRect, drawPauseWindow, "");
-		
-//			//now adjust to the group. (0,0) is the topleft corner of the group.
-//			GUI.BeginGroup (new Rect (0,0,100,100));
-//			// End the group we started above. This is very important to remember!
-//			GUI.EndGroup ();
+			pauseWindowRect = GUI.Window (6, pauseWindowRect, drawPauseWindow, "");		
 	}
 }

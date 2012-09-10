@@ -8,7 +8,6 @@ public class InstructionScript : Photon.MonoBehaviour {
 	private float instructionScreenHeight;
 	
 	void OnTriggerEnter(Collider other) {
-		print("on trigger enter");
 		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
 		{
 			showInstruction=true;//show instruction

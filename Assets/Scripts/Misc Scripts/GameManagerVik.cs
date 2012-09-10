@@ -2,20 +2,12 @@ using UnityEngine;
 using System.Collections;
 
 public class GameManagerVik : Photon.MonoBehaviour
-{
-	
-	//added by larry
-	//added by hh
-    // this is a object name (must be in any Resources folder) of the prefab to spawn as player avatar.
-    // read the documentation for info how to spawn dynamically loaded game objects at runtime (not using Resources folders)
-//	private bool menuOn = false;
-	
+{	
     public static string playerPrefabName = "Charprefab";
 	public static string builderPrefabName = "Builder";
 	public static string jumperPrefabName = "Jumper";
 	public static string moverPrefabName = "Mover";
 	public static string viewerPrefabName = "Viewer";
-	public string spectatorPrefabName = "Spectator";
     public string selectedClass;
 	
 	public bool gameStarted = false;	

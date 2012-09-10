@@ -9,10 +9,10 @@ public class UserDatabase : MonoBehaviour {
 	
 	static string url = "http://sgicollab1.herokuapp.com/users";
 	public static string token;
-	public int adminID = 1;
+	public int adminID = 2;
 	
 	float lastTime;
-	float intervalForUserCheck = 300;
+	float intervalForUserCheck = 300; //seconds
 	
     void Start() {
 		lastTime = Time.time;
@@ -148,8 +148,8 @@ public class UserDatabase : MonoBehaviour {
 		string urlconcat ="http://sgicollab1.herokuapp.com/game" +
 							"?auth_token=" + token +
 							"&game[room_name]=" +  WWW.EscapeURL(PhotonNetwork.room.name) +
-							"&game[level]=" + level;// + 
-//							"&game[admin_id]=" + adminID;
+							"&game[level]=" + level + 
+							"&game[admin_id]=" + adminID;
 		
 		print(urlconcat);
 		var r = new HTTP.Request ("POST", urlconcat);
