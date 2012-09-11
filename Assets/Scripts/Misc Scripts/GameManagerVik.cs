@@ -35,6 +35,9 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	void OnJoinedRoom()
     {
+		Debug.Log("on joined room");
+		photonView.RPC("checkAccountValidity", PhotonTargets.AllBuffered);	
+		
 		if(!PhotonNetwork.isMasterClient){
 			photonView.RPC("retrieveLevelFromMaster", PhotonTargets.MasterClient);			
 		}else{
@@ -42,13 +45,15 @@ public class GameManagerVik : Photon.MonoBehaviour
 			if(gameID == UserDatabase.failedResponse)
 				PhotonNetwork.LeaveRoom();
 		}
+		
+		
     }
 	
     
     IEnumerator OnLeftRoom()
     {
         //Easy way to reset the level: Otherwise we'd manually reset the camera
-
+		
         //Wait untill Photon is properly disconnected (empty room, and connected back to main server)
         while(PhotonNetwork.room!=null || PhotonNetwork.connected==false)
             yield return 0;
@@ -68,9 +73,14 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
 	[RPC]
 	void retrieveLevelFromMaster( PhotonMessageInfo info){
-		photonView.RPC("syncLevelLocally", PhotonTargets.Others, nextLevel);	
+		photonView.RPC("syncLevelLocally",info.sender, nextLevel);	
 	}
-	
+	[RPC]
+	void checkAccountValidity(PhotonMessageInfo info){
+		Debug.Log("checking validity...");
+		StartCoroutine(UserDatabase.verifyUser());
+		
+	}
 	[RPC]
 	void syncLevelLocally(int levelIndex, PhotonMessageInfo info){
 		nextLevel = levelIndex;
