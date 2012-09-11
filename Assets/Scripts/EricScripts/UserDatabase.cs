@@ -110,7 +110,7 @@ public class UserDatabase : MonoBehaviour {
 //	}
 	
 	
-	IEnumerator verifyUser(){
+	public static IEnumerator verifyUser(){
 		print("Verifying...");
 				
 		string urlconcat ="/signedin" +
@@ -129,10 +129,11 @@ public class UserDatabase : MonoBehaviour {
 		} else {
 			Debug.Log(r.response.Text);	
 			
-			if(r.response.Text == "user not signed in")
+			if(r.response.Text == "not signed in")
 			{
 				//destroy the code object here! Otherwise when we go back to main we'll actually *duplicate* it, which is what we don't want because
 				//it messes up the main menu.
+				PhotonNetwork.LeaveRoom();
 				Destroy(GameObject.Find("Code"));
 				Application.LoadLevel(0);
 			}
