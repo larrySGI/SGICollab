@@ -20,18 +20,21 @@ public class GemPickupScript : MonoBehaviour {
 				other.tag == "Viewer" ||
 					other.tag == "Jumper"){
 			
-			
+			bool toDestroy = false;
 			if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine){
-				if(collabAnalytics.sendAnalytics(other.transform, "gemcollect", true)){		
+				if(collabAnalytics.sendAnalytics(other.transform, "gemcollect", true)){
+					toDestroy = true;
+				}
+			}
+			
+			if(toDestroy){	
 					if(!addedGem){
 						GameManagerVik.gemsCollected++;
 						addedGem = true;
 					}
 					
-					PhotonNetwork.Destroy(this.gameObject);					
-				}
-			}
-					
+					PhotonNetwork.Destroy(this.gameObject);	
+			}					
 		}
 	}
 }
