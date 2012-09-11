@@ -210,6 +210,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 												{
 													rigid.gameObject.GetComponent<BoxUpdate>().setCarry(true);
 												}
+												if (rigid.gameObject.GetComponent<ProjectileUpdate>())
+												{
+													rigid.gameObject.GetComponent<ProjectileUpdate>().enabled = true;
+											
+												}
 												gravityGunState = GravityGunState.Catch;
 											}
 											else
@@ -249,7 +254,11 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					    if(!Input.GetKeyUp("t") && !menuOn)
 					    {
 							if(rigid.name.Contains("pPlatform")) 
-								rigid.isKinematic = true;
+							{
+							//	rigid.isKinematic = true;
+								rigid.gameObject.GetComponent<ProjectileUpdate>().enabled = false;
+							
+							}
 							else
 							{
 								if (rigid.gameObject.GetComponent<BoxUpdate>())

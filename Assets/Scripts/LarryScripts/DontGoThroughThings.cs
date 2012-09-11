@@ -36,7 +36,9 @@ public class DontGoThroughThings : MonoBehaviour
  
 	      //check for obstructions we might have missed 
 	      if (Physics.Raycast(previousPosition, movementThisStep, out hitInfo, movementMagnitude, layerMask.value)) 
+		  {			
 	         myRigidbody.position = hitInfo.point - (movementThisStep/movementMagnitude)*partialExtent; 
+		  }
 	   } 
  
 	   previousPosition = myRigidbody.position; 
