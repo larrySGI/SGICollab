@@ -154,12 +154,24 @@ public class GameManagerVik : Photon.MonoBehaviour
 		
 		if(GameObject.FindWithTag("Builder"))
 			builderConnected = true;
+		else
+			builderConnected = false;
+		
 		if(GameObject.FindWithTag("Mover"))
 			moverConnected = true;
+		else
+			moverConnected = false;
+		
 		if(GameObject.FindWithTag("Viewer"))
 			viewerConnected = true;
+		else
+			viewerConnected = false;
+		
 		if(GameObject.FindWithTag("Jumper"))
 			jumperConnected = true;
+		else
+			jumperConnected = false;
+		
 		
 		if (!builderConnected || !moverConnected || 
 				!viewerConnected || !jumperConnected)
