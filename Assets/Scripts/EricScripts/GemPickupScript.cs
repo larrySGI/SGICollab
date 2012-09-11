@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class GemPickupScript : MonoBehaviour {
-
+	private bool addedGem = false;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -19,12 +20,16 @@ public class GemPickupScript : MonoBehaviour {
 				other.tag == "Viewer" ||
 					other.tag == "Jumper"){
 			
-			GameManagerVik.gemsCollected++;
-			
-			if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
-				collabAnalytics.sendAnalytics(other.transform, "gemcollect");
-			
-			Destroy(this.gameObject);
+			if(!addedGem){
+				GameManagerVik.gemsCollected++;
+				addedGem = true;
+			}
+			if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine){
+				if(collabAnalytics.sendAnalytics(other.transform, "gemcollect", true)){				
+					Destroy(this.gameObject);					
+				}
+			}
+					
 		}
 	}
 }
