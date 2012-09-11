@@ -47,7 +47,7 @@ public class DeathZone : Photon.MonoBehaviour {
 				}
 				//Send analytics of death info
 				if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine){
-					collabAnalytics.sendAnalytics(this.transform, "death");
+					collabAnalytics.sendAnalytics(this.transform, "death", true);
 				
 				//Keep track of death count
 				GameManagerVik.deathCount++;

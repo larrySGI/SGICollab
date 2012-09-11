@@ -17,7 +17,7 @@ public class collabAnalytics : MonoBehaviour {
 	
 	}
 			
-	public static void sendAnalytics(Transform player, string dataToAnalyse){
+	public static bool sendAnalytics(Transform player, string dataToAnalyse, bool reliable){
 		
 		if(sendEnabled){
 			token = UserDatabase.token;
@@ -36,12 +36,28 @@ public class collabAnalytics : MonoBehaviour {
 								"&auth_token=" + token;
 			
 			var r = new HTTP.Request ("POST", url + urlconcat);
-			r.Send ();		
-			Debug.Log("Analytics sent online.");
+			r.Send ();
+			if(reliable){
+				while (!r.isDone) {
+						if (r.exception != null) {
+							Debug.Log (r.exception.ToString ());
+					}
+				}
+				
+				if (r.exception != null) {
+					Debug.Log (r.exception.ToString ());
+				} else {
+					Debug.Log(r.response.Text);	
+					Debug.Log("Analytics sent online.");
+					return true;
+				}
+			}
 		}
+		
+		return false;
 	}
 	
-	public static void sendScoreFactorData(int clearTime, string completeStatus, int starsGrade){
+	public static bool sendScoreFactorData(int clearTime, string completeStatus, int starsGrade){
 		if(sendEnabled){
 			level = GameManagerVik.nextLevel.ToString();
 			token = UserDatabase.token;
@@ -56,8 +72,22 @@ public class collabAnalytics : MonoBehaviour {
 								"&game[stars]=" + starsGrade;
 											
 			var r = new HTTP.Request ("PUT", url + urlconcat);
-			r.Send ();		
-			Debug.Log("Clear time analytics sent online.");
+			r.Send ();	
+			while (!r.isDone) {
+					if (r.exception != null) {
+						Debug.Log (r.exception.ToString ());
+				}
+			}
+			
+			if (r.exception != null) {
+				Debug.Log (r.exception.ToString ());
+			} else {
+				Debug.Log(r.response.Text);	
+				Debug.Log("Clear time analytics sent online.");
+				return true;
+			}
 		}
+		return false;
 	}
+	
 }

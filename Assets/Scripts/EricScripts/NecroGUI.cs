@@ -367,41 +367,36 @@ public class NecroGUI : MonoBehaviour {
 		GUILayout.Label("", "Divider");
 		GUILayout.Space(15);
 				
-		if(!GameObject.FindWithTag("Builder")){
+		if(!GameObject.FindWithTag("Builder")){			
 			if (GUILayout.Button("Builder")){
 				GetComponent<GameManagerVik>().selectedClass = GameManagerVik.builderPrefabName;
        		 	GetComponent<GameManagerVik>().StartGame(GameManagerVik.builderPrefabName);
         	}
 		}
-		else
-			GameManagerVik.builderConnected = true;
 		
 		if(!GameObject.FindWithTag("Viewer")){
+			
 			if (GUILayout.Button("Viewer")){
 				GetComponent<GameManagerVik>().selectedClass = GameManagerVik.viewerPrefabName;
  				GetComponent<GameManagerVik>().StartGame(GameManagerVik.viewerPrefabName);
     	    }
 		}
-		else
-			GameManagerVik.viewerConnected = true;
 		
 		if(!GameObject.FindWithTag("Mover")){
+			
 			if (GUILayout.Button("Mover")){
 				GetComponent<GameManagerVik>().selectedClass = GameManagerVik.moverPrefabName;
  				GetComponent<GameManagerVik>().StartGame(GameManagerVik.moverPrefabName);
 			}
 		}
-		else
-			GameManagerVik.moverConnected = true;
 		
 		if(!GameObject.FindWithTag("Jumper")){
+			
 			if (GUILayout.Button("Jumper")){
 				GetComponent<GameManagerVik>().selectedClass = GameManagerVik.jumperPrefabName;
       		    GetComponent<GameManagerVik>().StartGame(GameManagerVik.jumperPrefabName);
         	}
 		}
-		else
-			GameManagerVik.jumperConnected = true;
 		
 				
 		GUILayout.BeginHorizontal();

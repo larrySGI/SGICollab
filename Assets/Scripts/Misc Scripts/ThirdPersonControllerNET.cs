@@ -155,13 +155,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					var builtBlock = PhotonNetwork.Instantiate("pBlock", transform.position + transform.forward, transform.rotation, 0);
 					builtBlock.tag = "PlacedBlock";
 				
-					blockammo--;
-				
-					//Send analytics
-					collabAnalytics.sendAnalytics(this.transform, "blockmake");
-					
-					//Keep track of total objects built
-//					GameManagerVik.objectsBuilt++;
+					blockammo--;				
 				}
 			}
 			if (Input.GetKeyUp("2") && !menuOn){				
@@ -169,13 +163,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 					var builtPlatform = PhotonNetwork.Instantiate("pPlatform", transform.position + transform.forward * transform.localScale.z * 2, transform.rotation, 0);
 					builtPlatform.tag = "PlacedPlatform";
 				
-					plankammo--;
-					
-					//Send analytics
-					collabAnalytics.sendAnalytics(this.transform, "plankmake");
-					
-					//Keep track of total objects built
-//					GameManagerVik.objectsBuilt++;
+					plankammo--;					
 				}
 			}				
 		}
@@ -409,7 +397,7 @@ public class ThirdPersonControllerNET : Photon.MonoBehaviour
 			}
 		
 			//Send analytics
-			collabAnalytics.sendAnalytics(this.transform, "death");
+			collabAnalytics.sendAnalytics(this.transform, "death", true);
 			
 			//Keep track of death count
 			GameManagerVik.deathCount++;	

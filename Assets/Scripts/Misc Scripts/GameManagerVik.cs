@@ -152,11 +152,21 @@ public class GameManagerVik : Photon.MonoBehaviour
 	{
 		if (level_tester_mode) return;
 		
-		if (GameObject.FindWithTag("Viewer") && 
-			GameObject.FindWithTag("Mover") &&
-			GameObject.FindWithTag("Builder") &&
-			GameObject.FindWithTag("Jumper")){
+		if(GameObject.FindWithTag("Builder"))
+			builderConnected = true;
+		if(GameObject.FindWithTag("Mover"))
+			moverConnected = true;
+		if(GameObject.FindWithTag("Viewer"))
+			viewerConnected = true;
+		if(GameObject.FindWithTag("Jumper"))
+			jumperConnected = true;
+		
+		if (!builderConnected || !moverConnected || 
+				!viewerConnected || !jumperConnected)
 			
+			timeControl();
+		
+		else{			
 			//Sync game ID
 			if(!syncedGameID){
 				if(PhotonNetwork.isMasterClient){
@@ -180,14 +190,15 @@ public class GameManagerVik : Photon.MonoBehaviour
 			else
 				Time.timeScale = 1;
 		}
-		else{
-			Time.timeScale = 0;
-			if(MainMenuVik.currentMenuState != menuState.none )
-				Time.timeScale = 1;
-			return; //premature return on scale 0. 
-		}
 	}
-
+	
+	void timeControl(){
+		Time.timeScale = 0;
+		if(MainMenuVik.currentMenuState != menuState.none )
+			Time.timeScale = 1; //premature return on scale 0. 
+	}
+	
+	
 	public bool isPaused()
 	{
 		return (Time.timeScale == 0);	

@@ -44,9 +44,12 @@ public class LevelCompleteGUI : MonoBehaviour {
 		Debug.Log("starsGrade = " + starsGrade);
 		
 		//Send score analytic
-		if(PhotonNetwork.isMasterClient)
-			collabAnalytics.sendScoreFactorData(EndingBoxScript.clearTime, EndingBoxScript.completeStatus, starsGrade);
-		
+		if(PhotonNetwork.isMasterClient){
+			bool analyticsSent=false;
+			while(!analyticsSent){
+				analyticsSent = collabAnalytics.sendScoreFactorData(EndingBoxScript.clearTime, EndingBoxScript.completeStatus, starsGrade);
+			}
+		}
 		showStars = true;
 	}
 	
