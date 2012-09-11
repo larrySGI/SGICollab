@@ -12,7 +12,7 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 	// Use this for initialization
 	[RPC]
 	void updateMovement (Vector3 newPosition, Quaternion newRotation)
-	{	
+	{			
 		transform.position = newPosition;		
 		transform.rotation = newRotation;
 	}
@@ -67,7 +67,8 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 			}
 		}else{
 			enabled=false;
-			rigidbody.isKinematic =true;
+			rigidbody.isKinematic =false;
+			//rigidbody.AddForce (new Vector3(0,0,0), ForceMode.VelocityChange);
 		}
 		
 	}
