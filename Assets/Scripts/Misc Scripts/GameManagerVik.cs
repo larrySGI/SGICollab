@@ -204,6 +204,8 @@ public class GameManagerVik : Photon.MonoBehaviour
 			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
+				
+				return;
 			}
 			
 			GUILayout.BeginVertical();
