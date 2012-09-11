@@ -44,7 +44,7 @@ public class NecroGUI : MonoBehaviour {
 	
 	string[] allRoomsCapacity = new string[20];
 	public static string joinedRoomName;
-	string loadingMessage = "        Loading..";
+	string loadingMessage = "      	     Loading..";
 	public static string errorMessage = "     Try again!";
 	public static string message;
 	
