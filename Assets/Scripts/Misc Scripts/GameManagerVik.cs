@@ -13,6 +13,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	public bool gameStarted = false;	
 	public bool level_tester_mode = false;
 	public bool sendAnalytics = true;
+	public static bool builderConnected, moverConnected, viewerConnected, jumperConnected;
 	
 	public int playerCount = 0;
 	public static int maxStageReached = 5;
@@ -204,6 +205,14 @@ public class GameManagerVik : Photon.MonoBehaviour
 			if(Time.timeScale==0 && !level_tester_mode)
 			{
 				GUI.DrawTexture(new Rect (0, 0, Screen.width, Screen.height), aTexture, ScaleMode.StretchToFill);
+				if(!builderConnected)
+					GUILayout.Label("Builder not connected!");
+				if(!moverConnected)
+					GUILayout.Label("Mover not connected!");
+				if(!viewerConnected)
+					GUILayout.Label("Viewer not connected!");
+				if(!jumperConnected)
+					GUILayout.Label("Jumper not connected!");
 				
 				return;
 			}
