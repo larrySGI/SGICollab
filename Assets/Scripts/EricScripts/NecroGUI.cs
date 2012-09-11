@@ -44,11 +44,12 @@ public class NecroGUI : MonoBehaviour {
 	
 	string[] allRoomsCapacity = new string[20];
 	public static string joinedRoomName;
-	string loadingMessage = "      Loading..";
+	string loadingMessage = "        Loading..";
 	public static string errorMessage = "     Try again!";
 	public static string message;
 	
 	static double startTime;
+	static int timeToDisplayMessage = 2;
 	
 	private string pName = "";
 		
@@ -59,7 +60,7 @@ public class NecroGUI : MonoBehaviour {
 		signupWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.2f, Screen.width * 0.6f, Screen.height * 0.8f);
 		lobbyWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.2f, Screen.width * 0.6f, Screen.height * 0.8f);
 		roleSelectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.3f, Screen.width * 0.6f, Screen.height * 0.7f);
-		messageWindowRect = new Rect (Screen.width * 0.3f, Screen.height * 0.5f, Screen.width * 0.4f, Screen.height * 0.4f);
+		messageWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.5f, Screen.width * 0.6f, Screen.height * 0.4f);
 		pauseWindowRect = new Rect (Screen.width * 0.25f, Screen.height * 0.4f, Screen.width * 0.5f, Screen.height * 0.5f);
 //		print(Screen.width);
 //		print(Screen.height)
@@ -329,7 +330,7 @@ public class NecroGUI : MonoBehaviour {
 					joinedRoomName = roomName;
 					MainMenuVik.currentMenuState = menuState.roleSelect;
 					Debug.Log("JOINED = " + game.name);						
-					showMessage(loadingMessage);
+					showMessage(loadingMessage, 3);
 				}
 				else{
 					//tell user its full maybe
@@ -341,7 +342,7 @@ public class NecroGUI : MonoBehaviour {
 		Debug.Log("CREATED = " + roomName);
 		joinedRoomName = roomName;
 		MainMenuVik.currentMenuState = menuState.roleSelect;				
-		showMessage(loadingMessage);
+		showMessage(loadingMessage, 3);
 	}
 	
 	string[] updateAllRoomsNames(){
@@ -419,10 +420,11 @@ public class NecroGUI : MonoBehaviour {
 		GUI.DragWindow (new Rect (0,0,10000,10000));
 	}
 	
-	public static void showMessage(string msg){
+	public static void showMessage(string msg, int timeToDisplay){
 		message = msg;
 		messageWindow = true;
 		startTime = Time.time;
+		timeToDisplayMessage = timeToDisplay;
 	}
 	
 	
@@ -432,7 +434,7 @@ public class NecroGUI : MonoBehaviour {
 		
 		GUILayout.Label(message, "CursedText");
 		
-		if(messageWindow && Time.time - startTime <4){
+		if(messageWindow && Time.time - startTime < timeToDisplayMessage){
 			return;
 		}
 		else{
