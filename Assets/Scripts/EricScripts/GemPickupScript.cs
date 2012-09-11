@@ -33,7 +33,7 @@ public class GemPickupScript : MonoBehaviour {
 						addedGem = true;
 					}
 					
-					PhotonNetwork.Destroy(this.gameObject);	
+					GameObject.Destroy(this.gameObject);	
 			}					
 		}
 	}
