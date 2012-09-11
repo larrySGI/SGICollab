@@ -66,6 +66,10 @@ public class NecroGUI : MonoBehaviour {
 		pName = PlayerPrefs.GetString("playerName","");
 	}
 	
+	void OnLevelWasLoaded(){
+		message = loadingMessage;
+		messageWindow = false;
+	}
 	
 	void AddSpikes(float windowWidth)
 	{
@@ -433,7 +437,6 @@ public class NecroGUI : MonoBehaviour {
 		}
 		else{
 			Debug.Log("Loading message time up!");
-			message = loadingMessage;
 			messageWindow = false;
 		}
 	}
