@@ -78,7 +78,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	[RPC]
 	void checkAccountValidity(PhotonMessageInfo info){
 		Debug.Log("checking validity...");
-		StartCoroutine(UserDatabase.verifyUser());
+		StartCoroutine(UserDatabase.verifyUser()) ;
 		
 	}
 	[RPC]

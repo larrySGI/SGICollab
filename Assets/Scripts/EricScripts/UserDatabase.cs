@@ -58,7 +58,7 @@ public class UserDatabase : MonoBehaviour {
 	}
 	
 	//User log in
-	public static void login(string username, string password){
+	public static bool login(string username, string password){
 		print("Logging in...");
 				
 		string urlconcat ="/sign_in" + 
@@ -70,11 +70,13 @@ public class UserDatabase : MonoBehaviour {
 		while (!r.isDone) {
 				if (r.exception != null) {
 					Debug.Log (r.exception.ToString ());
+				return false;
 			}
 		}
 		
 		if (r.exception != null) {
 			Debug.Log (r.exception.ToString ());
+			return false;
 		} else {
 			Debug.Log(r.response.Text);	
 			
@@ -82,6 +84,9 @@ public class UserDatabase : MonoBehaviour {
 			 if (json.ContainsKey ("auth_token")) {
 			 	token = json["auth_token"].ToString();
 			 	GameManagerVik.maxStageReached = (int)json["maxStageReached"];
+				return true;
+			}else{
+				return false;
 			}
 		}	
 	}

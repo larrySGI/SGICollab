@@ -166,7 +166,7 @@ public class NecroGUI : MonoBehaviour {
 			PhotonNetwork.playerName = pName;
 //			PlayerPrefs.setString("playerName"
 			
-			UserDatabase.login(pName, MainMenuVik.pass1Input);
+			if(UserDatabase.login(pName, MainMenuVik.pass1Input))
 			MainMenuVik.currentMenuState = menuState.profile;
         }
         GUILayout.EndHorizontal();
