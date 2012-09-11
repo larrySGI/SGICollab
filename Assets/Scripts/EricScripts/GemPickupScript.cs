@@ -21,7 +21,7 @@ public class GemPickupScript : MonoBehaviour {
 			
 			GameManagerVik.gemsCollected++;
 			
-			if(PhotonNetwork.isMasterClient)
+			if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)
 				collabAnalytics.sendAnalytics(other.transform, "gemcollect");
 			
 			Destroy(this.gameObject);

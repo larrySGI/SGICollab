@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Collections;
 
 public class MusicScript : MonoBehaviour {
-
+	public bool mute;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -13,9 +14,11 @@ public class MusicScript : MonoBehaviour {
 	
 	}
 	
-	void OnLevelWasLoaded(){		
-		if(audio.isPlaying)
-			audio.Stop();
-		audio.Play();
+	void OnLevelWasLoaded(){
+		if(!mute){
+			if(audio.isPlaying)
+				audio.Stop();
+			audio.Play();
+		}
 	}
 }
