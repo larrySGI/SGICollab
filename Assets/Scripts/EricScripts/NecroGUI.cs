@@ -11,7 +11,7 @@ public class NecroGUI : MonoBehaviour {
 	public static bool signupWindow;
 	public static bool lobbyWindow;
 	public static bool roleSelectWindow;
-	public static bool messageWindow;
+	public static bool messageWindow = false;
 	public static bool pauseWindow;
 	
 	//Predetermined window sizes
@@ -43,7 +43,7 @@ public class NecroGUI : MonoBehaviour {
 	private int spikeCount;	
 	
 	string[] allRoomsCapacity = new string[20];
-	string joinedRoomName;
+	public static string joinedRoomName;
 	string loadingMessage = "      Loading..";
 	public static string errorMessage = "     Try again!";
 	public static string message;
@@ -51,13 +51,7 @@ public class NecroGUI : MonoBehaviour {
 	static double startTime;
 	
 	private string pName = "";
-	
-	//Not used yet	
-//	private Vector2 scrollPosition;
-//	private float HroizSliderValue = 0.5f;
-//	private float VertSliderValue = 0.5f;
-//	private bool ToggleBTN = false;
-	
+		
 	
 	void Awake(){
 		connectWindowRect = new Rect (Screen.width * 0.2f, Screen.height * 0.5f, Screen.width * 0.6f, Screen.height * 0.5f);
@@ -72,9 +66,6 @@ public class NecroGUI : MonoBehaviour {
 		pName = PlayerPrefs.GetString("playerName","");
 	}
 	
-	void OnLevelWasLoaded(){
-		message = loadingMessage;
-	}
 	
 	void AddSpikes(float windowWidth)
 	{
@@ -174,7 +165,6 @@ public class NecroGUI : MonoBehaviour {
 				|| GUILayout.Button("GO", GUILayout.Width(Screen.width * 0.22f))){
 			PhotonNetwork.playerName = pName;
 //			PlayerPrefs.setString("playerName"
-		//	Debug.Log(
 			
 			UserDatabase.login(pName, MainMenuVik.pass1Input);
 			MainMenuVik.currentMenuState = menuState.profile;
@@ -233,7 +223,7 @@ public class NecroGUI : MonoBehaviour {
 			}
 			else{	
 				MainMenuVik.email3Input = MainMenuVik.emailInput + "@"+ MainMenuVik.email2Input + ".com";
-				UserDatabase.signUp(MainMenuVik.email3Input, MainMenuVik.nickInput, MainMenuVik.pass1Input);
+				GetComponent<UserDatabase>().signUp(MainMenuVik.email3Input, MainMenuVik.nickInput, MainMenuVik.pass1Input);
 				PhotonNetwork.playerName = MainMenuVik.nickInput;
 				MainMenuVik.levelSelected = GameManagerVik.maxStageReached;
 				MainMenuVik.currentMenuState = menuState.profile;
@@ -326,15 +316,7 @@ public class NecroGUI : MonoBehaviour {
 	}
 	
 	
-	void attemptEnterRoom(string roomName){
-		
-		Playtomic.Log.Play();
-//		double startTime = PhotonNetwork.time;
-//		int randomDelay = Random.Range(0, 4);
-//		randomDelay *= 4;
-//		while(PhotonNetwork.time - startTime < randomDelay)
-//			Debug.Log("Delaying..");
-		
+	void attemptEnterRoom(string roomName){		
         foreach (RoomInfo game in PhotonNetwork.GetRoomList())
         {
 			if(game.name == roomName){
@@ -354,7 +336,7 @@ public class NecroGUI : MonoBehaviour {
 		PhotonNetwork.CreateRoom(roomName, true, true, 4, null , null);
 		Debug.Log("CREATED = " + roomName);
 		joinedRoomName = roomName;
-		MainMenuVik.currentMenuState = menuState.roleSelect;
+		MainMenuVik.currentMenuState = menuState.roleSelect;				
 		showMessage(loadingMessage);
 	}
 	
@@ -429,24 +411,22 @@ public class NecroGUI : MonoBehaviour {
 	public static void showMessage(string msg){
 		message = msg;
 		messageWindow = true;
-		startTime = PhotonNetwork.time;
+		startTime = Time.time;
 	}
 	
 	
-	void drawMessageWindowRect(int windowID){
+	void drawMessageWindow(int windowID){
 		// use the spike function to add the spikes
 		AddSpikes(messageWindowRect.width);	
 		
 		GUILayout.Label(message, "CursedText");
 		
-		if(messageWindow && PhotonNetwork.time - startTime < 4){
-			Debug.Log("loading...");
-			Debug.Log("PhotonNetwork.time = " + PhotonNetwork.time);
-			Debug.Log("startTime = " + startTime);
+		if(messageWindow && Time.time - startTime <4){
 			return;
 		}
 		else{
-			Debug.Log("loaded!");
+			Debug.Log("Loading message time up!");
+			message = loadingMessage;
 			messageWindow = false;
 		}
 	}
@@ -498,14 +478,9 @@ public class NecroGUI : MonoBehaviour {
 			roleSelectWindowRect = GUI.Window (4, roleSelectWindowRect, drawRoleSelectWindow, "");
 		
 		if (messageWindow)
-			messageWindowRect = GUI.Window (5, messageWindowRect, drawMessageWindowRect, "");
+			messageWindowRect = GUI.Window (5, messageWindowRect, drawMessageWindow, "");
 		
 		if (pauseWindow)
-			pauseWindowRect = GUI.Window (6, pauseWindowRect, drawPauseWindow, "");
-		
-//			//now adjust to the group. (0,0) is the topleft corner of the group.
-//			GUI.BeginGroup (new Rect (0,0,100,100));
-//			// End the group we started above. This is very important to remember!
-//			GUI.EndGroup ();
+			pauseWindowRect = GUI.Window (6, pauseWindowRect, drawPauseWindow, "");		
 	}
 }

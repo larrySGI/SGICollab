@@ -13,7 +13,7 @@ public class LevelCompleteGUI : MonoBehaviour {
 	public static bool showWindow;
 	static bool showStars;
 	public int oneStarBenchmark, twoStarBenchmark, threeStarBenchmark, fourStarBenchmark, fiveStarBenchmark;
-	int starsGrade;
+	public int starsGrade;
 	
 	public static string statusText = "";
 	
@@ -25,8 +25,8 @@ public class LevelCompleteGUI : MonoBehaviour {
 	}
 	
 	
-	public void countStarsGrade(int timeLeft, int deaths, int starsCollected){
-		int grade = timeLeft - deaths * 30 + starsCollected * 100;
+	public void countStarsGrade(int timeLeft, int deaths, int gemsCollected){
+		int grade = timeLeft - deaths * 30 + gemsCollected * 100;
 		
 		if(grade >= fiveStarBenchmark)		
 			starsGrade = 5;
@@ -42,6 +42,11 @@ public class LevelCompleteGUI : MonoBehaviour {
 			starsGrade = 0;
 		
 		Debug.Log("starsGrade = " + starsGrade);
+		
+		//Send score analytic
+		if(PhotonNetwork.isMasterClient)
+			collabAnalytics.sendScoreFactorData(EndingBoxScript.clearTime, EndingBoxScript.completeStatus, starsGrade);
+		
 		showStars = true;
 	}
 	
@@ -70,7 +75,7 @@ public class LevelCompleteGUI : MonoBehaviour {
 		GUILayout.BeginVertical();
 		GUILayout.Label("Clear Time", "PlainText");
 		GUILayout.Label("Total Deaths", "PlainText");
-		GUILayout.Label("Stars Found", "PlainText");
+		GUILayout.Label("Gems Found", "PlainText");
 		GUILayout.EndVertical();
 		
 		GUILayout.BeginVertical();
@@ -80,13 +85,11 @@ public class LevelCompleteGUI : MonoBehaviour {
 		else
 			GUILayout.Label(stats["Clear Time"].ToString(), "PlainText");
 		GUILayout.Label(stats["Total Deaths"].ToString(), "PlainText");
-		GUILayout.Label(GameManagerVik.starsCollected + "/3", "PlainText");
+		GUILayout.Label(GameManagerVik.gemsCollected + "/3", "PlainText");
 		GUILayout.EndVertical();
 		GUILayout.EndHorizontal();
 		GUILayout.Label(statusText, "BoldOutlineText");
 		GUILayout.EndArea();
-		
-		//GUI.Label(	new Rect (Screen.width *0.5f - 150, Screen.height *0.8f, 400, Screen.height * 0.1f), statusText);
 	}
 	
 	

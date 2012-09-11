@@ -53,7 +53,7 @@ public class Checkpoint : MonoBehaviour {
 					other.tag == "Viewer" ||
 						other.tag == "Jumper"){
 			
-			Debug.Log("Hit a checkpoint");
+			//Debug.Log("Hit a checkpoint");
 			checkpointMessageShowTime = checkpointMessageDuration * 30.0f; //assume 30fps;
 			
 			other.GetComponent<ThirdPersonControllerNET>().lastRespawn = this.transform.position;

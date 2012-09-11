@@ -33,10 +33,11 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	private int TargetReadyCount = 0;
 	
 	public int levelTimeInMinutes = 1;
+	
 	[HideInInspector]
-	public  int timeLeft = -1;
-	private int levelEndMode = 0; //default;
-	int clearTime;
+	public int timeLeft = -1;
+	public static int clearTime;
+	public static string completeStatus;
 	
 	public GUISkin endGameSkin;
 	
@@ -56,7 +57,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	{
 		//if I have more time left than someone, then someone else's time must be correct. 
 		//if (currTime < timeLeft)
-		Debug.Log("time recieved " + currTime);		
+		Debug.Log("Time received " + currTime);		
 		
 		if (timeLeft > currTime)
 		{
@@ -71,8 +72,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	void SyncOnJoin()
 	{		
 		//send my time left to everyone.
-		Debug.Log("RPC SyncOnJoin called");
-		Debug.Log(currGameManager.selectedClass);
+		//Debug.Log("RPC SyncOnJoin called");
+		Debug.Log(currGameManager.selectedClass + " chosen");
 	//	if (photonView.isMine)
 		photonView.RPC("SyncTimer",PhotonTargets.OthersBuffered, timeLeft);		
 	}
@@ -84,10 +85,15 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		//60 seconds in a minute, assume 30 fps.
 		//timeLeft = levelTimeInMinutes * 60 * 30;	
 		started = false;
-		clearLevelScore.Add("Clear Time", 0);
-		clearLevelScore.Add("Total Deaths", 0);
 	}
 	
+	void Start()
+	{
+//		clearLevelScore.Add("Clear Time", 0);
+//		clearLevelScore.Add("Total Deaths", 0);
+		clearLevelScore["Clear Time"] = 0;
+		clearLevelScore["Total Deaths"] = 0;
+	}
 	
 	// Use this for initialization
 	void OnLevelWasLoaded () {
@@ -185,30 +191,29 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 		
 		if (timeLeft <= 0)
 		{
+			timeLeft = 0;
 			PlayersHaveReachedEnd = true;	
 			
 			//I need to do this here to prevent repeatedly sending an incomplete statement.
 			if (!finalAnalyticsSent)
 			{
-				clearTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
-			
-				if(PhotonNetwork.isMasterClient)
-					collabAnalytics.sendClearTime(clearTime, "incomplete" );
-	
 				finalAnalyticsSent = true;
+				
+				clearTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
+				completeStatus = "incomplete";
 				
 				clearLevelScore["Clear Time"] = "Failed";
 				LevelCompleteGUI.showWindow = true;
+				GetComponent<LevelCompleteGUI>().countStarsGrade(timeLeft, GameManagerVik.deathCount, GameManagerVik.gemsCollected);
 			}
-	
 		}
 		
 		if (Input.GetKeyUp(KeyCode.Space) && PlayersHaveReachedEnd)
 		{
-				isWaitingForNextStage = true;
-				LevelCompleteGUI.statusText = "Waiting for other players";
+			isWaitingForNextStage = true;
+			LevelCompleteGUI.statusText = "Waiting for other players";
 
-				photonView.RPC("callReady",PhotonTargets.AllBuffered);			
+			photonView.RPC("callReady",PhotonTargets.AllBuffered);			
 		}
 	
 	}
@@ -265,15 +270,12 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 			if (isMoverAtEnd && isViewerAtEnd && isJumperAtEnd && isBuilderAtEnd){
 				PlayersHaveReachedEnd = true;
 				clearTime = (int)((float)PhotonNetwork.time - GameManagerVik.startTime);
-				
-				//Send time analytic
-				if(PhotonNetwork.isMasterClient)
-					collabAnalytics.sendClearTime(clearTime, "complete" );
-				
+				completeStatus = "complete";
+								
 				//Tally total deaths
 				if(!PhotonNetwork.isMasterClient)
 					photonView.RPC("tallyScoresFactors", PhotonTargets.MasterClient, GameManagerVik.deathCount);
-				
+								
 				clearLevelScore["Clear Time"] = clearTime + " secs";
 				LevelCompleteGUI.showWindow = true;
 			}
@@ -298,7 +300,7 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 	[RPC]
 	void updateTotalScoresFactors(int totalDeaths, PhotonMessageInfo info){
 		GameManagerVik.deathCount = totalDeaths;
-		GetComponent<LevelCompleteGUI>().countStarsGrade(timeLeft, GameManagerVik.deathCount, GameManagerVik.starsCollected);
+		GetComponent<LevelCompleteGUI>().countStarsGrade(timeLeft, GameManagerVik.deathCount, GameManagerVik.gemsCollected);
 	}
 	
 	void OnTriggerExit(Collider other) 
