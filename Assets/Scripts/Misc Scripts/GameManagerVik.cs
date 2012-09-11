@@ -24,7 +24,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	bool syncedGameID;
 	
 	public static double startTime;
-	public static int deathCount, starsCollected;
+	public static int deathCount, gemsCollected;
 	
 	public GUISkin inGameSkin;
 	
@@ -99,7 +99,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 		//Set tracked variables to default
 		deathCount = 0;
 		startTime = PhotonNetwork.time;
-		starsCollected = 0;
+		gemsCollected = 0;
 	}
 		
     public void StartGame(string prefabName)
@@ -217,7 +217,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 				
 					GUILayout.Label("Current Room :" + NecroGUI.joinedRoomName);
 					GUILayout.Label("Stage Number :" + Application.loadedLevel);
-					GUILayout.Label("Stars Found :" + starsCollected + "/3");			
+					GUILayout.Label("Gems Found :" + gemsCollected + "/3");			
 					GUILayout.BeginHorizontal();
 				
 						GUILayout.Label("You are now a " + selectedClass);

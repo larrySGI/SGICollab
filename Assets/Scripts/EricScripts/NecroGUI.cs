@@ -11,7 +11,7 @@ public class NecroGUI : MonoBehaviour {
 	public static bool signupWindow;
 	public static bool lobbyWindow;
 	public static bool roleSelectWindow;
-	public static bool messageWindow;
+	public static bool messageWindow = false;
 	public static bool pauseWindow;
 	
 	//Predetermined window sizes
@@ -66,9 +66,6 @@ public class NecroGUI : MonoBehaviour {
 		pName = PlayerPrefs.GetString("playerName","");
 	}
 	
-	void OnLevelWasLoaded(){
-		message = loadingMessage;
-	}
 	
 	void AddSpikes(float windowWidth)
 	{
@@ -339,7 +336,7 @@ public class NecroGUI : MonoBehaviour {
 		PhotonNetwork.CreateRoom(roomName, true, true, 4, null , null);
 		Debug.Log("CREATED = " + roomName);
 		joinedRoomName = roomName;
-		MainMenuVik.currentMenuState = menuState.roleSelect;
+		MainMenuVik.currentMenuState = menuState.roleSelect;				
 		showMessage(loadingMessage);
 	}
 	
@@ -418,7 +415,7 @@ public class NecroGUI : MonoBehaviour {
 	}
 	
 	
-	void drawMessageWindowRect(int windowID){
+	void drawMessageWindow(int windowID){
 		// use the spike function to add the spikes
 		AddSpikes(messageWindowRect.width);	
 		
@@ -429,6 +426,7 @@ public class NecroGUI : MonoBehaviour {
 		}
 		else{
 			Debug.Log("Loading message time up!");
+			message = loadingMessage;
 			messageWindow = false;
 		}
 	}
@@ -480,7 +478,7 @@ public class NecroGUI : MonoBehaviour {
 			roleSelectWindowRect = GUI.Window (4, roleSelectWindowRect, drawRoleSelectWindow, "");
 		
 		if (messageWindow)
-			messageWindowRect = GUI.Window (5, messageWindowRect, drawMessageWindowRect, "");
+			messageWindowRect = GUI.Window (5, messageWindowRect, drawMessageWindow, "");
 		
 		if (pauseWindow)
 			pauseWindowRect = GUI.Window (6, pauseWindowRect, drawPauseWindow, "");		

@@ -8,18 +8,18 @@ public class InstructionScript : Photon.MonoBehaviour {
 	private float instructionScreenHeight;
 	
 	void OnTriggerEnter(Collider other) {
-//		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
-//		{
+		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
+		{
 			showInstruction=true;//show instruction
 			
 			instructionScreenHeight=0;
-//		}
+		}
 	}
 	void OnTriggerExit(Collider other) {
-//		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
-//		{
+		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
+		{
 			showInstruction=false;//hide instruction
-//		}		
+		}		
     }
 	
 	void Awake()

@@ -41,8 +41,9 @@ public class collabAnalytics : MonoBehaviour {
 		}
 	}
 	
-	public static void sendClearTime(int clearTime, string completed){
+	public static void sendScoreFactorData(int clearTime, string completeStatus, int starsGrade){
 		if(sendEnabled){
+			level = GameManagerVik.nextLevel.ToString();
 			token = UserDatabase.token;
 			gameID = GameManagerVik.gameID;
 			
@@ -50,9 +51,10 @@ public class collabAnalytics : MonoBehaviour {
 								"/" + gameID +
 								"?auth_token=" + token +
 								"&game[level]=" + level +
-								"&game[completed]=" + level +
-								"&game[cleartime]=" + clearTime;
-			
+								"&game[completed]=" + completeStatus +
+								"&game[cleartime]=" + clearTime +
+								"&game[stars]=" + starsGrade;
+											
 			var r = new HTTP.Request ("PUT", url + urlconcat);
 			r.Send ();		
 			Debug.Log("Clear time analytics sent online.");
