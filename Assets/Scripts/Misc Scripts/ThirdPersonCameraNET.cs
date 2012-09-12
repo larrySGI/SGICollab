@@ -37,7 +37,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		controlLock = false;
 			// Turn this off if you want mouse lock controlled elsewhere
 	
-	public float minDistance = 0.1f,
+	public float minDistance = 0.0f,
 		maxDistance = 3.0f,
 		zoomSpeed = 0.5f;
 		// Tweak to adjust scrollwheel zoom	
@@ -243,11 +243,15 @@ public class ThirdPersonCameraNET : MonoBehaviour
 	{
 		get
 		{
+			//THIS sets the minimum camera distance to something far enough from the character to see the character. We don't need something like that right now. 
+			/*
 			float fieldOfViewRadius = (optimalDistance / Mathf.Sin (90.0f - camera.fieldOfView / 2.0f)) * Mathf.Sin (camera.fieldOfView / 2.0f);
 				// Half the width of the field of view of the camera at the position of the target
 			float doubleCharacterRadius = Mathf.Max (target.bounds.extents.x, target.bounds.extents.z) * 2.0f;
 			
 			return Mathf.Min (doubleCharacterRadius, fieldOfViewRadius);
+			*/
+			return 0; 
 		}
 	}
 	
@@ -271,18 +275,21 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		grounded = Physics.Raycast (
 			camera.transform.position + target.transform.up * -groundedCheckOffset,
 			target.transform.up * -1,
-			groundedDistance,
-			groundLayers
+			groundedDistance
+			//groundLayers
 		);
 			// Shoot a ray downward to see if we're touching the ground
 		
 		Vector3 inverseLineOfSight = camera.transform.position - target.transform.position;
-		
 		RaycastHit hit;
-		if (Physics.SphereCast (target.transform.position +target.transform.forward.normalized, ViewRadius, inverseLineOfSight, out hit, optimalDistance, obstacleLayers))
+		Vector3 rayStartPoint = target.transform.position;// +target.transform.forward;
+
+		Debug.DrawRay(rayStartPoint, inverseLineOfSight);
+
+		if (Physics.SphereCast (rayStartPoint, ViewRadius, inverseLineOfSight, out hit, optimalDistance))//, obstacleLayers))
 		// Cast a sphere from the target towards the camera - using the view radius - checking against the obstacle layers
 		{
-			targetDistance = Mathf.Min ((hit.point - target.transform.position).magnitude, optimalDistance);
+			targetDistance = Mathf.Min ((hit.point - rayStartPoint).magnitude, optimalDistance);
 			
 				// If something is hit, set the target distance to the hit position
 		}
