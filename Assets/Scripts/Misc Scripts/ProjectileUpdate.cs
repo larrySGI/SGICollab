@@ -24,8 +24,11 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 	[RPC]
 	void updateMovement (Vector3 newPosition, Quaternion newRotation)
 	{			
-		transform.position = newPosition;		
-		transform.rotation = newRotation;
+		lastPosition = myTransform.rigidbody.position;
+		lastRotation = myTransform.rigidbody.rotation;
+		
+		transform.rigidbody.position = newPosition;		
+		transform.rigidbody.rotation = newRotation;
 	}
 
 	
@@ -78,9 +81,9 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 		if(MoverTest.selectedClass == "Mover")
 		{	
 			//enabled = true;
-			Vector3 movementThisStep = myTransform.position - lastPosition; 
+			Vector3 movementThisStep = myTransform.rigidbody.position - lastPosition; 
 			
-			if (movementThisStep.magnitude > 0.0f)
+			if (movementThisStep.sqrMagnitude > sqrMinimumExtent)
 			{
 			 	//float movementSqrMagnitude = movementThisStep.sqrMagnitude;
 				 //float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
@@ -90,14 +93,13 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 	  	 	   //check for obstructions we might have missed 
 	   		    if (Physics.Raycast(lastPosition, movementThisStep, out hitInfo, movementThisStep.magnitude, doNotIntersectWithLayer.value)) 
 		  		{			
-	         			myTransform.position = hitInfo.point - (movementThisStep.normalized)*partialExtent; 
+	         			myTransform.rigidbody.position = hitInfo.point - (movementThisStep.normalized)*partialExtent; 
 		 		}
 				
-				lastPosition = myTransform.position;
-	
+			
 				//photonView.RPC("updateMovement", PhotonTargets.Others, myTransform.position, myTransform.rotation);
 			}
-			
+			/*	
 			if(Quaternion.Angle(myTransform.rotation, lastRotation) >=1)
 			{	
 				//Capture the player's rotation before the RPC is fired
@@ -106,7 +108,7 @@ public class ProjectileUpdate : Photon.MonoBehaviour
 				lastRotation = myTransform.rotation;
 				
 				
-			}
+			}*/
 		
 			photonView.RPC("updateMovement", PhotonTargets.Others, myTransform.position, myTransform.rotation);
 
