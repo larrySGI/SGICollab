@@ -275,8 +275,8 @@ public class ThirdPersonCameraNET : MonoBehaviour
 		grounded = Physics.Raycast (
 			camera.transform.position + target.transform.up * -groundedCheckOffset,
 			target.transform.up * -1,
-			groundedDistance
-			//groundLayers
+			groundedDistance,
+			groundLayers
 		);
 			// Shoot a ray downward to see if we're touching the ground
 		
@@ -286,7 +286,7 @@ public class ThirdPersonCameraNET : MonoBehaviour
 
 		Debug.DrawRay(rayStartPoint, inverseLineOfSight);
 
-		if (Physics.SphereCast (rayStartPoint, ViewRadius, inverseLineOfSight, out hit, optimalDistance))//, obstacleLayers))
+		if (Physics.SphereCast (rayStartPoint, ViewRadius, inverseLineOfSight, out hit, optimalDistance, obstacleLayers))
 		// Cast a sphere from the target towards the camera - using the view radius - checking against the obstacle layers
 		{
 			targetDistance = Mathf.Min ((hit.point - rayStartPoint).magnitude, optimalDistance);
