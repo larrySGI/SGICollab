@@ -8,6 +8,7 @@ public class InstructionScript : Photon.MonoBehaviour {
 	private float instructionScreenHeight;
 	
 	void OnTriggerEnter(Collider other) {
+		if (!other.transform.GetComponent<ThirdPersonNetworkVik>()) return;
 		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
 		{
 			showInstruction=true;//show instruction
@@ -16,6 +17,8 @@ public class InstructionScript : Photon.MonoBehaviour {
 		}
 	}
 	void OnTriggerExit(Collider other) {
+		if (!other.transform.GetComponent<ThirdPersonNetworkVik>()) return;
+	
 		if(other.transform.GetComponent<ThirdPersonNetworkVik>().photonView.isMine)//if user is current user
 		{
 			showInstruction=false;//hide instruction

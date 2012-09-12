@@ -3,10 +3,13 @@ using System.Collections;
 
 public class MusicScript : MonoBehaviour {
 	public bool mute;
+	public AudioClip destroySFX;
+	public AudioClip pickupSFX;
+	public AudioClip clearlevelSFX;
+	
 	
 	// Use this for initialization
 	void Start () {
-	
 	}
 	
 	// Update is called once per frame
@@ -20,5 +23,5 @@ public class MusicScript : MonoBehaviour {
 				audio.Stop();
 			audio.Play();
 		}
-	}
+	}	
 }

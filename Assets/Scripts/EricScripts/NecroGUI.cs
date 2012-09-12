@@ -44,8 +44,8 @@ public class NecroGUI : MonoBehaviour {
 	
 	string[] allRoomsCapacity = new string[20];
 	public static string joinedRoomName;
-	string loadingMessage = "      	     Loading..";
-	public static string errorMessage = "     Try again!";
+	string loadingMessage = "Loading..";
+	public static string errorMessage = "   Try again!";
 	public static string message;
 	
 	static double startTime;
@@ -171,8 +171,10 @@ public class NecroGUI : MonoBehaviour {
 			PhotonNetwork.playerName = pName;
 //			PlayerPrefs.setString("playerName"
 			
-			if(UserDatabase.login(pName, MainMenuVik.pass1Input))
-			MainMenuVik.currentMenuState = menuState.profile;
+			if(GetComponent<UserDatabase>().login(pName, MainMenuVik.pass1Input))
+				MainMenuVik.currentMenuState = menuState.profile;
+			else
+				showMessage("Login error!", 2);
         }
         GUILayout.EndHorizontal();
 		
@@ -192,16 +194,7 @@ public class NecroGUI : MonoBehaviour {
 				
 		GUILayout.Label("Create Account");
 		GUILayout.Label ("", "Divider");
-	
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Email", GUILayout.Width(Screen.width * 0.2f));
-        MainMenuVik.emailInput = GUILayout.TextField(MainMenuVik.emailInput, GUILayout.MinWidth(Screen.width * 0.05f), GUILayout.MaxWidth(Screen.width * 0.13f));
-        GUILayout.Label("@", "PlainText", GUILayout.Width(Screen.width * 0.02f));
-        MainMenuVik.email2Input = GUILayout.TextField(MainMenuVik.email2Input, GUILayout.MaxWidth(Screen.width * 0.1f));
-        GUILayout.Label(".com", "PlainText");
-        GUILayout.EndHorizontal();	
-        GUILayout.Space(15);
-	
+		
         GUILayout.BeginHorizontal();
         GUILayout.Label("Nickname", GUILayout.Width(Screen.width * 0.2f));
         MainMenuVik.nickInput = GUILayout.TextField(MainMenuVik.nickInput);
@@ -221,17 +214,19 @@ public class NecroGUI : MonoBehaviour {
         GUILayout.Space(10);
 	
         GUILayout.BeginHorizontal();		
-        if (GUILayout.Button("Create!", GUILayout.Width(Screen.width * 0.25f)))
+        if ((Event.current.type == EventType.KeyDown && Event.current.character == '\n') 
+				|| GUILayout.Button("Create!", GUILayout.Width(Screen.width * 0.25f)))
         {
 			if(MainMenuVik.pass1Input != MainMenuVik.pass2Input){
 				print("Passwords do not match!");
+				showMessage("Passwords do not match!", 2);
 			}
 			else{	
-				MainMenuVik.email3Input = MainMenuVik.emailInput + "@"+ MainMenuVik.email2Input + ".com";
-				GetComponent<UserDatabase>().signUp(MainMenuVik.email3Input, MainMenuVik.nickInput, MainMenuVik.pass1Input);
-				PhotonNetwork.playerName = MainMenuVik.nickInput;
-				MainMenuVik.levelSelected = GameManagerVik.maxStageReached;
-				MainMenuVik.currentMenuState = menuState.profile;
+				if(GetComponent<UserDatabase>().signUp(MainMenuVik.nickInput, MainMenuVik.pass1Input)){
+					PhotonNetwork.playerName = MainMenuVik.nickInput;
+					MainMenuVik.levelSelected = GameManagerVik.maxStageReached;
+					MainMenuVik.currentMenuState = menuState.profile;
+				}
 			}
         }	
         if (GUILayout.Button("Cancel", GUILayout.Width(Screen.width * 0.25f))){
@@ -284,7 +279,7 @@ public class NecroGUI : MonoBehaviour {
 	
         //Rooms list
 	    GUILayout.Label("ROOMS LIST", GUILayout.Height(Screen.height * 0.1f));
-		MainMenuVik.scrollPos = GUILayout.BeginScrollView(MainMenuVik.scrollPos);
+		GUILayout.BeginScrollView(Vector2.zero);
 		string[] roomNames = updateAllRoomsNames();
 		
 		GUILayout.BeginHorizontal();
@@ -431,6 +426,7 @@ public class NecroGUI : MonoBehaviour {
 	void drawMessageWindow(int windowID){
 		// use the spike function to add the spikes
 		AddSpikes(messageWindowRect.width);	
+		GUI.BringWindowToFront(windowID);
 		
 		GUILayout.Label(message, "CursedText");
 		

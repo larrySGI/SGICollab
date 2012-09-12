@@ -31,9 +31,9 @@ public class NewLevelScript : MonoBehaviour {
 			
 			builderObj.transform.position = BuilderSpawnPoint.transform.position;
 			ThirdPersonCameraNET cam = builderObj.GetComponent<ThirdPersonCameraNET>();
-			cam.LoadCameras();	
-	
+			cam.LoadCameras();
 		}	
+		
 		if(moverObj = GameObject.FindGameObjectWithTag("Mover"))
 		{	
 		
@@ -44,34 +44,32 @@ public class NewLevelScript : MonoBehaviour {
 			moverObj.GetComponent<ThirdPersonControllerNET>().lastRespawn = moverObj.transform.position;
 			Debug.Log("lastRespawn = " + moverObj.GetComponent<ThirdPersonControllerNET>().lastRespawn);
 	
+			if(Application.loadedLevel == 1)
+				moverObj.transform.Rotate(Vector3.up, 270);	
 		}	
+		
 		if(jumperObj = GameObject.FindGameObjectWithTag("Jumper"))
 		{
 			
 			jumperObj.transform.position = JumperSpawnPoint.transform.position;
 			ThirdPersonCameraNET cam = jumperObj.GetComponent<ThirdPersonCameraNET>();
 			cam.LoadCameras();	
-	
+			
+			if(Application.loadedLevel == 1)
+				jumperObj.transform.Rotate(Vector3.up, 180);	
 		}
+		
 		if(viewerObj = GameObject.FindGameObjectWithTag("Viewer"))
 		{
 				
 			viewerObj.transform.position = ViewerSpawnPoint.transform.position;		
 			ThirdPersonCameraNET cam = viewerObj.GetComponent<ThirdPersonCameraNET>();
 			cam.LoadCameras();	
+			
+			if(Application.loadedLevel == 1)
+				viewerObj.transform.Rotate(Vector3.up, 90);
 	
 		}
-		
-		if(spectatorObj = GameObject.FindGameObjectWithTag("Spectator"))
-		{
-				print("moving spectator");
-			spectatorObj.transform.position = SpectatorSpawnPoint.transform.position;		
-			
-	
-		}
-					
-			
-		
 	}
 	
 	//spawns on command, useful for getting people to spawn correctly midway through a game. 

@@ -28,7 +28,11 @@ public class GemPickupScript : MonoBehaviour {
 					sentAnalytics = collabAnalytics.sendAnalytics(other.transform, "gemcollect", true);
 				}
 				
+//			other.transform.GetChild(0).audio.PlayOneShot(other.GetComponentInChildren<MusicScript>().pickupSFX);
+//			Debug.Log("AHA");
 			}
+			
+			
 			GameManagerVik.gemsCollected++;
 			GameObject.Destroy(this.gameObject);							
 		}

@@ -26,11 +26,10 @@ public class UserDatabase : MonoBehaviour {
 		}
 	}
 	
-	public void signUp(string email, string username, string password){
+	public bool signUp(string username, string password){
 		print("Signing up...");
 		
 		string urlconcat ="?user[name]=" + username + 
-							"&user[email]=" + email + 
 							"&user[password]=" + password + 
 							"&user[password_confirmation]=" + password + 
 							"&user[maxStageReached]=5" + 
@@ -49,16 +48,27 @@ public class UserDatabase : MonoBehaviour {
 		} else {
 			Debug.Log(r.response.Text);	
 			Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
-			//if(json["success"] == false){};
 			
 			if (json.ContainsKey ("auth_token")) {
 			 	token = json["auth_token"].ToString();
+				return true;
+			}
+			else if(json.ContainsKey("error")){
+				string errorMessage = "";
+				if(((Hashtable)json["error"]).ContainsKey("name")){
+					errorMessage = "Username has been taken!";
+				}
+				else if(((Hashtable)json["error"]).ContainsKey("password")){
+					errorMessage = "Password too short!";
+				}
+				NecroGUI.showMessage(errorMessage, 2);
 			}
 		}	
+		return false;
 	}
 	
 	//User log in
-	public static bool login(string username, string password){
+	public bool login(string username, string password){
 		print("Logging in...");
 				
 		string urlconcat ="/sign_in" + 
@@ -77,7 +87,8 @@ public class UserDatabase : MonoBehaviour {
 		if (r.exception != null) {
 			Debug.Log (r.exception.ToString ());
 			return false;
-		} else {
+		} 
+		else {
 			Debug.Log(r.response.Text);	
 			
 			Hashtable json = (Hashtable)JsonSerializer.Decode(r.response.Bytes);
@@ -85,10 +96,9 @@ public class UserDatabase : MonoBehaviour {
 			 	token = json["auth_token"].ToString();
 			 	GameManagerVik.maxStageReached = (int)json["maxStageReached"];
 				return true;
-			}else{
-				return false;
 			}
-		}	
+		}
+		return false;	
 	}
 	
 //	public static void setData(string username, string password, string data){

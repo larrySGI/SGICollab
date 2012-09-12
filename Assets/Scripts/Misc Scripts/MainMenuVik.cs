@@ -10,10 +10,10 @@ public class MainMenuVik : Photon.MonoBehaviour
 	private bool endFrame = false;
 		
     public static string roomName = "Room 01";
-    public static Vector2 scrollPos = Vector2.zero;
-	public static string emailInput = "";
-	public static string email2Input = "hotmail";
-	public static string email3Input = ""; //email1 + email2 combined xxx@hotmail.com
+//    public static Vector2 scrollPos = Vector2.zero;
+//	public static string emailInput = "";
+//	public static string email2Input = "hotmail";
+//	public static string email3Input = ""; //email1 + email2 combined xxx@hotmail.com
 	public static string nickInput = "";
 	public static string pass1Input = "";
 	public static string pass2Input = "";

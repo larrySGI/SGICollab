@@ -278,6 +278,8 @@ public class EndingBoxScript : Photon.MonoBehaviour {
 								
 				clearLevelScore["Clear Time"] = clearTime + " secs";
 				LevelCompleteGUI.showWindow = true;
+				
+//				other.transform.GetChild(0).audio.PlayOneShot(other.GetComponentInChildren<MusicScript>().clearlevelSFX);
 			}
 		}
 	}

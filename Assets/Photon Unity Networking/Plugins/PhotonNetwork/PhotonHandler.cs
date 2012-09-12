@@ -122,8 +122,7 @@ public class PhotonHandler : Photon.MonoBehaviour, IPhotonPeerListener
     {
         if (level == DebugLevel.ERROR)
         {
-            Debug.LogError(message);
-			NecroGUI.showMessage(NecroGUI.errorMessage, 2);
+            Debug.LogError(message);			
         }
         else if (level == DebugLevel.WARNING)
         {

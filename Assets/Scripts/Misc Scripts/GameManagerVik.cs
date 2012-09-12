@@ -150,6 +150,7 @@ public class GameManagerVik : Photon.MonoBehaviour
 	
 	void Update()
 	{
+		
 		if (level_tester_mode) return;
 		
 		if(GameObject.FindWithTag("Builder"))
